@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 
-import android.media.MediaPlayer;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.TextView;
@@ -25,8 +24,10 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     TextView noMusicTextView;
     ArrayList<AudioModel> songList = new ArrayList<>();
+    MusicPlayer musicPlayer;
 
-    MediaPlayer music;
+
+
 
 
     @Override
@@ -68,8 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        music = MediaPlayer.create(
-                this, R.raw.song);
+        musicPlayer = new MusicPlayer(this);
     }
 
     boolean checkPermission() {
@@ -87,18 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void playSong(View v){
-        music.start();
-    }
 
-    public void pauseSong(View v) {
-        music.pause();
-    }
-
-    public void stopSong(View v) {
-        music.stop();
-        music = MediaPlayer.create(this, R.raw.song);
-    }
 
 
 
