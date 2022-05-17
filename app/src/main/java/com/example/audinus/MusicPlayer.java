@@ -14,15 +14,15 @@ public class MusicPlayer {
     }
 
 
-    public void playSong(View v){
+    public void playSong() {//View v){
         music.start();
     }
 
-    public void pauseSong(View v) {
+    public void pauseSong() {//View v){
         music.pause();
     }
 
-    public void stopSong(View v) {
+    public void stopSong() {//View v){
         music.stop();
         music = MediaPlayer.create(main, R.raw.song);
     }

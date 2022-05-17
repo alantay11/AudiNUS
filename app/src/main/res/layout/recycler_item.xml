@@ -16,7 +16,6 @@
 
     <TextView
         android:id="@+id/music_title_text"
-        tools:text="Music"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
