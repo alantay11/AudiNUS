@@ -7,81 +7,42 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/songs_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="153dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="154dp"
-        android:layout_marginBottom="688dp"
-        android:scrollHorizontally="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="160dp"
+        android:padding="10dp"
+        android:text="@string/Title"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="song name" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="482dp"
-        android:layout_marginEnd="158dp"
-        android:layout_marginBottom="161dp"
-        android:importantForAccessibility="no"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:onClick="playSong"
-        app:icon="@android:drawable/ic_media_play"
-        app:iconGravity="textEnd"
-        app:iconPadding="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="57dp"
-        android:layout_marginTop="525dp"
-        android:layout_marginEnd="62dp"
-        android:layout_marginBottom="161dp"
-        android:importantForAccessibility="no"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:onClick="pauseSong"
-        app:icon="@android:drawable/ic_media_pause"
-        app:iconGravity="textEnd"
-        app:iconPadding="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button3"
+    <TextView
+        android:id="@+id/no_songs_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="62dp"
-        android:layout_marginTop="525dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="161dp"
-        android:background="#FFFFFF"
-        android:importantForAccessibility="no"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:onClick="stopSong"
-        app:icon="@android:drawable/ic_menu_delete"
-        app:iconGravity="textEnd"
-        app:iconPadding="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="344dp"
+        android:layout_marginEnd="80dp"
+        android:text="@string/no_songs_found"
+        android:textAlignment="center"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/songs_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

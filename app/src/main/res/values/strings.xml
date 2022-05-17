@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AudiNUS</string>
+    <string name="Title">AudiNUS</string>
+    <string name="no_songs_found">Why not add some songs to your library?</string>
 </resources>
