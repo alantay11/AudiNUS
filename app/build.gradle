@@ -6,7 +6,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.audinus"
+        applicationId "com.orbital.audinus"
         minSdk 25
         targetSdk 32
         versionCode 1
