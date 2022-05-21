@@ -126,7 +126,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     private void playPreviousSong(){
         if (MyMediaPlayer.currentIndex != 0) {
-            MyMediaPlayer.currentIndex -= 1;
+            MyMediaPlayer.currentIndex--;
             mediaPlayer.reset();
             setResourcesWithMusic();
         }
