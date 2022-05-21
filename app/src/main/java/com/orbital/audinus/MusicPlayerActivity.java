@@ -35,7 +35,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         playPauseButton = findViewById(R.id.pause_play);
         nextButton = findViewById(R.id.next);
         previousButton = findViewById(R.id.previous);
-        albumArt = findViewById(R.id.music_icon_big);
+        albumArt = findViewById(R.id.album_art);
 
         titleTextView.setSelected(true);
 
