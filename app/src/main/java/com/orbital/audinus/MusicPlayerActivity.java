@@ -23,6 +23,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +53,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
                     if(mediaPlayer.isPlaying()){
                         playPauseButton.setImageResource(R.drawable.pause_48px);
+                        MyMediaPlayer.currentTime = mediaPlayer.getCurrentPosition();
                     } else{
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                     }
@@ -107,7 +109,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
             mediaPlayer.setDataSource(currentSong.getPath());
             mediaPlayer.prepare();
             mediaPlayer.start();
-            seekBar.setProgress(0);
+            if (MyMediaPlayer.prevIndex == MyMediaPlayer.currentIndex){
+                mediaPlayer.seekTo(MyMediaPlayer.currentTime);
+                seekBar.setProgress(mediaPlayer.getCurrentPosition());
+            } else {
+                seekBar.setProgress(0);
+                MyMediaPlayer.prevIndex = MyMediaPlayer.currentIndex;
+            }
+
             seekBar.setMax(mediaPlayer.getDuration());
         } catch (IOException e) {
             e.printStackTrace();

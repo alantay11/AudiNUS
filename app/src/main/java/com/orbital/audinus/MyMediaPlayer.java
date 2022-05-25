@@ -14,4 +14,9 @@ public class MyMediaPlayer {
     }
 
     public static int currentIndex = -1;
+
+    public static int currentTime = 0;
+
+    public static int prevIndex = -2;
+
 }
