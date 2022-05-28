@@ -29,7 +29,6 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:padding="10dp"
-        android:textColor="#64FFDA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_view"
         app:layout_constraintTop_toTopOf="parent"
