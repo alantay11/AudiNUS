@@ -1,5 +1,6 @@
 package com.orbital.audinus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -7,10 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private final ArrayList<AudioModel> songList = new ArrayList<>();
+    private int lastPosition;
+    private LinearLayoutManager layoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         TextView noMusicTextView = findViewById(R.id.no_songs_text);
+
+        layoutManager = new LinearLayoutManager(this);
 
         if (!checkPermission()) {
             requestPermission();
@@ -57,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             if (songList.isEmpty()) {
                 noMusicTextView.setVisibility(View.VISIBLE);
             } else {
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(new MusicListAdapter(songList, getApplicationContext()));
             }
         }
@@ -84,5 +92,44 @@ public class MainActivity extends AppCompatActivity {
         if (recyclerView != null) {
             recyclerView.setAdapter(new MusicListAdapter(songList, MainActivity.this));
         }
+        recyclerView.setLayoutManager(layoutManager);
+
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        lastPosition = getPrefs.getInt("lastPos", 0);
+        recyclerView.scrollToPosition(lastPosition);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                lastPosition = layoutManager.findFirstVisibleItemPosition();
+            }
+        });
+    }
+
+    protected void onRestart(){
+        super.onRestart();
+        recyclerView.setLayoutManager(layoutManager);
+
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        lastPosition = getPrefs.getInt("lastPos", 0);
+        recyclerView.scrollToPosition(lastPosition);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                lastPosition = layoutManager.findFirstVisibleItemPosition();
+            }
+        });
+    }
+
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences.Editor e = getPrefs.edit();
+        e.putInt("lastPos", lastPosition);
+        e.apply();
     }
 }
