@@ -42,7 +42,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         songList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
 
-        setResourcesWithMusic();
+        if (MyMediaPlayer.prevIndex == MyMediaPlayer.currentIndex) {
+            setResourcesWithoutPlaying();
+        } else {
+            setResourcesWithMusic();
+        }
 
         MusicPlayerActivity.this.runOnUiThread(new Runnable() {
             @Override
@@ -51,10 +55,10 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
 
-                    if(mediaPlayer.isPlaying()){
+                    if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
                         MyMediaPlayer.currentTime = mediaPlayer.getCurrentPosition();
-                    } else{
+                    } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                     }
 
@@ -66,7 +70,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (mediaPlayer != null && fromUser){
+                if (mediaPlayer != null && fromUser) {
                     mediaPlayer.seekTo(progress);
                 }
             }
@@ -97,8 +101,20 @@ public class MusicPlayerActivity extends AppCompatActivity {
         previousButton.setOnClickListener(v-> playPreviousSong());
 
         playMusic();
+    }
 
+    void setResourcesWithoutPlaying(){
+        currentSong = songList.get(MyMediaPlayer.currentIndex);
 
+        titleTextView.setText(currentSong.getTitle());
+
+        totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
+
+        playPauseButton.setOnClickListener(v-> playPause());
+        nextButton.setOnClickListener(v-> playNextSong());
+        previousButton.setOnClickListener(v-> playPreviousSong());
+
+        continueMusic();
     }
 
 
@@ -121,8 +137,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-
+    private void continueMusic(){
+            seekBar.setProgress(mediaPlayer.getCurrentPosition());
+            seekBar.setMax(mediaPlayer.getDuration());
     }
 
     private void playNextSong(){

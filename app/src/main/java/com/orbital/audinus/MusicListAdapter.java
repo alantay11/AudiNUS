@@ -36,7 +36,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         AudioModel songData = songList.get(holder.getAdapterPosition());
         holder.titleTextView.setText(songData.getTitle());
 
-        if (MyMediaPlayer.currentIndex == holder.getAdapterPosition()){
+        if (MyMediaPlayer.currentIndex == holder.getAdapterPosition()) {
             holder.titleTextView.setTextColor(Color.parseColor("#FF0000"));
         } else {
             holder.titleTextView.setTextColor(Color.parseColor("#000000"));
@@ -47,7 +47,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
             public void onClick(View v) {
                 //navigate to another activity
 
-                MyMediaPlayer.getInstance().reset();
+                //MyMediaPlayer.getInstance().reset();
                 MyMediaPlayer.currentIndex = holder.getAdapterPosition();
                 Intent intent = new Intent(context, MusicPlayerActivity.class);
                 intent.putExtra("LIST", songList);
