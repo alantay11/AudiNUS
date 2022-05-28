@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         if (recyclerView != null) {
-            recyclerView.setAdapter(new MusicListAdapter(songList,getApplicationContext()));
+            recyclerView.setAdapter(new MusicListAdapter(songList, MainActivity.this));
         }
     }
 }
