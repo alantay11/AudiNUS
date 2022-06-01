@@ -68,6 +68,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (mediaPlayer != null && fromUser) {
@@ -77,12 +78,15 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                if (mediaPlayer.isPlaying()) {
+                    playPause();
+                }
 
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                playPause();
             }
         });
 
@@ -140,8 +144,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     private void continueMusic(){
-            seekBar.setProgress(mediaPlayer.getCurrentPosition());
-            seekBar.setMax(mediaPlayer.getDuration());
+        seekBar.setProgress(mediaPlayer.getCurrentPosition());
+        seekBar.setMax(mediaPlayer.getDuration());
     }
 
     private void playNextSong(){

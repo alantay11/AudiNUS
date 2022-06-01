@@ -106,24 +106,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    protected void onRestart(){
-        super.onRestart();
-        recyclerView.setLayoutManager(layoutManager);
-
-        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        lastPosition = getPrefs.getInt("lastPos", 0);
-        recyclerView.scrollToPosition(lastPosition);
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                lastPosition = layoutManager.findFirstVisibleItemPosition();
-            }
-        });
-    }
-
+    
     protected void onStop() {
         super.onStop();
 
