@@ -1,5 +1,7 @@
 package com.orbital.audinus;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -8,13 +10,12 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
-public class MusicPlayerActivity extends AppCompatActivity {
+public class MusicPlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
     TextView titleTextView, currentTimeTextView, totalTimeTextView;
     SeekBar seekBar;
@@ -22,12 +23,15 @@ public class MusicPlayerActivity extends AppCompatActivity {
     ArrayList<AudioModel> songList;
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
+    boolean isRepeat;
+    boolean isShuffle;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
+        mediaPlayer.setOnCompletionListener(this);
 
         titleTextView = findViewById(R.id.song_title);
         currentTimeTextView = findViewById(R.id.current_time);
@@ -64,16 +68,16 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     }
 
                 }
+
                 new Handler().postDelayed(this,100);
             }
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (mediaPlayer != null && fromUser) {
-                    mediaPlayer.seekTo(progress);
+                    MyMediaPlayer.currentTime = progress;
                 }
             }
 
@@ -82,12 +86,19 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 if (mediaPlayer.isPlaying()) {
                     playPause();
                 }
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                playPause();
+                if (MyMediaPlayer.currentTime >= mediaPlayer.getDuration()){
+                    playNextSong();
+                    seekBar.setProgress(0);
+                    MyMediaPlayer.currentTime = 0;
+                } else {
+                    mediaPlayer.seekTo(MyMediaPlayer.currentTime);
+                    seekBar.setProgress(MyMediaPlayer.currentTime);
+                    playPause();
+                }
             }
         });
 
@@ -105,7 +116,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         playPauseButton.setOnClickListener(v-> playPause());
         nextButton.setOnClickListener(v-> playNextSong());
-        previousButton.setOnClickListener(v-> playPreviousSong());
+        previousButton.setOnClickListener(v-> backButtonAction());
     }
 
     private void playMusic(){
@@ -137,18 +148,23 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private void playNextSong(){
         if (MyMediaPlayer.currentIndex != songList.size() - 1) {
             MyMediaPlayer.currentIndex++;
-            mediaPlayer.reset();
+            //mediaPlayer.reset();
             setResources();
             playMusic();
         }
     }
 
-    private void playPreviousSong(){
+    private void backButtonAction(){
         if (MyMediaPlayer.currentIndex != 0) {
-            MyMediaPlayer.currentIndex--;
-            mediaPlayer.reset();
-            setResources();
-            playMusic();
+            if (mediaPlayer.getCurrentPosition() >= 5000) {
+                mediaPlayer.seekTo(0);
+                setResources();
+            } else {
+                MyMediaPlayer.currentIndex--;
+                //mediaPlayer.reset();
+                setResources();
+                playMusic();
+            }
         }
     }
 
@@ -157,6 +173,27 @@ public class MusicPlayerActivity extends AppCompatActivity {
             mediaPlayer.pause();
         } else {
             mediaPlayer.start();
+        }
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp){
+
+        // check for repeat is ON or OFF
+        if(isRepeat){
+            // repeat is on play same song again
+            playMusic();
+        } else if(isShuffle){
+            // shuffle is on - play a random song
+            Random rand = new Random();
+            MyMediaPlayer.currentIndex = rand.nextInt((songList.size() - 1) + 1);
+            //to be implemented
+        } else{
+            // no repeat or shuffle ON - play next song, if last song go to first song
+            if (MyMediaPlayer.currentIndex >= (songList.size() - 1)) {
+                MyMediaPlayer.currentIndex = -1;
+            }
+            playNextSong();
         }
     }
 
