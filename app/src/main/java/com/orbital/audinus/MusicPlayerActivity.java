@@ -105,7 +105,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         playPauseButton.setOnClickListener(v-> playPause());
         nextButton.setOnClickListener(v-> playNextSong());
-        previousButton.setOnClickListener(v-> backButtonAction());
+        previousButton.setOnClickListener(v-> playPreviousSong());
     }
 
     private void playMusic(){
@@ -137,23 +137,18 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private void playNextSong(){
         if (MyMediaPlayer.currentIndex != songList.size() - 1) {
             MyMediaPlayer.currentIndex++;
-            //mediaPlayer.reset();
+            mediaPlayer.reset();
             setResources();
             playMusic();
         }
     }
 
-    private void backButtonAction(){
+    private void playPreviousSong(){
         if (MyMediaPlayer.currentIndex != 0) {
-            if (mediaPlayer.getCurrentPosition() >= 5000) {
-                mediaPlayer.seekTo(0);
-                setResources();
-            } else {
-                MyMediaPlayer.currentIndex--;
-                //mediaPlayer.reset();
-                setResources();
-                playMusic();
-            }
+            MyMediaPlayer.currentIndex--;
+            mediaPlayer.reset();
+            setResources();
+            playMusic();
         }
     }
 
