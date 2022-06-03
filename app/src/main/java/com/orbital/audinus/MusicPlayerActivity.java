@@ -1,7 +1,5 @@
 package com.orbital.audinus;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -9,6 +7,8 @@ import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,10 +42,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         songList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
 
+        setResources();
         if (MyMediaPlayer.prevIndex == MyMediaPlayer.currentIndex) {
-            setResourcesWithoutPlaying();
+            continueMusic();
         } else {
-            setResourcesWithMusic();
+            playMusic();
         }
 
         MusicPlayerActivity.this.runOnUiThread(new Runnable() {
@@ -93,34 +94,19 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     }
 
-    void setResourcesWithMusic(){
+    void setResources() {
         currentSong = songList.get(MyMediaPlayer.currentIndex);
 
         titleTextView.setText(currentSong.getTitle());
 
         totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
 
-        playPauseButton.setOnClickListener(v-> playPause());
-        nextButton.setOnClickListener(v-> playNextSong());
-        previousButton.setOnClickListener(v-> playPreviousSong());
-
-        playMusic();
-    }
-
-    void setResourcesWithoutPlaying(){
-        currentSong = songList.get(MyMediaPlayer.currentIndex);
-
-        titleTextView.setText(currentSong.getTitle());
-
-        totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
+        albumArt.setImageBitmap(currentSong.getAlbumArt());
 
         playPauseButton.setOnClickListener(v-> playPause());
         nextButton.setOnClickListener(v-> playNextSong());
         previousButton.setOnClickListener(v-> playPreviousSong());
-
-        continueMusic();
     }
-
 
     private void playMusic(){
 
@@ -152,7 +138,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
         if (MyMediaPlayer.currentIndex != songList.size() - 1) {
             MyMediaPlayer.currentIndex++;
             mediaPlayer.reset();
-            setResourcesWithMusic();
+            setResources();
+            playMusic();
         }
     }
 
@@ -160,7 +147,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
         if (MyMediaPlayer.currentIndex != 0) {
             MyMediaPlayer.currentIndex--;
             mediaPlayer.reset();
-            setResourcesWithMusic();
+            setResources();
+            playMusic();
         }
     }
 

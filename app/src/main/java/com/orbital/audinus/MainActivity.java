@@ -8,18 +8,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Size;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,17 +54,26 @@ public class MainActivity extends AppCompatActivity {
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.DURATION,
+                MediaStore.Audio.Albums._ID
         };
 
-        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+        //String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
         Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                projection, selection, null, null);
+                projection, null, null, null);
 
         while (cursor.moveToNext()) {
-            AudioModel songData = new AudioModel(cursor.getString(1), cursor.getString(0), cursor.getString(2));
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums._ID));
+            Bitmap albumArt = null;
+            try {
+                albumArt = getAlbumArtwork(getContentResolver(), id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            if(new File(songData.getPath()).exists()) {
+            AudioModel songData = new AudioModel(cursor.getString(1), cursor.getString(0), cursor.getString(2), albumArt);
+
+            if (new File(songData.getPath()).exists()) {
                 songList.add(songData);
             }
 
@@ -70,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         cursor.close();
+    }
+
+    private Bitmap getAlbumArtwork(ContentResolver resolver, long albumId) throws IOException {
+        Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId);
+        return resolver.loadThumbnail(contentUri, new Size(300, 300), null);
     }
 
     private boolean checkPermission() {
