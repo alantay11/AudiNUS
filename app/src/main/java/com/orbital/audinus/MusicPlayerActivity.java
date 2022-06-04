@@ -49,7 +49,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         songList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
 
         setResources();
-        if (MyMediaPlayer.prevIndex == MyMediaPlayer.currentIndex) {
+        if (MyMediaPlayer.getPrevIndex() == MyMediaPlayer.getCurrentIndex()) {
             continueMusic();
         } else {
             playMusic();
@@ -64,18 +64,18 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
-                        MyMediaPlayer.currentTime = mediaPlayer.getCurrentPosition();
+                        MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
                     } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                     }
 
-                    if (MyMediaPlayer.isShuffle) {
+                    if (MyMediaPlayer.isShuffle()) {
                         shuffleButton.setImageResource(R.drawable.shuffle_on_48px);
                     } else {
                         shuffleButton.setImageResource(R.drawable.shuffle_48px);
                     }
 
-                    if (MyMediaPlayer.isRepeat) {
+                    if (MyMediaPlayer.isShuffle()) {
                         repeatButton.setImageResource(R.drawable.repeat_on_48px);
                     } else {
                         repeatButton.setImageResource(R.drawable.repeat_48px);
@@ -91,7 +91,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (mediaPlayer != null && fromUser) {
-                    MyMediaPlayer.currentTime = progress;
+                    MyMediaPlayer.setCurrentTime(progress);
                 }
             }
 
@@ -104,13 +104,13 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if (MyMediaPlayer.currentTime >= mediaPlayer.getDuration()){
+                if (MyMediaPlayer.getCurrentTime() >= mediaPlayer.getDuration()){
                     playNextSong();
                     seekBar.setProgress(0);
-                    MyMediaPlayer.currentTime = 0;
+                    MyMediaPlayer.setCurrentTime(0);
                 } else {
-                    mediaPlayer.seekTo(MyMediaPlayer.currentTime);
-                    seekBar.setProgress(MyMediaPlayer.currentTime);
+                    mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
+                    seekBar.setProgress(MyMediaPlayer.getCurrentTime());
                     playPause();
                 }
             }
@@ -120,7 +120,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     }
 
     void setResources() {
-        currentSong = songList.get(MyMediaPlayer.currentIndex);
+        currentSong = songList.get(MyMediaPlayer.getCurrentIndex());
 
         titleTextView.setText(currentSong.getTitle());
 
@@ -131,8 +131,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
         previousButton.setOnClickListener(v -> backButtonAction());
-        repeatButton.setOnClickListener(v -> repeatSong());
-        shuffleButton.setOnClickListener(v -> shuffleSong());
+        repeatButton.setOnClickListener(v -> toggleRepeat());
+        shuffleButton.setOnClickListener(v -> toggleShuffle());
     }
 
     private void playMusic() {
@@ -142,12 +142,12 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.setDataSource(currentSong.getPath());
             mediaPlayer.prepare();
             mediaPlayer.start();
-            if (MyMediaPlayer.prevIndex == MyMediaPlayer.currentIndex){
-                mediaPlayer.seekTo(MyMediaPlayer.currentTime);
+            if (MyMediaPlayer.getPrevIndex() == MyMediaPlayer.getCurrentIndex()){
+                mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());
             } else {
                 seekBar.setProgress(0);
-                MyMediaPlayer.prevIndex = MyMediaPlayer.currentIndex;
+                MyMediaPlayer.setPrevIndex(MyMediaPlayer.getCurrentIndex());
             }
 
             seekBar.setMax(mediaPlayer.getDuration());
@@ -175,22 +175,20 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     }
 
     private void playNextSong() {
-        if (MyMediaPlayer.currentIndex != songList.size() - 1) {
-            MyMediaPlayer.currentIndex++;
-            //mediaPlayer.reset();
+        if (MyMediaPlayer.getCurrentIndex() != songList.size() - 1) {
+            MyMediaPlayer.nextSong();
             setResources();
             playMusic();
         }
     }
 
     private void backButtonAction() {
-        if (MyMediaPlayer.currentIndex != 0) {
+        if (MyMediaPlayer.getCurrentIndex() != 0) {
             if (mediaPlayer.getCurrentPosition() >= 5000) {
                 mediaPlayer.seekTo(0);
                 setResources();
             } else {
-                MyMediaPlayer.currentIndex--;
-                //mediaPlayer.reset();
+                MyMediaPlayer.prevSong();
                 setResources();
                 playMusic();
             }
@@ -205,13 +203,13 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
-    private void repeatSong() {
-        MyMediaPlayer.isRepeat = !MyMediaPlayer.isRepeat;
+    private void toggleRepeat() {
+        MyMediaPlayer.toggleRepeat();
         //Log.d(TAG, "toggling repeat");
     }
 
-    private void shuffleSong() {
-        MyMediaPlayer.isShuffle = !MyMediaPlayer.isShuffle;
+    private void toggleShuffle() {
+        MyMediaPlayer.toggleShuffle();
         //Log.d(TAG, "toggling shuffle");
     }
 
@@ -220,20 +218,18 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     public void onCompletion(MediaPlayer mp){
 
         // check if repeat is ON or OFF
-        if (MyMediaPlayer.isRepeat) {
+        if (MyMediaPlayer.isRepeat()) {
             // repeat is on, play same song again
             //Log.d(TAG, "repeat is true");
             restartMusic();
-        } else if (MyMediaPlayer.isShuffle) {
+        } else if (MyMediaPlayer.isShuffle()) {
             // shuffle is on - play a random song
             //Log.d(TAG, "shuffle is true");
             Random rand = new Random();
-            MyMediaPlayer.currentIndex = rand.nextInt((songList.size() - 1) + 1);
+            MyMediaPlayer.setCurrentIndex(rand.nextInt((songList.size() - 1) + 1));
             setResources();
             playMusic();
-        } else {//if (MyMediaPlayer.currentIndex >= (songList.size() - 1)) {
-            // no repeat or shuffle ON - play next song, if last song go to first song
-            //MyMediaPlayer.currentIndex = -1;
+        } else {
             playNextSong();
         }
     }
