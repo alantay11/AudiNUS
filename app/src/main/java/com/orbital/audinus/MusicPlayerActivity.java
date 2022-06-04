@@ -75,7 +75,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                         shuffleButton.setImageResource(R.drawable.shuffle_48px);
                     }
 
-                    if (MyMediaPlayer.isShuffle()) {
+                    if (MyMediaPlayer.isRepeat()) {
                         repeatButton.setImageResource(R.drawable.repeat_on_48px);
                     } else {
                         repeatButton.setImageResource(R.drawable.repeat_48px);
@@ -104,10 +104,16 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if (MyMediaPlayer.getCurrentTime() >= mediaPlayer.getDuration()){
-                    playNextSong();
-                    seekBar.setProgress(0);
-                    MyMediaPlayer.setCurrentTime(0);
+                if (MyMediaPlayer.getCurrentTime() >= mediaPlayer.getDuration()) {
+                    if (MyMediaPlayer.isRepeat()) {
+                        repeatMusic();
+                    } else if (MyMediaPlayer.isShuffle()) {
+                        playRandomSong();
+                    } else {
+                        playNextSong();
+                        seekBar.setProgress(0);
+                        MyMediaPlayer.setCurrentTime(0);
+                    }
                 } else {
                     mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                     seekBar.setProgress(MyMediaPlayer.getCurrentTime());
@@ -156,8 +162,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
-    private void restartMusic() {
-        //Log.d(TAG, "restarting music");
+    private void repeatMusic() {
         mediaPlayer.reset();
         try {
             mediaPlayer.setDataSource(currentSong.getPath());
@@ -203,6 +208,13 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
+    private void playRandomSong() {
+        Random rand = new Random();
+        MyMediaPlayer.setCurrentIndex(rand.nextInt((songList.size() - 1) + 1));
+        setResources();
+        playMusic();
+    }
+
     private void toggleRepeat() {
         MyMediaPlayer.toggleRepeat();
         //Log.d(TAG, "toggling repeat");
@@ -216,19 +228,10 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
     @Override
     public void onCompletion(MediaPlayer mp){
-
-        // check if repeat is ON or OFF
         if (MyMediaPlayer.isRepeat()) {
-            // repeat is on, play same song again
-            //Log.d(TAG, "repeat is true");
-            restartMusic();
+            repeatMusic();
         } else if (MyMediaPlayer.isShuffle()) {
-            // shuffle is on - play a random song
-            //Log.d(TAG, "shuffle is true");
-            Random rand = new Random();
-            MyMediaPlayer.setCurrentIndex(rand.nextInt((songList.size() - 1) + 1));
-            setResources();
-            playMusic();
+            playRandomSong();
         } else {
             playNextSong();
         }
