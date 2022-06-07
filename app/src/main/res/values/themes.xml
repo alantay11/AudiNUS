@@ -10,10 +10,17 @@
         <item name="colorSecondaryVariant">@color/purple_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" >@color/purple_95</item>
         <!-- Customize your theme here. -->
         <item name="android:textColorPrimary">@color/background_grey</item>
         <item name="android:textColorSecondary">@color/background_grey</item>
         <item name="android:textColorTertiary">@color/background_grey</item>
     </style>
+
+    <style name="Theme.AppCompat.Transparent" parent="Theme.AppCompat.NoActionBar">
+        <!--  custom style for the transparent activity-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
 </resources>

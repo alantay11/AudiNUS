@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="transparent">@android:color/transparent</color>
     <color name="purple_80">#D0BCFF</color>
     <color name="purple_90">#EADDFF</color>
     <color name="purple_95">#F6EDFF</color>

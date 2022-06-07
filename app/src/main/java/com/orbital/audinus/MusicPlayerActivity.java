@@ -1,7 +1,9 @@
 package com.orbital.audinus;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
@@ -19,7 +21,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
     TextView titleTextView, currentTimeTextView, totalTimeTextView;
     SeekBar seekBar;
-    ImageView playPauseButton, nextButton, previousButton, albumArt, shuffleButton, repeatButton;
+    ImageView playPauseButton, nextButton, previousButton, albumArt, shuffleButton, repeatButton, equalizerButton;
     ArrayList<AudioModel> songList;
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
@@ -42,6 +44,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         previousButton = findViewById(R.id.previous);
         shuffleButton = findViewById(R.id.shuffle);
         repeatButton = findViewById(R.id.repeat);
+        equalizerButton = findViewById(R.id.equalizer);
         albumArt = findViewById(R.id.album_art);
 
         titleTextView.setSelected(true);
@@ -139,7 +142,24 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         previousButton.setOnClickListener(v -> backButtonAction());
         repeatButton.setOnClickListener(v -> toggleRepeat());
         shuffleButton.setOnClickListener(v -> toggleShuffle());
+        equalizerButton.setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+                intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MyMediaPlayer.getInstance().getAudioSessionId());
+                intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
+                intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
+                startActivityForResult(intent, 13);
+                getApplicationContext().startActivity(intent);
+            } catch (Exception e) {
+                //Toast.makeText(this, "Your phone doesn't support equalization", Toast.LENGTH_SHORT);//.show();
+            }
+        });
     }
+
+   /* @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }*/
 
     private void playMusic() {
 

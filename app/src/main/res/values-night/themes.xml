@@ -1,4 +1,4 @@
-<resources>
+ <resources>
     <!-- Base application theme. -->
     <style name="Theme.AudiNUS" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -10,10 +10,18 @@
         <item name="colorSecondaryVariant">@color/purple_80</item>
         <item name="colorOnSecondary">@color/dark_theme_white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" >@color/background_grey</item>
         <!-- Customize your theme here. -->
         <item name="android:textColorPrimary">@color/dark_theme_white</item>
         <item name="android:textColorSecondary">@color/dark_theme_white</item>
         <item name="android:textColorTertiary">@color/dark_theme_white</item>
     </style>
+
+     <style name="Theme.AppCompat.Transparent" parent="Theme.AppCompat.NoActionBar">
+         <!--  custom style for the transparent activity-->
+         <item name="android:windowIsTranslucent">true</item>
+         <item name="android:windowBackground">@color/transparent</item>
+     </style>
+
+
 </resources>
