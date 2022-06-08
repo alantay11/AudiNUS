@@ -4,10 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -23,11 +21,8 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Size;
 import android.view.View;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,8 +30,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
-    private TabLayout Tablayout;
+    private RecyclerView recyclerView;
+    private final ArrayList<AudioModel> songList = new ArrayList<>();
+    private int lastPosition;
+    private LinearLayoutManager layoutManager;
 
 
     @Override
@@ -44,25 +41,60 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recyclerView = findViewById(R.id.recycler_view);
+        TextView noMusicTextView = findViewById(R.id.no_songs_text);
+
+        layoutManager = new LinearLayoutManager(this);
+
         if (!checkPermission()) {
             requestPermission();
         }
 
-        Tablayout = findViewById(R.id.views);
-        viewPager = findViewById(R.id.viewpager);
-        Tablayout.setupWithViewPager(viewPager);
+        String[] projection = {
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.DATA,
+                MediaStore.Audio.Media.DURATION,
+                MediaStore.Audio.Albums._ID
+        };
 
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        fragmentAdapter.addFragment(new fragment1(), "songs");
-        fragmentAdapter.addFragment(new fragment2(), "playlist");
-        fragmentAdapter.addFragment(new fragment3(), "favourites");
-        viewPager.setAdapter(fragmentAdapter);
+        //String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+
+        Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                projection, null, null, null);
+
+        while (cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums._ID));
+            Bitmap albumArt = null;
+            try {
+                albumArt = getAlbumArtwork(getContentResolver(), id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            AudioModel songData = new AudioModel(cursor.getString(1), cursor.getString(0), cursor.getString(2), albumArt);
+
+            if (new File(songData.getPath()).exists()) {
+                songList.add(songData);
+            }
+
+            if (songList.isEmpty()) {
+                noMusicTextView.setVisibility(View.VISIBLE);
+            } else {
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(new MusicListAdapter(songList, getApplicationContext()));
+            }
+        }
+        cursor.close();
     }
 
+    private Bitmap getAlbumArtwork(ContentResolver resolver, long albumId) throws IOException {
+        Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId);
+        return resolver.loadThumbnail(contentUri, new Size(300, 300), null);
+    }
 
     private boolean checkPermission() {
         return ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_GRANTED;
+        PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermission() {
@@ -71,5 +103,36 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (recyclerView != null) {
+            recyclerView.setAdapter(new MusicListAdapter(songList, MainActivity.this));
+        }
+        recyclerView.setLayoutManager(layoutManager);
+
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        lastPosition = getPrefs.getInt("lastPos", 0);
+        recyclerView.scrollToPosition(lastPosition);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                lastPosition = layoutManager.findFirstVisibleItemPosition();
+            }
+        });
+    }
+    
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences.Editor e = getPrefs.edit();
+        e.putInt("lastPos", lastPosition);
+        e.apply();
     }
 }
