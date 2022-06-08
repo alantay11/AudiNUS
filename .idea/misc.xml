@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/activity_music_player.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/fragment_frag1.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/fragment_fragment1.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/fragment_fragment2.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/fragment_fragment3.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/recycler_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/ic_baseline_pause_circle_outline_24.xml" value="0.26" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/ic_baseline_play_circle_outline_24.xml" value="0.26" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/ic_baseline_skip_next_24.xml" value="0.196" />
