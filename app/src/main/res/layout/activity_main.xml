@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabIconTint="?android:attr/textColorPrimary"
+        app:tabIconTint="@color/your_color_selector"
         app:tabIndicatorAnimationMode="elastic"
         app:tabIndicatorColor="?attr/colorAccent"
         app:tabSelectedTextColor="?attr/colorAccent"
