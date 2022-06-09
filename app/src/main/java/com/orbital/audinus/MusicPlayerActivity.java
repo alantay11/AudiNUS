@@ -21,10 +21,10 @@ import java.util.concurrent.TimeUnit;
 public class MusicPlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
     TextView titleTextView, currentTimeTextView, totalTimeTextView;
-    static SeekBar seekBar;
+    SeekBar seekBar;
     ImageView playPauseButton, nextButton, previousButton, albumArt, shuffleButton, repeatButton, equalizerButton;
     ArrayList<AudioModel> songList;
-     AudioModel currentSong;
+    AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
 
     //private static final String TAG = "MyActivity";

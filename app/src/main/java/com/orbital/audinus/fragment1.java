@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Size;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,16 +34,42 @@ public class fragment1 extends Fragment {
 
     private RecyclerView recyclerView;
     private final ArrayList<AudioModel> songList = new ArrayList<>();
+    private ArrayList<AudioModel> searchList;
     private LinearLayoutManager layoutManager;
+    private SearchView searchView;
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_fragment1, container, false);
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         TextView noMusicTextView = rootView.findViewById(R.id.no_songs_text);
+        searchView = rootView.findViewById(R.id.search_bar);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override //buggy
+            public boolean onQueryTextChange(String newText) {
+                ArrayList<AudioModel> filteredList = new ArrayList<>();
+                for (AudioModel x : songList){
+                    if (x.getTitle().toLowerCase().contains(newText.toLowerCase())){
+                        filteredList.add(x);
+                    }
+                }
+                recyclerView.setAdapter(new MusicListAdapter(filteredList, getActivity()));
+                return false;
+            }
+        });
+
+
 
         layoutManager = new LinearLayoutManager(rootView.getContext());
 
@@ -53,8 +83,10 @@ public class fragment1 extends Fragment {
         };
         //String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
+
         Cursor cursor = getActivity().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 projection, null, null, null);
+
 
         while (cursor.moveToNext()) {
             long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums._ID));
