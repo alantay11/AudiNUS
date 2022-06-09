@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -135,7 +136,11 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
         totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
 
-        albumArt.setImageBitmap(currentSong.getAlbumArt());
+        if (currentSong.getAlbumArt() != null) {
+            albumArt.setImageBitmap(currentSong.getAlbumArt());
+        } else {
+            albumArt.setImageResource(R.drawable.music_note_48px);
+        }
 
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
@@ -204,6 +209,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             MyMediaPlayer.nextSong();
             setResources();
             playMusic();
+        } else {
+            Toast.makeText(this, "You've reached the last song in your library", Toast.LENGTH_SHORT).show();
         }
     }
 
