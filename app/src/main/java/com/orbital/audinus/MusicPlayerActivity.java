@@ -64,14 +64,16 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             public void run() {
                 if (mediaPlayer != null) {
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                    fragmentbot.seekBar.setProgress(seekBar.getProgress());
+                    fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
                     currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
 
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
+                        fragmentBottomBar.playPauseButton.setImageResource(R.drawable.pause_48px);
                         MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
                     } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
+                        fragmentBottomBar.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                     }
 
                     if (MyMediaPlayer.isShuffle()) {
@@ -117,13 +119,13 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                     } else {
                         playNextSong();
                         seekBar.setProgress(0);
-                        fragmentbot.seekBar.setProgress(seekBar.getProgress());
+                        fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
                         MyMediaPlayer.setCurrentTime(0);
                     }
                 } else {
                     mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                     seekBar.setProgress(MyMediaPlayer.getCurrentTime());
-                    fragmentbot.seekBar.setProgress(seekBar.getProgress());
+                    fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
                     playPause();
                 }
             }
@@ -136,7 +138,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         currentSong = songList.get(MyMediaPlayer.getCurrentIndex());
 
         titleTextView.setText(currentSong.getTitle());
-        fragmentbot.textView.setText(currentSong.getTitle());
+        fragmentBottomBar.songName.setText(currentSong.getTitle());
 
         totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
 
@@ -145,6 +147,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         } else {
             albumArt.setImageResource(R.drawable.music_note_48px);
         }
+
+        fragmentBottomBar.playPauseButton.setOnClickListener(v -> playPause());
 
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
@@ -180,15 +184,15 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             if (MyMediaPlayer.getPrevIndex() == MyMediaPlayer.getCurrentIndex()){
                 mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                fragmentbot.seekBar.setProgress(seekBar.getProgress());
+                fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
             } else {
                 seekBar.setProgress(0);
-                fragmentbot.seekBar.setProgress(seekBar.getProgress());
+                fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
                 MyMediaPlayer.setPrevIndex(MyMediaPlayer.getCurrentIndex());
             }
 
             seekBar.setMax(mediaPlayer.getDuration());
-            fragmentbot.seekBar.setMax(mediaPlayer.getDuration());
+            fragmentBottomBar.progressBar.setMax(mediaPlayer.getDuration());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -201,7 +205,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.prepare();
             mediaPlayer.start();
             seekBar.setProgress(0);
-            fragmentbot.seekBar.setProgress(seekBar.getProgress());
+            fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -209,9 +213,9 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
     private void continueMusic() {
         seekBar.setProgress(mediaPlayer.getCurrentPosition());
-        fragmentbot.seekBar.setProgress(seekBar.getProgress());
+        fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
         seekBar.setMax(mediaPlayer.getDuration());
-        fragmentbot.seekBar.setMax(mediaPlayer.getDuration());
+        fragmentBottomBar.progressBar.setMax(mediaPlayer.getDuration());
     }
 
     private void playNextSong() {

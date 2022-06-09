@@ -1,27 +1,18 @@
 package com.orbital.audinus;
 
 import android.Manifest;
-import android.app.FragmentManager;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         Tablayout = findViewById(R.id.views);
         viewPager = findViewById(R.id.viewpager);
-        fragmentContainerView = findViewById(R.id.fragmentContainerView2);
+        fragmentContainerView = findViewById(R.id.currentlyPlayingBar);
 
 
 

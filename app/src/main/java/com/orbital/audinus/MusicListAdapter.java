@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
 
@@ -72,7 +72,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.music_title_text);
-            iconImageView = itemView.findViewById(R.id.icon_view);
+            iconImageView = itemView.findViewById(R.id.albumArt);
         }
     }
 }
