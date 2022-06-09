@@ -77,47 +77,55 @@
         android:id="@+id/previous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="225dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="122dp"
         android:importantForAccessibility="no"
         android:src="@drawable/skip_previous_48px"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pause_play" />
+        app:layout_constraintEnd_toStartOf="@+id/pause_play"
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
 
     <ImageView
         android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="225dp"
         android:layout_marginBottom="122dp"
         android:importantForAccessibility="no"
         android:src="@drawable/skip_next_48px"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pause_play" />
+        app:layout_constraintStart_toEndOf="@+id/pause_play"
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
 
     <ImageView
         android:id="@+id/pause_play"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:layout_marginTop="219dp"
         android:layout_marginBottom="112dp"
         android:importantForAccessibility="no"
         android:src="@drawable/pause_48px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
 
     <ImageView
         android:id="@+id/repeat"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="182dp"
         android:layout_marginEnd="26dp"
         android:layout_marginBottom="128dp"
         android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/previous"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/current_time"
         app:srcCompat="@drawable/repeat_48px" />
 
     <ImageView
@@ -125,12 +133,14 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="26dp"
+        android:layout_marginTop="182dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="128dp"
         android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/next"
+        app:layout_constraintTop_toBottomOf="@+id/total_time"
         app:srcCompat="@drawable/shuffle_48px" />
 
     <ImageView
