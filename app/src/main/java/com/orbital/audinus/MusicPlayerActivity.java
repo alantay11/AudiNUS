@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -204,6 +205,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             MyMediaPlayer.nextSong();
             setResources();
             playMusic();
+        } else {
+            Toast.makeText(this, "You've reached the last song in your library", Toast.LENGTH_SHORT).show();
         }
     }
 

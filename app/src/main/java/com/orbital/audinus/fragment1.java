@@ -1,30 +1,21 @@
 package com.orbital.audinus;
 
-import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.io.IOException;
@@ -85,7 +76,7 @@ public class fragment1 extends Fragment {
                 noMusicTextView.setVisibility(View.VISIBLE);
             } else {
                 recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(new MusicListAdapter(songList, getActivity().getApplicationContext()));
+                recyclerView.setAdapter(new MusicListAdapter(songList, getActivity()));
             }
         }
         cursor.close();

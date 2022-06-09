@@ -11,33 +11,41 @@
         android:id="@+id/views"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/viewpager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabIconTint="?attr/colorAccent"
+        app:tabSelectedTextColor="?attr/colorAccent"
+        app:tabTextColor="?android:attr/textColorPrimary">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/songs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Songs" />
+            android:icon="@drawable/library_music_48px"
+            android:text="@string/songs" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/playlists"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Playlists" />
+            android:text="@string/playlists" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Favourites" />
+            android:text="@string/favorites" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/views"/>
+        app:layout_constraintTop_toBottomOf="@+id/views" />
 
 
 
