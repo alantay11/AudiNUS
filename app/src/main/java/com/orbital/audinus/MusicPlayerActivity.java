@@ -136,7 +136,11 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
         totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
 
-        albumArt.setImageBitmap(currentSong.getAlbumArt());
+        if (currentSong.getAlbumArt() != null) {
+            albumArt.setImageBitmap(currentSong.getAlbumArt());
+        } else {
+            albumArt.setImageResource(R.drawable.music_note_48px);
+        }
 
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());

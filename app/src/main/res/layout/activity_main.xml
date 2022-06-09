@@ -15,7 +15,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabIconTint="?attr/colorAccent"
+        app:tabIconTint="?android:attr/textColorPrimary"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorColor="?attr/colorAccent"
         app:tabSelectedTextColor="?attr/colorAccent"
         app:tabTextColor="?android:attr/textColorPrimary">
 
@@ -30,12 +32,14 @@
             android:id="@+id/playlists"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:icon="@drawable/queue_music_48px"
             android:text="@string/playlists" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:icon="@drawable/favorite_48px"
             android:text="@string/favorites" />
     </com.google.android.material.tabs.TabLayout>
 
@@ -46,7 +50,6 @@
         android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/views" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

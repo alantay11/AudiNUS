@@ -17,9 +17,9 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:importantForAccessibility="no"
-        android:src="@android:drawable/stat_sys_warning"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/music_note_48px" />
 
     <TextView
         android:id="@+id/music_title_text"
