@@ -2,6 +2,8 @@ package com.orbital.audinus;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaExtractor;
+import android.media.MediaFormat;
 import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
@@ -20,13 +22,12 @@ import java.util.concurrent.TimeUnit;
 
 public class MusicPlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
-    TextView titleTextView, currentTimeTextView, totalTimeTextView;
-    static SeekBar seekBar;
+    TextView titleTextView, currentTimeTextView, totalTimeTextView, bitDepthTextView, sampleRateTextView;
+    SeekBar seekBar;
     ImageView playPauseButton, nextButton, previousButton, albumArt, shuffleButton, repeatButton, equalizerButton;
     ArrayList<AudioModel> songList;
-     AudioModel currentSong;
+    AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
-
     //private static final String TAG = "MyActivity";
 
 
@@ -39,6 +40,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         titleTextView = findViewById(R.id.song_title);
         currentTimeTextView = findViewById(R.id.current_time);
         totalTimeTextView = findViewById(R.id.total_time);
+        bitDepthTextView = findViewById(R.id.bitRate);
+        sampleRateTextView = findViewById(R.id.sampleRate);
         seekBar = findViewById(R.id.seek_bar);
         playPauseButton = findViewById(R.id.pause_play);
         nextButton = findViewById(R.id.next);
@@ -138,17 +141,25 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         currentSong = songList.get(MyMediaPlayer.getCurrentIndex());
 
         titleTextView.setText(currentSong.getTitle());
-        fragmentBottomBar.songName.setText(currentSong.getTitle());
-
         totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
+
+        MediaExtractor mex = new MediaExtractor();
+        try {
+            mex.setDataSource(currentSong.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        MediaFormat mf = mex.getTrackFormat(0);
+
+        //bitDepthTextView.setText(mf.getString(MediaFormat.KEY_PCM_ENCODING));
+        sampleRateTextView.setText(String.format("%s%s", mf.getInteger(MediaFormat.KEY_SAMPLE_RATE) / 1000.0, getString(R.string.kHz)));
 
         if (currentSong.getAlbumArt() != null) {
             albumArt.setImageBitmap(currentSong.getAlbumArt());
         } else {
             albumArt.setImageResource(R.drawable.music_note_48px);
         }
-
-        fragmentBottomBar.playPauseButton.setOnClickListener(v -> playPause());
 
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
@@ -167,6 +178,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 //Toast.makeText(this, "Your phone doesn't support equalization", Toast.LENGTH_SHORT);//.show();
             }
         });
+        fragmentBottomBar.songName.setText(currentSong.getTitle());
+        fragmentBottomBar.playPauseButton.setOnClickListener(v -> playPause());
     }
 
    /* @Override
