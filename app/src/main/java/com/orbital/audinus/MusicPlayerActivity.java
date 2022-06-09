@@ -21,10 +21,10 @@ import java.util.concurrent.TimeUnit;
 public class MusicPlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
     TextView titleTextView, currentTimeTextView, totalTimeTextView;
-    SeekBar seekBar;
+    static SeekBar seekBar;
     ImageView playPauseButton, nextButton, previousButton, albumArt, shuffleButton, repeatButton, equalizerButton;
     ArrayList<AudioModel> songList;
-    AudioModel currentSong;
+     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
 
     //private static final String TAG = "MyActivity";
@@ -64,6 +64,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             public void run() {
                 if (mediaPlayer != null) {
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                    fragmentbot.seekBar.setProgress(seekBar.getProgress());
                     currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
 
                     if (mediaPlayer.isPlaying()) {
@@ -116,11 +117,13 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                     } else {
                         playNextSong();
                         seekBar.setProgress(0);
+                        fragmentbot.seekBar.setProgress(seekBar.getProgress());
                         MyMediaPlayer.setCurrentTime(0);
                     }
                 } else {
                     mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                     seekBar.setProgress(MyMediaPlayer.getCurrentTime());
+                    fragmentbot.seekBar.setProgress(seekBar.getProgress());
                     playPause();
                 }
             }
@@ -133,6 +136,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         currentSong = songList.get(MyMediaPlayer.getCurrentIndex());
 
         titleTextView.setText(currentSong.getTitle());
+        fragmentbot.textView.setText(currentSong.getTitle());
 
         totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
 
@@ -176,12 +180,15 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             if (MyMediaPlayer.getPrevIndex() == MyMediaPlayer.getCurrentIndex()){
                 mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                fragmentbot.seekBar.setProgress(seekBar.getProgress());
             } else {
                 seekBar.setProgress(0);
+                fragmentbot.seekBar.setProgress(seekBar.getProgress());
                 MyMediaPlayer.setPrevIndex(MyMediaPlayer.getCurrentIndex());
             }
 
             seekBar.setMax(mediaPlayer.getDuration());
+            fragmentbot.seekBar.setMax(mediaPlayer.getDuration());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -194,6 +201,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.prepare();
             mediaPlayer.start();
             seekBar.setProgress(0);
+            fragmentbot.seekBar.setProgress(seekBar.getProgress());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -201,7 +209,9 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
     private void continueMusic() {
         seekBar.setProgress(mediaPlayer.getCurrentPosition());
+        fragmentbot.seekBar.setProgress(seekBar.getProgress());
         seekBar.setMax(mediaPlayer.getDuration());
+        fragmentbot.seekBar.setMax(mediaPlayer.getDuration());
     }
 
     private void playNextSong() {

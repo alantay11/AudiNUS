@@ -30,7 +30,6 @@ public class fragment1 extends Fragment {
 
     private RecyclerView recyclerView;
     private final ArrayList<AudioModel> songList = new ArrayList<>();
-    private int lastPosition;
     private LinearLayoutManager layoutManager;
 
 

@@ -67,4 +67,5 @@ public class MyMediaPlayer {
     public static void toggleShuffle() {
         MyMediaPlayer.isShuffle = !MyMediaPlayer.isShuffle;
     }
+
 }

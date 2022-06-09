@@ -7,6 +7,14 @@
     android:background="?colorPrimary"
     tools:context=".MainActivity">
 
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView2"
+        android:name="com.orbital.audinus.fragmentbot"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/views"
         android:layout_width="match_parent"
@@ -48,8 +56,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:importantForAccessibility="no"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/views" />
+        app:layout_constraintTop_toBottomOf="@+id/views"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView2" >
+
+    </androidx.viewpager.widget.ViewPager>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
