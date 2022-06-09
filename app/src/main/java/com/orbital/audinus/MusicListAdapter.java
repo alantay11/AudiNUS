@@ -2,7 +2,6 @@ package com.orbital.audinus;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,12 +34,6 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     public void onBindViewHolder(MusicListAdapter.ViewHolder holder, int position) {
         AudioModel songData = songList.get(holder.getAdapterPosition());
         holder.titleTextView.setText(songData.getTitle());
-
-        if (MyMediaPlayer.currentIndex == holder.getAdapterPosition()) {
-            holder.titleTextView.setTextColor(Color.parseColor("#FF0000"));
-        }/* else {
-            holder.titleTextView.setTextColor(Color.parseColor("#000000"));
-        }*/
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

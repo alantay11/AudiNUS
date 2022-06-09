@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (!checkPermission()) {
             requestPermission();
+            onCreate(savedInstanceState); // allows songs to be read on first entry without reopening app
         }
+
 
         Tablayout = findViewById(R.id.views);
         viewPager = findViewById(R.id.viewpager);
