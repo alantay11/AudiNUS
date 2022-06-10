@@ -54,7 +54,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
         titleTextView.setSelected(true);
 
-        songList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
+        songList = getIntent().getParcelableArrayListExtra(("LIST"));
 
         setResources();
         if (MyMediaPlayer.getPrevIndex() == MyMediaPlayer.getCurrentIndex()) {
