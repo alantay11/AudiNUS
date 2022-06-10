@@ -31,7 +31,8 @@
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/activity_music_player2.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/fragment_fragment1.xml" value="0.15433946130825138" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/fragment_fragmentbot.xml" value="0.33" />
-        <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/fragment_songs.xml" value="0.15433946130825138" />
+        <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/fragment_playlists.xml" value="0.33" />
+        <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/fragment_songs.xml" value="0.33" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/recycler_item.xml" value="0.33" />
       </map>
     </option>

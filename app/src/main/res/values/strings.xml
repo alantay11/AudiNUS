@@ -9,4 +9,5 @@
     <string name="favorites">Favorites</string>
     <string name="NoSongBottomBarText">No song playing</string>
     <string name="kHz">kHz</string>
+    <string name="no_playlists_text">Try creating a playlist?</string>
 </resources>
