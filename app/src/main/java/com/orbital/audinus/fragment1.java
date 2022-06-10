@@ -56,7 +56,7 @@ public class fragment1 extends Fragment {
                 return false;
             }
 
-            @Override //buggy
+            @Override
             public boolean onQueryTextChange(String newText) {
                 ArrayList<AudioModel> filteredList = new ArrayList<>();
                 for (AudioModel x : songList){
