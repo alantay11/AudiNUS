@@ -48,6 +48,10 @@ public class MyMediaPlayer {
         return MyMediaPlayer.isShuffle;
     }
 
+    public static boolean isPlayingSameSong() {
+        return MyMediaPlayer.currentIndex == MyMediaPlayer.prevIndex;
+    }
+
     public static void setPrevIndex(int prevIndex) {
         MyMediaPlayer.prevIndex = prevIndex;
     }

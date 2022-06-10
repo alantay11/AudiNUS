@@ -9,13 +9,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Size;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,10 +24,10 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment1#} factory method to
+ * Use the {@link SongsFragment#} factory method to
  * create an instance of this fragment.
  */
-public class fragment1 extends Fragment {
+public class SongsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private final ArrayList<AudioModel> songList = new ArrayList<>();
@@ -44,7 +41,7 @@ public class fragment1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_fragment1, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_songs, container, false);
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         TextView noMusicTextView = rootView.findViewById(R.id.no_songs_text);
@@ -84,7 +81,7 @@ public class fragment1 extends Fragment {
         //String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
 
-        Cursor cursor = getActivity().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+        Cursor cursor = requireActivity().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 projection, null, null, null);
 
 
@@ -92,7 +89,7 @@ public class fragment1 extends Fragment {
             long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums._ID));
             Bitmap albumArt = null;
             try {
-                albumArt = getAlbumArtwork(getActivity().getContentResolver(), id);
+                albumArt = getAlbumArtwork(requireActivity().getContentResolver(), id);
             } catch (IOException e) {
                 e.printStackTrace();
             }

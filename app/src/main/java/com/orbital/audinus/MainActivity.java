@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentContainerView fragmentContainerView;
 
 
-    BottomNavigationView bottomNavigationView;
+    //BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!checkPermission()) {
             requestPermission();
-            onCreate(savedInstanceState); // allows songs to be read on first entry without reopening app
+            onCreate(savedInstanceState);
         }
 
 
@@ -47,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        fragmentAdapter.addFragment(new fragment1(), "songs");
-        fragmentAdapter.addFragment(new fragment2(), "playlist");
+        fragmentAdapter.addFragment(new SongsFragment(), "songs");
+        fragmentAdapter.addFragment(new PlaylistsFragment(), "playlist");
         fragmentAdapter.addFragment(new fragment3(), "favorites");
         viewPager.setAdapter(fragmentAdapter);
 

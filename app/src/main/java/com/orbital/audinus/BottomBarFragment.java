@@ -12,10 +12,10 @@ import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragmentBottomBar#newInstance} factory method to
+ * Use the {@link BottomBarFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragmentBottomBar extends Fragment {
+public class BottomBarFragment extends Fragment {
     static TextView songName;
     static ImageView playPauseButton;
     static ProgressBar progressBar;

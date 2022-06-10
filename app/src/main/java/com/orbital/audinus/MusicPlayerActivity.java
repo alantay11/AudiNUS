@@ -68,16 +68,16 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             public void run() {
                 if (mediaPlayer != null) {
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                    fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
+                    BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
                     currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
 
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
-                        fragmentBottomBar.playPauseButton.setImageResource(R.drawable.pause_48px);
+                        BottomBarFragment.playPauseButton.setImageResource(R.drawable.pause_48px);
                         MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
                     } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
-                        fragmentBottomBar.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
+                        BottomBarFragment.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                     }
 
                     if (MyMediaPlayer.isShuffle()) {
@@ -123,20 +123,19 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                     } else {
                         playNextSong();
                         seekBar.setProgress(0);
-                        fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
+                        BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
                         MyMediaPlayer.setCurrentTime(0);
                     }
                 } else {
                     mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                     seekBar.setProgress(MyMediaPlayer.getCurrentTime());
-                    fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
+                    BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
                     playPause();
                 }
             }
         });
-
-
     }
+
 
     void setResources() {
         currentSong = songList.get(MyMediaPlayer.getCurrentIndex());
@@ -176,11 +175,11 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 startActivityForResult(intent, 13);
                 getApplicationContext().startActivity(intent);
             } catch (Exception e) {
-                //Toast.makeText(this, "Your phone doesn't support equalization", Toast.LENGTH_SHORT);//.show();
+                //Toast.makeText(this, "Your phone doesn't support equalization", Toast.LENGTH_SHORT).show();
             }
         });
-        fragmentBottomBar.songName.setText(currentSong.getTitle());
-        fragmentBottomBar.playPauseButton.setOnClickListener(v -> playPause());
+        BottomBarFragment.songName.setText(currentSong.getTitle());
+        BottomBarFragment.playPauseButton.setOnClickListener(v -> playPause());
     }
 
    /* @Override
@@ -195,18 +194,18 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.setDataSource(currentSong.getPath());
             mediaPlayer.prepare();
             mediaPlayer.start();
-            if (MyMediaPlayer.getPrevIndex() == MyMediaPlayer.getCurrentIndex()){
+            if (MyMediaPlayer.isPlayingSameSong()){
                 mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
+                BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
             } else {
                 seekBar.setProgress(0);
-                fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
+                BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
                 MyMediaPlayer.setPrevIndex(MyMediaPlayer.getCurrentIndex());
             }
 
             seekBar.setMax(mediaPlayer.getDuration());
-            fragmentBottomBar.progressBar.setMax(mediaPlayer.getDuration());
+            BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -219,7 +218,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.prepare();
             mediaPlayer.start();
             seekBar.setProgress(0);
-            fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
+            BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -227,9 +226,9 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
     private void continueMusic() {
         seekBar.setProgress(mediaPlayer.getCurrentPosition());
-        fragmentBottomBar.progressBar.setProgress(seekBar.getProgress());
+        BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
         seekBar.setMax(mediaPlayer.getDuration());
-        fragmentBottomBar.progressBar.setMax(mediaPlayer.getDuration());
+        BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
     }
 
     private void playNextSong() {
@@ -238,7 +237,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             setResources();
             playMusic();
         } else {
-            Toast.makeText(this, "You've reached the last song in your library", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You've reached the last song", Toast.LENGTH_SHORT).show();
         }
     }
 
