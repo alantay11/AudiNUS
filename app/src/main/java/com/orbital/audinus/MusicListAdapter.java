@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
@@ -34,6 +36,10 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     public void onBindViewHolder(MusicListAdapter.ViewHolder holder, int position) {
         AudioModel songData = songList.get(holder.getAdapterPosition());
         holder.titleTextView.setText(songData.getTitle());
+        Glide.with(context)
+                .load(songData.getAlbumArt())
+                .placeholder(R.drawable.music_note_48px)
+                .into(holder.albumArtRImageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +51,9 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                 Intent intent = new Intent(context, MusicPlayerActivity.class);
                 intent.putParcelableArrayListExtra("LIST", songList);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                }
                 context.startActivity(intent);
 
             }
@@ -60,12 +69,13 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView titleTextView;
-        ImageView iconImageView;
+        ImageView albumArtRImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.music_title_text);
-            iconImageView = itemView.findViewById(R.id.albumArt);
+            albumArtRImageView = itemView.findViewById(R.id.albumArt);
         }
     }
 }
+

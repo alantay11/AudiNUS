@@ -1,13 +1,9 @@
 package com.orbital.audinus;
 
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -71,28 +66,29 @@ public class SongsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(rootView.getContext());
 
 
+        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String[] projection = {MediaStore.Audio.AudioColumns.TITLE,
+                MediaStore.Audio.AudioColumns.DATA,
+                MediaStore.Audio.AudioColumns.DURATION,
+                MediaStore.Audio.AudioColumns.ALBUM_ID};
 
-        String[] projection = {
+
+        /*String[] projection = {
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Albums._ID
-        };
+        };*/
         //String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
 
-        Cursor cursor = requireActivity().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+        Cursor cursor = requireActivity().getContentResolver().query(uri,
                 projection, null, null, null);
 
 
         while (cursor.moveToNext()) {
-            long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Albums._ID));
-            Bitmap albumArt = null;
-            try {
-                albumArt = getAlbumArtwork(requireActivity().getContentResolver(), id);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            long albumID = cursor.getLong(3);
+            String albumArt = "content://media/external/audio/albumart/"+ albumID;
 
             AudioModel songData = new AudioModel(cursor.getString(1), cursor.getString(0), cursor.getString(2), albumArt);
 
@@ -113,12 +109,4 @@ public class SongsFragment extends Fragment {
 
         return rootView;
     }
-
-    private Bitmap getAlbumArtwork(ContentResolver resolver, long albumId) throws IOException {
-        Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId);
-        return resolver.loadThumbnail(contentUri, new Size(300, 300), null);
-    }
-
-
-
 }

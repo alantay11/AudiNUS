@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -155,11 +157,12 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         //bitDepthTextView.setText(mf.getString(MediaFormat.KEY_PCM_ENCODING));
         sampleRateTextView.setText(String.format("%s%s", mf.getInteger(MediaFormat.KEY_SAMPLE_RATE) / 1000.0, getString(R.string.kHz)));
 
-        if (currentSong.getAlbumArt() != null) {
-            albumArt.setImageBitmap(currentSong.getAlbumArt());
-        } else {
-            albumArt.setImageResource(R.drawable.music_note_48px);
-        }
+        Glide.with(this)
+                .load(currentSong.getAlbumArt())
+                .placeholder(R.drawable.music_note_48px)
+                .into(albumArt);
+
+        //BottomBarFragment.setAlbumArt(currentSong.getAlbumArt());
 
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
@@ -298,5 +301,11 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         return String.format("%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 }

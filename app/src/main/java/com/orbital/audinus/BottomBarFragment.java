@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 public class BottomBarFragment extends Fragment {
     static TextView songName;
     static ImageView playPauseButton;
+    static ImageView albumArt;
     static ProgressBar progressBar;
 
 
@@ -31,6 +32,7 @@ public class BottomBarFragment extends Fragment {
         songName.setSelected(true);
 
         playPauseButton = view.findViewById(R.id.pause_play);
+        albumArt = view.findViewById(R.id.album_art);
 
         progressBar = view.findViewById(R.id.progressBar);
 
@@ -38,4 +40,11 @@ public class BottomBarFragment extends Fragment {
 
         return view;
     }
+
+    /*public static void setAlbumArt(String path) {
+        Glide.with(this)
+                .load(path)
+                .placeholder(R.drawable.music_note_48px)
+                .into(albumArt);
+    }*/
 }
