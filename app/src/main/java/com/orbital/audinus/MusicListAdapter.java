@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,11 +47,10 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                 .into(holder.albumArtRImageView);
 
         holder.menuButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
             PopupMenu popup = new PopupMenu(context, holder.menuButton);
-            //inflating menu from xml resource
+            //inflating menu from xml
                 popup.inflate(R.menu.recycler_menu);
             //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -58,13 +58,18 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.tagEditor:
+                            MyMediaPlayer.getInstance().stop();
+                            Toast.makeText(context, "Playback has stopped to allow editing", Toast.LENGTH_SHORT).show();
 
+                            Intent intent = new Intent(context, TagEditorActivity.class);
+                            intent.putExtra("SONG", songList.get(holder.getAdapterPosition()));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                     }
                     return false;
                 }
             });
-            //displaying the popup
                 popup.show();
         }});
 
