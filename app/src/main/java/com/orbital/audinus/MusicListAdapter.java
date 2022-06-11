@@ -3,12 +3,16 @@ package com.orbital.audinus;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -41,9 +45,35 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                 .placeholder(R.drawable.music_note_48px)
                 .into(holder.albumArtRImageView);
 
+        holder.menuButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+            PopupMenu popup = new PopupMenu(context, holder.menuButton);
+            //inflating menu from xml resource
+                popup.inflate(R.menu.recycler_menu);
+            //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.tagEditor:
+                            AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                            TagEditorFragment tagEditorFragment = new TagEditorFragment();
+                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.tagEditor, tagEditorFragment).addToBackStack(null).commit();
+                            break;
+                    }
+                    return false;
+                }
+            });
+            //displaying the popup
+                popup.show();
+        }});
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //navigate to another activity
 
                 //MyMediaPlayer.getInstance().reset();
@@ -70,11 +100,13 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
         TextView titleTextView;
         ImageView albumArtRImageView;
+        ImageButton menuButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.music_title_text);
             albumArtRImageView = itemView.findViewById(R.id.albumArt);
+            menuButton = itemView.findViewById(R.id.menuButton);
         }
     }
 }
