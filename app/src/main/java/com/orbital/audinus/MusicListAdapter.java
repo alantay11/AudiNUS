@@ -58,9 +58,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.tagEditor:
-                            AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                            TagEditorFragment tagEditorFragment = new TagEditorFragment();
-                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.tagEditor, tagEditorFragment).addToBackStack(null).commit();
+
                             break;
                     }
                     return false;
