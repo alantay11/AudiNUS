@@ -2,6 +2,7 @@ package com.orbital.audinus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -58,7 +58,10 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.tagEditor:
-                            MyMediaPlayer.getInstance().stop();
+                            MediaPlayer mp = MyMediaPlayer.getInstance();
+                            if (mp.isPlaying()) {
+                               mp.stop();
+                            }
                             Toast.makeText(context, "Playback has stopped to allow editing", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(context, TagEditorActivity.class);
