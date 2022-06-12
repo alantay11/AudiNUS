@@ -61,8 +61,8 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                             MediaPlayer mp = MyMediaPlayer.getInstance();
                             if (mp.isPlaying()) {
                                mp.stop();
+                               Toast.makeText(context, "Playback has stopped to allow editing", Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(context, "Playback has stopped to allow editing", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(context, TagEditorActivity.class);
                             intent.putExtra("SONG", songList.get(holder.getAdapterPosition()));
@@ -110,9 +110,9 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
 
         public ViewHolder(View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.music_title_text);
-            albumArtRImageView = itemView.findViewById(R.id.albumArt);
-            menuButton = itemView.findViewById(R.id.menuButton);
+            titleTextView = itemView.findViewById(R.id.song_title_recycler);
+            albumArtRImageView = itemView.findViewById(R.id.album_art_recycler);
+            menuButton = itemView.findViewById(R.id.menu_button_recycler);
         }
     }
 }

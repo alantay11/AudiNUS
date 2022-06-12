@@ -27,14 +27,14 @@ public class BottomBarFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bottom_bar, container, false);
 
-        songName = view.findViewById(R.id.songName);
+        songName = view.findViewById(R.id.song_name_bottom);
         songName.setText(R.string.NoSongBottomBarText);
         songName.setSelected(true);
 
         playPauseButton = view.findViewById(R.id.pause_play);
         albumArt = view.findViewById(R.id.album_art);
 
-        progressBar = view.findViewById(R.id.progressBar);
+        progressBar = view.findViewById(R.id.progress_bar_bottom);
 
 
 

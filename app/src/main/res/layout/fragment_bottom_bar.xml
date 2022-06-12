@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/albumArt"
+        android:id="@+id/album_art_bottom"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:importantForAccessibility="no"
@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/music_note_48px" />
 
     <TextView
-        android:id="@+id/songName"
+        android:id="@+id/song_name_bottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
@@ -30,13 +30,13 @@
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/pause_play"
-        app:layout_constraintLeft_toRightOf="@id/albumArt"
-        app:layout_constraintStart_toEndOf="@id/albumArt"
+        app:layout_constraintLeft_toRightOf="@id/album_art_bottom"
+        app:layout_constraintStart_toEndOf="@id/album_art_bottom"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Music" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:indicatorColor="?colorAccent"

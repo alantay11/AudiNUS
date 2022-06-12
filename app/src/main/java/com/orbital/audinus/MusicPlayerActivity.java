@@ -43,8 +43,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         titleTextView = findViewById(R.id.song_title);
         currentTimeTextView = findViewById(R.id.current_time);
         totalTimeTextView = findViewById(R.id.total_time);
-        bitDepthTextView = findViewById(R.id.bitRate);
-        sampleRateTextView = findViewById(R.id.sampleRate);
+        bitDepthTextView = findViewById(R.id.bit_depth);
+        sampleRateTextView = findViewById(R.id.sample_rate);
         seekBar = findViewById(R.id.seek_bar);
         playPauseButton = findViewById(R.id.pause_play);
         nextButton = findViewById(R.id.next);
