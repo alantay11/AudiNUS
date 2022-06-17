@@ -7,14 +7,17 @@ import android.media.MediaFormat;
 import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
@@ -23,8 +26,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class MusicPlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
-
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link PlayerFragmentV1#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class PlayerFragmentV1 extends Fragment implements MediaPlayer.OnCompletionListener{
 
     TextView titleTextView, currentTimeTextView, totalTimeTextView, bitDepthTextView, sampleRateTextView;
     SeekBar seekBar;
@@ -32,41 +39,38 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     ArrayList<AudioModel> songList;
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
-    //private static final String TAG = "MyActivity";
+
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music_player);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_player_v1, container, false);
+
         mediaPlayer.setOnCompletionListener(this);
 
-        titleTextView = findViewById(R.id.song_title);
-        currentTimeTextView = findViewById(R.id.current_time);
-        totalTimeTextView = findViewById(R.id.total_time);
-        bitDepthTextView = findViewById(R.id.bit_depth);
-        sampleRateTextView = findViewById(R.id.sample_rate);
-        seekBar = findViewById(R.id.seek_bar);
-        playPauseButton = findViewById(R.id.pause_play);
-        nextButton = findViewById(R.id.next);
-        previousButton = findViewById(R.id.previous);
-        shuffleButton = findViewById(R.id.shuffle);
-        repeatButton = findViewById(R.id.repeat);
-        equalizerButton = findViewById(R.id.equalizer);
-        albumArt = findViewById(R.id.album_art);
+        titleTextView = view.findViewById(R.id.song_title1);
+        currentTimeTextView = view.findViewById(R.id.current_time1);
+        totalTimeTextView = view.findViewById(R.id.total_time1);
+        bitDepthTextView = view.findViewById(R.id.bit_depth1);
+        sampleRateTextView = view.findViewById(R.id.sample_rate1);
+        seekBar = view.findViewById(R.id.seek_bar1);
+        playPauseButton = view.findViewById(R.id.pause_play1);
+        nextButton = view.findViewById(R.id.next1);
+        previousButton = view.findViewById(R.id.previous1);
+        shuffleButton = view.findViewById(R.id.shuffle1);
+        repeatButton = view.findViewById(R.id.repeat1);
+        equalizerButton = view.findViewById(R.id.equalizer1);
+        albumArt = view.findViewById(R.id.album_art1);
 
         titleTextView.setSelected(true);
-
-        songList = getIntent().getParcelableArrayListExtra(("LIST"));
+        songList = this.getActivity().getIntent().getParcelableArrayListExtra(("LIST"));
 
         setResources();
-        if (MyMediaPlayer.getPrevIndex() == MyMediaPlayer.getCurrentIndex()) {
-            continueMusic();
-        } else {
-            playMusic();
-        }
 
-        MusicPlayerActivity.this.runOnUiThread(new Runnable() {
+
+        this.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mediaPlayer != null) {
@@ -137,8 +141,9 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 }
             }
         });
-    }
 
+        return view;
+    }
 
     void setResources() {
         currentSong = songList.get(MyMediaPlayer.getCurrentIndex());
@@ -163,13 +168,6 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 .placeholder(R.drawable.music_note_48px)
                 .into(albumArt);
 
-        MainActivity.imageView.setVisibility(View.VISIBLE);
-        Glide.with(this)
-                .load(currentSong.getAlbumArt())
-                .placeholder(R.drawable.music_note_48px)
-                .into(MainActivity.imageView);
-
-
         //BottomBarFragment.setAlbumArt(currentSong.getAlbumArt());
 
         playPauseButton.setOnClickListener(v -> playPause());
@@ -181,10 +179,10 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             try {
                 Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
                 intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MyMediaPlayer.getInstance().getAudioSessionId());
-                intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
+                intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getActivity().getPackageName());
                 intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
                 startActivityForResult(intent, 13);
-                getApplicationContext().startActivity(intent);
+                getActivity().getApplicationContext().startActivity(intent);
             } catch (Exception e) {
                 //Toast.makeText(this, "Your phone doesn't support equalization", Toast.LENGTH_SHORT).show();
             }
@@ -198,7 +196,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         super.onActivityResult(requestCode, resultCode, data);
     }*/
 
-    public void playMusic() {
+    private void playMusic() {
 
         mediaPlayer.reset();
         try {
@@ -222,7 +220,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
-    public void repeatMusic() {
+    private void repeatMusic() {
         mediaPlayer.reset();
         try {
             mediaPlayer.setDataSource(currentSong.getPath());
@@ -235,24 +233,24 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
-    public void continueMusic() {
+    private void continueMusic() {
         seekBar.setProgress(mediaPlayer.getCurrentPosition());
         BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
         seekBar.setMax(mediaPlayer.getDuration());
         BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
     }
 
-    public void playNextSong() {
+    private void playNextSong() {
         if (MyMediaPlayer.getCurrentIndex() != songList.size() - 1) {
             MyMediaPlayer.nextSong();
             setResources();
             playMusic();
         } else {
-            Toast.makeText(this, "You've reached the last song", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getActivity(), "You've reached the last song", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void backButtonAction() {
+    private void backButtonAction() {
         if (MyMediaPlayer.getCurrentIndex() != 0) {
             if (mediaPlayer.getCurrentPosition() >= 5000) {
                 mediaPlayer.seekTo(0);
@@ -265,7 +263,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
-    public void playPause() {
+    private void playPause() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         } else {
@@ -273,19 +271,19 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
-    public void playRandomSong() {
+    private void playRandomSong() {
         Random rand = new Random();
         MyMediaPlayer.setCurrentIndex(rand.nextInt((songList.size() - 1) + 1));
         setResources();
         playMusic();
     }
 
-    public void toggleRepeat() {
+    private void toggleRepeat() {
         MyMediaPlayer.toggleRepeat();
         //Log.d(TAG, "toggling repeat");
     }
 
-    public void toggleShuffle() {
+    private void toggleShuffle() {
         MyMediaPlayer.toggleShuffle();
         //Log.d(TAG, "toggling shuffle");
     }
@@ -310,10 +308,13 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
     }
+    /*
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getContext().getApplicationContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
+*/
+
 }

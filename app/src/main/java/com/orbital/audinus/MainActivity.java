@@ -8,25 +8,40 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private TabLayout Tablayout;
     private FragmentContainerView fragmentContainerView;
+    private SlidingUpPanelLayout slidingLayout;
+    private FragmentContainerView playerSlider;
+    static ImageView imageView;
+    boolean slide = false;
 
 
-    //BottomNavigationView bottomNavigationView;
+
+
+
+//BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -44,6 +59,26 @@ public class MainActivity extends AppCompatActivity {
             Tablayout = findViewById(R.id.views);
             viewPager = findViewById(R.id.viewpager);
             fragmentContainerView = findViewById(R.id.currently_playing_bar);
+
+
+            slidingLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
+            playerSlider = findViewById(R.id.playerSlide);
+            slidingLayout.setPanelSlideListener(onSlideListener());
+            slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            imageView = findViewById(R.id.album_art2);
+            imageView.setVisibility(View.GONE);
+
+            imageView.setOnClickListener(v -> {
+
+                    Intent intent = new Intent(this, MusicPlayerActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    }
+                    this.startActivity(intent);
+
+            });
+
 
             Tablayout.setupWithViewPager(viewPager);
 
@@ -75,5 +110,41 @@ public class MainActivity extends AppCompatActivity {
             intent.setData(uri);
             startActivity(intent);
         }
+    }
+
+    private SlidingUpPanelLayout.PanelSlideListener onSlideListener() {
+        return new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View view, float v) {
+            }
+
+            @Override
+            public void onPanelCollapsed(View view) {
+                slide=false;
+            }
+
+            @Override
+            public void onPanelExpanded(View view) {
+                slide=true;
+            }
+
+            @Override
+            public void onPanelAnchored(View view) {
+            }
+
+            @Override
+            public void onPanelHidden(View view) {
+            }
+        };
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!slide){
+            super.onBackPressed();
+        } else{
+            slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        }
+
     }
 }
