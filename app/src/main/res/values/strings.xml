@@ -11,4 +11,7 @@
     <string name="no_playlists_text">Try creating a playlist?</string>
     <string name="editTags">Edit tags</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="queue">Queue</string>
+    <string name="addToQueue">Add to queue</string>
+
 </resources>

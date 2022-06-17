@@ -69,6 +69,11 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
+                        case R.id.addToQueue:
+                            AudioModel song = songList.get(holder.getAdapterPosition());
+                            fragment3.songList.add(song);
+                            Toast.makeText(context, song.getTitle()+" added to queue", Toast.LENGTH_SHORT).show();
+                            break;
                     }
                     return false;
                 }

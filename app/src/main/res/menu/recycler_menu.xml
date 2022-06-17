@@ -4,5 +4,7 @@
     <item
         android:id="@+id/tagEditor"
         android:title="@string/editTags" />
-
+    <item
+        android:id="@+id/addToQueue"
+        android:title="@string/addToQueue" />
 </menu>

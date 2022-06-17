@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             fragmentAdapter.addFragment(new SongsFragment(), "songs");
             fragmentAdapter.addFragment(new PlaylistsFragment(), "playlist");
-            fragmentAdapter.addFragment(new fragment3(), "favorites");
+            fragmentAdapter.addFragment(new fragment3(), "queue");
             viewPager.setAdapter(fragmentAdapter);
     }
 
