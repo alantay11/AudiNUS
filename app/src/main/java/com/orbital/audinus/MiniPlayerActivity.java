@@ -134,6 +134,12 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
             //playNextSong();
     }
 
+    @Override
+    public void onBackPressed() {
+        mediaPlayer.stop();
+        this.finish();
+    }
+
 
     private void playPause() {
         if (mediaPlayer.isPlaying()) {
