@@ -1,29 +1,24 @@
 package com.orbital.audinus;
 
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import java.io.File;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment3#newInstance} factory method to
+ * Use the {@link QueueFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment3 extends Fragment {
+public class QueueFragment extends Fragment {
 
     private RecyclerView recyclerView;
     static ArrayList<AudioModel> songList = new ArrayList<>();
@@ -38,7 +33,7 @@ public class fragment3 extends Fragment {
                              Bundle savedInstanceState) {
 
 
-            rootView = inflater.inflate(R.layout.fragment_fragment3, container, false);
+            rootView = inflater.inflate(R.layout.fragment_queue, container, false);
 
             recyclerView = rootView.findViewById(R.id.recycler_view);
             TextView noMusicTextView = rootView.findViewById(R.id.no_songs_text);

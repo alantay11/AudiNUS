@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment3">
+    tools:context=".QueueFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:foregroundGravity="center"
-        android:text="@string/no_songs_found"
+        android:text="@string/no_playlists_text"
         android:textAlignment="center"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
