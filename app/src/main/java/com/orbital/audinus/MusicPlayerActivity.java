@@ -1,19 +1,24 @@
 package com.orbital.audinus;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.bumptech.glide.Glide;
 
@@ -31,7 +36,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     ArrayList<AudioModel> songList;
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
-    //private static final String TAG = "MyActivity";
+    private static final String TAG = "MyActivity";
 
 
     @Override
@@ -212,6 +217,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         } catch (IOException e) {
             e.printStackTrace();
         }
+        notificationChannel();
     }
 
     private void repeatMusic() {
@@ -274,12 +280,38 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
     private void toggleRepeat() {
         MyMediaPlayer.toggleRepeat();
-        //Log.d(TAG, "toggling repeat");
     }
 
     private void toggleShuffle() {
         MyMediaPlayer.toggleShuffle();
-        //Log.d(TAG, "toggling shuffle");
+    }
+
+    public void notificationChannel() {
+        Bitmap notifArt = null;
+        try {
+             notifArt = Glide.with(this)
+                    .asBitmap()
+                    .load(currentSong.getAlbumArt())
+                    .placeholder(R.drawable.music_note_48px)
+                    .submit()
+                    .get();
+        } catch (Exception e) {
+            Log.d(TAG, "failed bitmap");
+            e.printStackTrace();
+        }
+
+        Notification notification = new NotificationCompat.Builder(this, NotificationHelper.CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.music_note_48px)
+                .setLargeIcon(notifArt)
+                .setContentTitle(currentSong.getTitle())
+                .addAction(R.drawable.skip_previous_48px, "previous", null)
+                .addAction(R.drawable.play_arrow_48px, "playPause", null)
+                .addAction(R.drawable.skip_next_48px, "next", null)
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle())
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build();
+
+        NotificationManagerCompat.from(this).notify(2, notification);
     }
 
 
