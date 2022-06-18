@@ -3,6 +3,7 @@ package com.orbital.audinus;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,15 +28,20 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private TabLayout Tablayout;
     private FragmentContainerView fragmentContainerView;
-    private SlidingUpPanelLayout slidingLayout;
+    static SlidingUpPanelLayout slidingLayout;
     private FragmentContainerView playerSlider;
-    static ImageView imageView;
-    boolean slide = false;
+    static ImageView imageView, playPauseButton, nextButton, previousButton;
+    static TextView currentTimeTextView, totalTimeTextView;
+    static SeekBar seekBar;
+
+
 
 
 
@@ -59,27 +65,25 @@ public class MainActivity extends AppCompatActivity {
             Tablayout = findViewById(R.id.views);
             viewPager = findViewById(R.id.viewpager);
             fragmentContainerView = findViewById(R.id.currently_playing_bar);
-
-
-            slidingLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
-            playerSlider = findViewById(R.id.playerSlide);
-            slidingLayout.setPanelSlideListener(onSlideListener());
-            slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
             imageView = findViewById(R.id.album_art2);
-            imageView.setVisibility(View.GONE);
-
+            playPauseButton = findViewById(R.id.pause_play2);
+            nextButton = findViewById(R.id.next2);
+            previousButton = findViewById(R.id.previous2);
+            currentTimeTextView = findViewById(R.id.current_time2);
+            totalTimeTextView = findViewById(R.id.total_time2);
+            seekBar = findViewById(R.id.seek_bar2);
             imageView.setOnClickListener(v -> {
-
-                    Intent intent = new Intent(this, MusicPlayerActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    }
-                    this.startActivity(intent);
-
+                Intent intent = new Intent(this, MusicPlayerActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                }
+                startActivity(intent);
             });
 
-
+            slidingLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
+            slidingLayout.setPanelSlideListener(onSlideListener());
+            slidingLayout.setPanelHeight(0);
             Tablayout.setupWithViewPager(viewPager);
 
             FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -120,12 +124,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPanelCollapsed(View view) {
-                slide=false;
             }
 
             @Override
             public void onPanelExpanded(View view) {
-                slide=true;
             }
 
             @Override
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!slide){
+        if (!slidingLayout.isLaidOut()){
             super.onBackPressed();
         } else{
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
