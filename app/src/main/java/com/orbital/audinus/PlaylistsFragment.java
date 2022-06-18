@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +16,11 @@ import androidx.fragment.app.Fragment;
  * create an instance of this fragment.
  */
 public class PlaylistsFragment extends Fragment {
+
+    private RecyclerView recyclerView;
+    //static ArrayList<Playlist> playlists = new ArrayList<>();
+    private LinearLayoutManager layoutManager;
+
 
 
     @Override
@@ -24,10 +31,12 @@ public class PlaylistsFragment extends Fragment {
 
         TextView noPlaylistTextView = rootView.findViewById(R.id.no_playlists_text);
 
-
-        if (true) {
-            noPlaylistTextView.setVisibility(View.VISIBLE);
-        }
+        /*if (playlists.isEmpty()) {
+            */ noPlaylistTextView.setVisibility(View.VISIBLE); /*
+        } else {
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(new MusicListAdapter(playlists, getActivity()));
+        }*/
 
 
 

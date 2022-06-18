@@ -9,7 +9,7 @@
 
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/currentlyPlayingBar"
+        android:id="@+id/currently_playing_bar"
         android:name="com.orbital.audinus.BottomBarFragment"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -46,11 +46,11 @@
             android:text="@string/playlists" />
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/favorites"
+            android:id="@+id/Queue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/favorite_48px"
-            android:text="@string/favorites" />
+            android:text="@string/queue" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -59,7 +59,7 @@
         android:layout_height="0dp"
         android:importantForAccessibility="no"
         app:layout_constraintTop_toBottomOf="@+id/views"
-        app:layout_constraintBottom_toTopOf="@+id/currentlyPlayingBar" >
+        app:layout_constraintBottom_toTopOf="@+id/currently_playing_bar" >
 
     </androidx.viewpager.widget.ViewPager>
 

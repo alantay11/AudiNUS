@@ -1,6 +1,5 @@
 package com.orbital.audinus;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,9 +8,9 @@ public class AudioModel implements Parcelable {
     private final String path;
     private final String title;
     private final String duration;
-    private final Bitmap albumArt;
+    private final String albumArt;
 
-    public AudioModel(String path, String title, String duration, Bitmap albumArt) {
+    public AudioModel(String path, String title, String duration, String albumArt) {
         this.path = path;
         this.title = title;
         this.duration = duration;
@@ -22,7 +21,7 @@ public class AudioModel implements Parcelable {
         path = in.readString();
         title = in.readString();
         duration = in.readString();
-        albumArt = in.readParcelable(Bitmap.class.getClassLoader());
+        albumArt = in.readString();
     }
 
     @Override
@@ -30,7 +29,7 @@ public class AudioModel implements Parcelable {
         dest.writeString(path);
         dest.writeString(title);
         dest.writeString(duration);
-        dest.writeParcelable(albumArt, flags);
+        dest.writeString(albumArt);
     }
 
     @Override
@@ -62,7 +61,7 @@ public class AudioModel implements Parcelable {
         return this.duration;
     }
 
-    public Bitmap getAlbumArt() {
+    public String getAlbumArt() {
         return this.albumArt;
     }
 }

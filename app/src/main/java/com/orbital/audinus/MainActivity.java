@@ -1,8 +1,13 @@
 package com.orbital.audinus;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,47 +32,48 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
 
         if (!checkPermission()) {
             requestPermission();
-            onCreate(savedInstanceState);
+            if (Build.VERSION.SDK_INT < 30) {
+                onCreate(savedInstanceState);
+            }
         }
+            setContentView(R.layout.activity_main);
+            Tablayout = findViewById(R.id.views);
+            viewPager = findViewById(R.id.viewpager);
+            fragmentContainerView = findViewById(R.id.currently_playing_bar);
 
+            Tablayout.setupWithViewPager(viewPager);
 
-        Tablayout = findViewById(R.id.views);
-        viewPager = findViewById(R.id.viewpager);
-        fragmentContainerView = findViewById(R.id.currentlyPlayingBar);
-
-
-
-
-        Tablayout.setupWithViewPager(viewPager);
-
-
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        fragmentAdapter.addFragment(new SongsFragment(), "songs");
-        fragmentAdapter.addFragment(new PlaylistsFragment(), "playlist");
-        fragmentAdapter.addFragment(new fragment3(), "favorites");
-        viewPager.setAdapter(fragmentAdapter);
-
+            FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+            fragmentAdapter.addFragment(new SongsFragment(), "songs");
+            fragmentAdapter.addFragment(new PlaylistsFragment(), "playlist");
+            fragmentAdapter.addFragment(new QueueFragment(), "queue");
+            viewPager.setAdapter(fragmentAdapter);
     }
-
-
 
 
     private boolean checkPermission() {
-        return ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            Toast.makeText(MainActivity.this, "Read permissions are required, please enable in settings", Toast.LENGTH_SHORT).show();
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ) {
+            Toast.makeText(this, "Storage permissions are needed to manage your music", Toast.LENGTH_SHORT).show();
         } else {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+        if (Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()) {
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+            Uri uri = Uri.fromParts("package", this.getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
         }
     }
-
-
 }

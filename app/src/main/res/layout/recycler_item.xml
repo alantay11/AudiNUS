@@ -13,7 +13,7 @@
 
 
     <ImageView
-        android:id="@+id/albumArt"
+        android:id="@+id/album_art_recycler"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:importantForAccessibility="no"
@@ -22,16 +22,33 @@
         app:srcCompat="@drawable/music_note_48px" />
 
     <TextView
-        android:id="@+id/music_title_text"
+        android:id="@+id/song_title_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="28dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:padding="10dp"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/albumArt"
+        app:layout_constraintEnd_toStartOf="@id/menu_button_recycler"
+        app:layout_constraintStart_toEndOf="@id/album_art_recycler"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Music" />
+
+    <ImageButton
+        android:id="@+id/menu_button_recycler"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:background="@null"
+        android:importantForAccessibility="no"
+        android:padding="4dp"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/more_vert_48px"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
