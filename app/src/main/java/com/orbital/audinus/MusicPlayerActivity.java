@@ -1,20 +1,29 @@
 package com.orbital.audinus;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
+import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.media.session.MediaButtonReceiver;
 
 import com.bumptech.glide.Glide;
 
@@ -32,7 +41,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     ArrayList<AudioModel> songList;
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
-    //private static final String TAG = "MyActivity";
+    MediaSession mediaSession;
+    private static final String TAG = "MyActivity";
 
 
     @Override
@@ -272,6 +282,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         } catch (IOException e) {
             e.printStackTrace();
         }
+        notificationChannel();
     }
 
     public void repeatMusic() {
@@ -337,12 +348,79 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
     public void toggleRepeat() {
         MyMediaPlayer.toggleRepeat();
-        //Log.d(TAG, "toggling repeat");
     }
 
     public void toggleShuffle() {
         MyMediaPlayer.toggleShuffle();
-        //Log.d(TAG, "toggling shuffle");
+    }
+
+    public void notificationChannel() {
+        Bitmap notifArt = null;
+        try {
+             notifArt = Glide.with(this)
+                    .asBitmap()
+                    .load(currentSong.getAlbumArt())
+                    .placeholder(R.drawable.music_note_48px)
+                    .submit()
+                    .get();
+        } catch (Exception e) {
+            Log.d(TAG, "failed bitmap");
+            e.printStackTrace();
+        }
+        initMediaSessions();
+
+        Notification notification = new NotificationCompat.Builder(this, NotificationHelper.CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.music_note_48px)
+                .setLargeIcon(notifArt)
+                .setContentTitle(currentSong.getTitle())
+                .addAction(new NotificationCompat.Action(
+                        R.drawable.skip_previous_48px, "prev",
+                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)))
+                .addAction(new NotificationCompat.Action(
+                        R.drawable.pause_48px, "pause",
+                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_PAUSE)))
+                .addAction(new NotificationCompat.Action(
+                        R.drawable.skip_next_48px, "next",
+                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_SKIP_TO_NEXT)))
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                        .setShowActionsInCompactView(0, 1, 2)
+                        .setMediaSession(MediaSessionCompat.Token.fromToken(this.mediaSession.getSessionToken())))
+
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .build();
+
+        NotificationManagerCompat.from(this).notify(2, notification);
+    }
+
+    private void initMediaSessions() {
+
+        mediaSession = new MediaSession(getApplicationContext(), "simple player session");
+
+        mediaSession.setCallback(new MediaSession.Callback(){
+                                 @Override
+                                 public void onPlay() {
+                                     playPause();
+                                     Log.d( "MediaPlayerService", "onPlay");
+                                 }
+
+                                 @Override
+                                 public void onPause() {
+                                     playPause();
+                                     Log.d( "MediaPlayerService", "onPause");
+                                 }
+
+                                 @Override
+                                 public void onSkipToNext() {
+                                     playNextSong();
+                                     Log.d( "MediaPlayerService", "onSkipToNext");}
+
+                                 @Override
+                                 public void onSkipToPrevious() {
+                                     backButtonAction();
+                                     Log.d( "MediaPlayerService", "onSkipToPrevious");
+                                 }
+                             }
+        );
     }
 
 

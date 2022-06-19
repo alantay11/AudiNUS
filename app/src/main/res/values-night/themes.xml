@@ -22,6 +22,20 @@
          <!--  custom style for the transparent activity-->
          <item name="android:windowIsTranslucent">true</item>
          <item name="android:windowBackground">@color/transparent</item>
+
+         <item name="colorPrimary">@color/background_grey</item>
+         <item name="colorPrimaryVariant">@color/purple_700</item>
+         <item name="colorOnPrimary">@color/dark_theme_white</item>
+         <!-- Secondary brand color. -->
+         <item name="colorSecondary">@color/purple_80</item>
+         <item name="colorSecondaryVariant">@color/purple_80</item>
+         <item name="colorOnSecondary">@color/dark_theme_white</item>
+         <!-- Status bar color. -->
+         <item name="android:statusBarColor" >@color/background_grey</item>
+         <!-- Customize your theme here. -->
+         <item name="android:textColorPrimary">@color/dark_theme_white</item>
+         <item name="android:textColorSecondary">@color/dark_theme_white</item>
+         <item name="android:textColorTertiary">@color/dark_theme_white</item>
      </style>
 
 

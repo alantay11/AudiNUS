@@ -56,18 +56,33 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
+                    AudioModel song;
                     switch (item.getItemId()) {
+
                         case R.id.tagEditor:
                             MediaPlayer mp = MyMediaPlayer.getInstance();
                             if (mp.isPlaying()) {
-                               mp.stop();
-                               Toast.makeText(context, "Playback has stopped to allow editing", Toast.LENGTH_SHORT).show();
+                                mp.stop();
+                                Toast.makeText(context, "Playback has stopped to allow editing", Toast.LENGTH_SHORT).show();
                             }
 
                             Intent intent = new Intent(context, TagEditorActivity.class);
                             intent.putExtra("SONG", songList.get(holder.getAdapterPosition()));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
+                            break;
+
+                        case R.id.addToQueue:
+                            song = songList.get(holder.getAdapterPosition());
+                            QueueFragment.songList.add(song);
+                            Toast.makeText(context, song.getTitle()+" added to queue", Toast.LENGTH_SHORT).show();
+                            break;
+
+                        case R.id.removeFromQueue:
+                            song = songList.get(holder.getAdapterPosition());
+                            QueueFragment.songList.remove(song);
+                            Toast.makeText(context, song.getTitle()+" removed from queue", Toast.LENGTH_SHORT).show();
+                            notifyItemRemoved(holder.getAdapterPosition());
                             break;
                     }
                     return false;
@@ -79,8 +94,6 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //navigate to another activity
 
                 //MyMediaPlayer.getInstance().reset();
                 MyMediaPlayer.currentIndex = holder.getAdapterPosition();
