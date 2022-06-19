@@ -84,7 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout="@layout/fragment_bottom_bar" />
 
 
             <ImageView
@@ -118,6 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="122dp"
+                android:importantForAccessibility="no"
                 android:src="@drawable/skip_previous_48px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/pause_play2"
@@ -129,6 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginBottom="122dp"
+                android:importantForAccessibility="no"
                 android:src="@drawable/skip_next_48px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/pause_play2"
@@ -138,7 +141,8 @@
                 android:id="@+id/pause_play2"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginBottom="112dp"
+                android:layout_marginBottom="120dp"
+                android:importantForAccessibility="no"
                 android:src="@drawable/pause_48px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -170,8 +174,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                android:text="Clear View: Click album art for more functions"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                android:importantForAccessibility="no"
+                android:text="@string/slider_hint"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pause_play2" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

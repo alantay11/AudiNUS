@@ -14,5 +14,6 @@
     <string name="queue">Queue</string>
     <string name="addToQueue">Add to queue</string>
     <string name="remove_from_queue">Remove from queue</string>
+    <string name="slider_hint">Tap on album art/music note for more options</string>
 
 </resources>
