@@ -11,6 +11,7 @@ import android.media.audiofx.AudioEffect;
 import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
@@ -50,6 +51,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         setContentView(R.layout.activity_music_player);
         mediaPlayer.setOnCompletionListener(this);
 
+
         titleTextView = findViewById(R.id.song_title);
         currentTimeTextView = findViewById(R.id.current_time);
         totalTimeTextView = findViewById(R.id.total_time);
@@ -81,15 +83,17 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 if (mediaPlayer != null) {
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                    MainActivity.seekBar.setProgress(seekBar.getProgress());
                     currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
-
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
                         BottomBarFragment.playPauseButton.setImageResource(R.drawable.pause_48px);
+                        MainActivity.playPauseButton.setImageResource(R.drawable.pause_48px);
                         MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
                     } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                         BottomBarFragment.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
+                        MainActivity.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                     }
 
                     if (MyMediaPlayer.isShuffle()) {
@@ -136,16 +140,58 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                         playNextSong();
                         seekBar.setProgress(0);
                         BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                        MainActivity.seekBar.setProgress(seekBar.getProgress());
                         MyMediaPlayer.setCurrentTime(0);
                     }
                 } else {
                     mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                     seekBar.setProgress(MyMediaPlayer.getCurrentTime());
                     BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                    MainActivity.seekBar.setProgress(seekBar.getProgress());
                     playPause();
                 }
             }
         });
+
+        MainActivity.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (mediaPlayer != null && fromUser) {
+                    MyMediaPlayer.setCurrentTime(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                if (mediaPlayer.isPlaying()) {
+                    playPause();
+                }
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if (MyMediaPlayer.getCurrentTime() >= mediaPlayer.getDuration()) {
+                    if (MyMediaPlayer.isRepeat()) {
+                        repeatMusic();
+                    } else if (MyMediaPlayer.isShuffle()) {
+                        playRandomSong();
+                    } else {
+                        playNextSong();
+                        seekBar.setProgress(0);
+                        BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                        MainActivity.seekBar.setProgress(seekBar.getProgress());
+                        MyMediaPlayer.setCurrentTime(0);
+                    }
+                } else {
+                    mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
+                    seekBar.setProgress(MyMediaPlayer.getCurrentTime());
+                    BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                    MainActivity.seekBar.setProgress(seekBar.getProgress());
+                    playPause();
+                }
+            }
+        });
+
     }
 
 
@@ -154,6 +200,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
 
         titleTextView.setText(currentSong.getTitle());
         totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
+
 
         MediaExtractor mex = new MediaExtractor();
         try {
@@ -172,11 +219,20 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 .placeholder(R.drawable.music_note_48px)
                 .into(albumArt);
 
+        MainActivity.imageView.setVisibility(View.VISIBLE);
+        Glide.with(this)
+                .load(currentSong.getAlbumArt())
+                .placeholder(R.drawable.music_note_48px)
+                .into(MainActivity.imageView);
+
+
         //BottomBarFragment.setAlbumArt(currentSong.getAlbumArt());
 
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
+        MainActivity.nextButton.setOnClickListener(v -> playNextSong());
         previousButton.setOnClickListener(v -> backButtonAction());
+        MainActivity.previousButton.setOnClickListener(v -> backButtonAction());
         repeatButton.setOnClickListener(v -> toggleRepeat());
         shuffleButton.setOnClickListener(v -> toggleShuffle());
         equalizerButton.setOnClickListener(v -> {
@@ -193,6 +249,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         });
         BottomBarFragment.songName.setText(currentSong.getTitle());
         BottomBarFragment.playPauseButton.setOnClickListener(v -> playPause());
+        MainActivity.playPauseButton.setOnClickListener(v -> playPause());
     }
 
    /* @Override
@@ -200,7 +257,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         super.onActivityResult(requestCode, resultCode, data);
     }*/
 
-    private void playMusic() {
+    public void playMusic() {
 
         mediaPlayer.reset();
         try {
@@ -211,21 +268,24 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());
                 BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                MainActivity.seekBar.setProgress(seekBar.getProgress());
             } else {
                 seekBar.setProgress(0);
                 BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                MainActivity.seekBar.setProgress(seekBar.getProgress());
                 MyMediaPlayer.setPrevIndex(MyMediaPlayer.getCurrentIndex());
             }
 
             seekBar.setMax(mediaPlayer.getDuration());
             BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
+            MainActivity.seekBar.setMax(mediaPlayer.getDuration());
         } catch (IOException e) {
             e.printStackTrace();
         }
         notificationChannel();
     }
 
-    private void repeatMusic() {
+    public void repeatMusic() {
         mediaPlayer.reset();
         try {
             mediaPlayer.setDataSource(currentSong.getPath());
@@ -233,19 +293,22 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.start();
             seekBar.setProgress(0);
             BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+            MainActivity.seekBar.setProgress(seekBar.getProgress());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void continueMusic() {
+    public void continueMusic() {
         seekBar.setProgress(mediaPlayer.getCurrentPosition());
         BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+        MainActivity.seekBar.setProgress(seekBar.getProgress());
         seekBar.setMax(mediaPlayer.getDuration());
         BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
+        MainActivity.seekBar.setMax(mediaPlayer.getDuration());
     }
 
-    private void playNextSong() {
+    public void playNextSong() {
         if (MyMediaPlayer.getCurrentIndex() != songList.size() - 1) {
             MyMediaPlayer.nextSong();
             setResources();
@@ -255,7 +318,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
-    private void backButtonAction() {
+    public void backButtonAction() {
         if (MyMediaPlayer.getCurrentIndex() != 0) {
             if (mediaPlayer.getCurrentPosition() >= 5000) {
                 mediaPlayer.seekTo(0);
@@ -268,7 +331,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
-    private void playPause() {
+    public void playPause() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         } else {
@@ -276,18 +339,18 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
-    private void playRandomSong() {
+    public void playRandomSong() {
         Random rand = new Random();
         MyMediaPlayer.setCurrentIndex(rand.nextInt((songList.size() - 1) + 1));
         setResources();
         playMusic();
     }
 
-    private void toggleRepeat() {
+    public void toggleRepeat() {
         MyMediaPlayer.toggleRepeat();
     }
 
-    private void toggleShuffle() {
+    public void toggleShuffle() {
         MyMediaPlayer.toggleShuffle();
     }
 
@@ -384,6 +447,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        MainActivity.slidingLayout.setPanelHeight(125);
         startActivity(intent);
     }
 }
