@@ -28,7 +28,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout Tablayout;
     private FragmentContainerView fragmentContainerView;
     static SlidingUpPanelLayout slidingLayout;
-    private FragmentContainerView playerSlider;
     static ImageView imageView, playPauseButton, nextButton, previousButton;
     static TextView currentTimeTextView, totalTimeTextView;
     static SeekBar seekBar;
