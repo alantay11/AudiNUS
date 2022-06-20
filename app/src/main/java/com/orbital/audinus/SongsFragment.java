@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -109,7 +110,7 @@ public class SongsFragment extends Fragment {
             return rootView;
     }
 
-    static AudioModel getAudioModel(String name){
-        return songList.stream().filter(x -> x.getTitle() == name).findFirst().get();
+    static AudioModel getAudioModel(String name) {
+        return songList.stream().filter(x -> Objects.equals(x.getTitle(), name)).findFirst().get();
     }
 }

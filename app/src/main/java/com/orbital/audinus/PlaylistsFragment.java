@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,6 +44,7 @@ public class PlaylistsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_playlists, container, false);
 
+
         recyclerView = rootView.findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(rootView.getContext());
 
@@ -61,7 +60,7 @@ public class PlaylistsFragment extends Fragment {
             int index = x.indexOf("!@#");
             String title = x.substring(0,index);
             x = x.substring(index + 3, x.length());
-            while (x.length()>0){
+            while (x.length() > 0) {
                 index = x.indexOf(";;;");
                 String songName = x.substring(0,index);
                 x = x.substring(index + 3, x.length());
@@ -101,7 +100,7 @@ public class PlaylistsFragment extends Fragment {
 */
         try {
             String x = "";
-            for(String y : playlists.keySet()){
+            for(String y : playlists.keySet()) {
                 x = x + y + "!@#";
                 for(AudioModel z : playlists.get(y)){
                     x = x + z.getTitle() + ";;;";
