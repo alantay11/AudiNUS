@@ -30,7 +30,7 @@ import java.util.HashMap;
 public class PlaylistsFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    //static ArrayList<Playlist> playlists = new ArrayList<>();
+    static ArrayList<String> nameList = new ArrayList<>();
     private LinearLayoutManager layoutManager;
 
     private static final String FILE_NAME = "example.txt";
@@ -67,6 +67,7 @@ public class PlaylistsFragment extends Fragment {
                 songTitles.add(SongsFragment.getAudioModel(songName));
             }
             playlists.put(title,songTitles);
+            nameList.add(title);
         }
 
 
@@ -91,6 +92,7 @@ public class PlaylistsFragment extends Fragment {
         String text = mEditText.getText().toString();
         FileOutputStream fos = null;
         playlists.put(text, new ArrayList<>());
+        nameList.add(text);
         /* dont work to update the adapter immediately
         adapter.songList = playlists;
         adapter.playlists.add(text);
@@ -156,5 +158,11 @@ public class PlaylistsFragment extends Fragment {
             }
         }
         return a;
+    }
+
+    @Override
+    public void onDestroy() {
+        save(this.getView());
+        super.onDestroy();
     }
 }

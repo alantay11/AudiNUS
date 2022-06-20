@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/drawable/graphic_eq_48px.xml" value="0.2985" />
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/drawable/menu_48px.xml" value="0.2995" />
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/drawable/pause_48px.xml" value="0.2995" />
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/drawable/searchview.xml" value="0.2985" />
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/activity_main.xml" value="0.18" />
@@ -21,6 +22,7 @@
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/fragment_songs.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/recycler_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/menu/recycler_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/circular_progress_bar.xml" value="0.195" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/circular_shape.xml" value="0.195" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/favorite_48px.xml" value="0.196" />

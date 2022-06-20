@@ -84,6 +84,18 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                             Toast.makeText(context, song.getTitle()+" removed from queue", Toast.LENGTH_SHORT).show();
                             notifyItemRemoved(holder.getAdapterPosition());
                             break;
+
+                        case R.id.addToPlaylist:
+                            if (PlaylistsFragment.playlists.size()==0){
+                                Toast.makeText(context, "There exist no playlist", Toast.LENGTH_SHORT).show();
+                            } else {
+                                //hardcode to test first
+                                ArrayList<AudioModel> x = PlaylistsFragment.playlists.get(PlaylistsFragment.nameList.get(0));
+                                song = songList.get(holder.getAdapterPosition());
+                                x.add(song);
+                                PlaylistsFragment.playlists.put(PlaylistsFragment.nameList.get(0),x);
+                                Toast.makeText(context, song.getTitle()+" added to playlist " + PlaylistsFragment.nameList.get(0), Toast.LENGTH_SHORT).show();
+                            }
                     }
                     return false;
                 }
