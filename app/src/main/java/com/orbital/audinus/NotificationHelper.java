@@ -10,7 +10,6 @@ public class NotificationHelper extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         createNotificationChannels();
     }
 
@@ -19,7 +18,7 @@ public class NotificationHelper extends Application {
                 CHANNEL_1_ID,
                 "Music",
                 NotificationManager.IMPORTANCE_LOW);
-        channel1.setDescription("This is for music");
+        channel1.setDescription("This is to display the currently playing song");
 
         NotificationManager manager = getSystemService(NotificationManager.class);
         manager.createNotificationChannel(channel1);

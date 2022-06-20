@@ -1,18 +1,19 @@
 package com.orbital.audinus;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
 import android.media.session.MediaSession;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,12 +24,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.media.session.MediaButtonReceiver;
 
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +43,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     MediaSession mediaSession;
-    private static final String TAG = "MyActivity";
+    //private static final String TAG = "MyActivity";
 
 
     @Override
@@ -282,7 +283,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         } catch (IOException e) {
             e.printStackTrace();
         }
-        notificationChannel();
+        createNotification();
     }
 
     public void repeatMusic() {
@@ -334,8 +335,10 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     public void playPause() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
+            //NotificationManagerCompat.from(this).cancelAll();
         } else {
             mediaPlayer.start();
+            //createNotification();
         }
     }
 
@@ -354,26 +357,28 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         MyMediaPlayer.toggleShuffle();
     }
 
-    public void notificationChannel() {
-        Bitmap notifArt = null;
+
+
+    private void createNotification() {
+
+        ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), Uri.parse(currentSong.getAlbumArt()));
+        Bitmap art = null;
         try {
-             notifArt = Glide.with(this)
-                    .asBitmap()
-                    .load(currentSong.getAlbumArt())
-                    .placeholder(R.drawable.music_note_48px)
-                    .submit()
-                    .get();
-        } catch (Exception e) {
-            Log.d(TAG, "failed bitmap");
+            art = ImageDecoder.decodeBitmap(source);
+        } catch (IOException e) {
+            //art = BitmapFactory.decodeResource(this.getResources(), R.drawable.music_note_48px);
+            //Log.d(TAG, "failed bitmap");
             e.printStackTrace();
         }
         initMediaSessions();
 
+
         Notification notification = new NotificationCompat.Builder(this, NotificationHelper.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.music_note_48px)
-                .setLargeIcon(notifArt)
+                .setLargeIcon(art)
                 .setContentTitle(currentSong.getTitle())
-                .addAction(new NotificationCompat.Action(
+                .setContentIntent(intentCreator())
+                /*.addAction(new NotificationCompat.Action(
                         R.drawable.skip_previous_48px, "prev",
                         MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)))
                 .addAction(new NotificationCompat.Action(
@@ -381,15 +386,15 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                         MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_PAUSE)))
                 .addAction(new NotificationCompat.Action(
                         R.drawable.skip_next_48px, "next",
-                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_SKIP_TO_NEXT)))
+                        MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_SKIP_TO_NEXT)))*/
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
-                        .setShowActionsInCompactView(0, 1, 2)
+                        //.setShowActionsInCompactView(0, 1, 2)
                         .setMediaSession(MediaSessionCompat.Token.fromToken(this.mediaSession.getSessionToken())))
 
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .build();
 
-        NotificationManagerCompat.from(this).notify(2, notification);
+        NotificationManagerCompat.from(this).notify(0, notification);
     }
 
     private void initMediaSessions() {
@@ -402,7 +407,6 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                                      playPause();
                                      Log.d( "MediaPlayerService", "onPlay");
                                  }
-
                                  @Override
                                  public void onPause() {
                                      playPause();
@@ -412,7 +416,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                                  @Override
                                  public void onSkipToNext() {
                                      playNextSong();
-                                     Log.d( "MediaPlayerService", "onSkipToNext");}
+                                     Log.d( "MediaPlayerService", "onSkipToNext");
+                                 }
 
                                  @Override
                                  public void onSkipToPrevious() {
@@ -421,6 +426,15 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                                  }
                              }
         );
+    }
+
+    private PendingIntent intentCreator() {
+        Intent notificationIntent = new Intent(this, MainActivity.class)
+                .setAction(Intent.ACTION_MAIN)
+                .addCategory(Intent.CATEGORY_LAUNCHER)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        return PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
     }
 
 
@@ -436,10 +450,10 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     }
 
 
-    @SuppressLint("DefaultLocale")
+    //@SuppressLint("DefaultLocale")
     public static String convertToMMSS(String duration){
         long millis = Long.parseLong(duration);
-        return String.format("%02d:%02d",
+        return String.format(Locale.ENGLISH,"%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
     }
