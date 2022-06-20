@@ -38,6 +38,7 @@ public class PlaylistsFragment extends Fragment {
     static HashMap<String, ArrayList<AudioModel>> playlists = new HashMap<>(); //!@#
     private TextView noPlaylistTextView;
     PlayListAdapter adapter;
+    static int position;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -142,7 +143,7 @@ public class PlaylistsFragment extends Fragment {
                 a.add(text);
                 sb.append(text).append("\n");
             }
-            mEditText.setText(sb.toString());//for debugging
+            mEditText.setText(sb.toString());//for debugging, delete to not display anything on the input line
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -158,11 +159,5 @@ public class PlaylistsFragment extends Fragment {
             }
         }
         return a;
-    }
-
-    @Override
-    public void onDestroy() {
-        save(this.getView());
-        super.onDestroy();
     }
 }
