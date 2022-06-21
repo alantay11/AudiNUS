@@ -155,7 +155,7 @@ public class PlaylistsFragment extends Fragment {
                 a.add(text);
                 sb.append(text).append("\n");
             }
-            mEditText.setText(sb.toString());//for debugging, delete to not display anything on the input line
+            //mEditText.setText(sb.toString());//for debugging, delete to not display anything on the input line
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHolder> {
 
     HashMap<String,ArrayList<AudioModel>> songList;
-    private final Context context;
+    final Context context;
     ArrayList<String> playlists;
 
 

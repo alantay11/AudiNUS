@@ -93,6 +93,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                             if (PlaylistsFragment.playlists.size()==0){
                                 Toast.makeText(context, "There exist no playlist", Toast.LENGTH_SHORT).show();
                             } else {
+                                /*
                                 //hardcode to first playlist to test
                                 ArrayList<AudioModel> x = PlaylistsFragment.playlists.get(PlaylistsFragment.nameList.get(0));
                                 song = songList.get(holder.getAdapterPosition());
@@ -120,6 +121,10 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                                 }
 
                                 Toast.makeText(context, song.getTitle()+" added to playlist " + PlaylistsFragment.nameList.get(0), Toast.LENGTH_SHORT).show();
+
+                                 */
+                                MiniPlayListAdapter.song = songList.get(holder.getAdapterPosition());
+                                SongsFragment.dialog.show();
                             }
                     }
                     return false;

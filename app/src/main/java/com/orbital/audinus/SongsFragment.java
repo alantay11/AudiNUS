@@ -1,5 +1,6 @@
 package com.orbital.audinus;
 
+import android.app.Dialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,13 +31,27 @@ public class SongsFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private SearchView searchView;
     View rootView;
-
+    static Dialog dialog;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (rootView == null) {
+
+            dialog = new Dialog(this.getContext());
+            dialog.setContentView(R.layout.playlist_selection);
+            TextView back = dialog.findViewById(R.id.back);
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            layoutManager = new LinearLayoutManager(dialog.getContext());
+            RecyclerView recyclerView2 = dialog.findViewById(R.id.recycler_view);
+            recyclerView2.setLayoutManager(layoutManager);
+            recyclerView2.setAdapter(new MiniPlayListAdapter(PlaylistsFragment.playlists, getActivity(), PlaylistsFragment.nameList));
 
             rootView = inflater.inflate(R.layout.fragment_songs, container, false);
 
