@@ -27,6 +27,7 @@ import java.util.HashMap;
  */
 public class PlaylistsFragment extends Fragment {
 
+
     private RecyclerView recyclerView;
     static ArrayList<String> nameList = new ArrayList<>();
     private LinearLayoutManager layoutManager;
@@ -73,12 +74,24 @@ public class PlaylistsFragment extends Fragment {
 
 
         if (playlists.isEmpty()) {
+            String fav = "Favourites";
+            playlists.put(fav, new ArrayList<>());
+            nameList.add(fav);
+            FileOutputStream fos = null;
+            try {
+                fos = getActivity().openFileOutput(FILE_NAME, getActivity().MODE_PRIVATE);
+                fos.write((fav+"!@#").getBytes());
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        noPlaylistTextView.setVisibility(View.VISIBLE);
-        } else {
+            //noPlaylistTextView.setVisibility(View.VISIBLE);
 
             recyclerView.setLayoutManager(layoutManager);
-            adapter = new PlayListAdapter(playlists, getActivity());
+            adapter = new PlayListAdapter(playlists, getActivity(), nameList);
             recyclerView.setAdapter(adapter);
 
         }
@@ -93,14 +106,16 @@ public class PlaylistsFragment extends Fragment {
         FileOutputStream fos = null;
         playlists.put(text, new ArrayList<>());
         nameList.add(text);
-        /* dont work to update the adapter immediately
-        adapter.songList = playlists;
-        adapter.playlists.add(text);
-        adapter.notifyDataSetChanged();
-*/
+
+        //dont work to update the adapter immediately
+        adapter.notifyItemInserted(nameList.size());
+
+
+
+
         try {
             String x = "";
-            for(String y : playlists.keySet()) {
+            for(String y : nameList) {
                 x = x + y + "!@#";
                 for(AudioModel z : playlists.get(y)){
                     x = x + z.getTitle() + ";;;";

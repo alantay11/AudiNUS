@@ -27,13 +27,14 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
 
     HashMap<String,ArrayList<AudioModel>> songList;
     private final Context context;
-    ArrayList<String> playlists = new ArrayList<>();
+    ArrayList<String> playlists;
 
 
 
-    public PlayListAdapter(HashMap<String, ArrayList<AudioModel>> songList, FragmentActivity context) {
+    public PlayListAdapter(HashMap<String, ArrayList<AudioModel>> songList, FragmentActivity context, ArrayList<String> playlists) {
         this.songList = songList;
         this.context = context;
+        this.playlists= playlists;
     }
 
     @NonNull
@@ -45,7 +46,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(PlayListAdapter.ViewHolder holder, int position) {
-        playlists.addAll(songList.keySet());
         String songData = playlists.get(holder.getAdapterPosition());
         holder.titleTextView.setText(songData);
 
@@ -67,7 +67,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 context.startActivity(intent);
                 */
 
-                PlaylistsFragment.position= position;
+                PlaylistsFragment.position= holder.getAdapterPosition();
                 Intent intent = new Intent(context, InsidePlaylist.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
