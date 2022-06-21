@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,8 +26,7 @@ import java.util.ArrayList;
 public class SongsFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private final ArrayList<AudioModel> songList = new ArrayList<>();
-    private ArrayList<AudioModel> searchList;
+    static final ArrayList<AudioModel> songList = new ArrayList<>();
     private LinearLayoutManager layoutManager;
     private SearchView searchView;
     View rootView;
@@ -108,5 +108,9 @@ public class SongsFragment extends Fragment {
 
         }
             return rootView;
+    }
+
+    static AudioModel getAudioModel(String name) {
+        return songList.stream().filter(x -> Objects.equals(x.getTitle(), name)).findFirst().get();
     }
 }

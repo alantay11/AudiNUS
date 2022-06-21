@@ -18,12 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
 
     private final ArrayList<AudioModel> songList;
     private final Context context;
+    private static final String FILE_NAME = "example.txt";
 
     public MusicListAdapter(ArrayList<AudioModel> songsList, Context context) {
         this.songList = songsList;
@@ -84,6 +88,39 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                             Toast.makeText(context, song.getTitle()+" removed from queue", Toast.LENGTH_SHORT).show();
                             notifyItemRemoved(holder.getAdapterPosition());
                             break;
+
+                        case R.id.addToPlaylist:
+                            if (PlaylistsFragment.playlists.size()==0){
+                                Toast.makeText(context, "There exist no playlist", Toast.LENGTH_SHORT).show();
+                            } else {
+                                //hardcode to first playlist to test
+                                ArrayList<AudioModel> x = PlaylistsFragment.playlists.get(PlaylistsFragment.nameList.get(0));
+                                song = songList.get(holder.getAdapterPosition());
+                                x.add(song);
+                                PlaylistsFragment.playlists.put(PlaylistsFragment.nameList.get(0),x);
+                                PlaylistsFragment.nameList.add(song.getTitle());
+
+                                FileOutputStream fos = null;
+                                String a = "";
+                                for(String y : PlaylistsFragment.playlists.keySet()) {
+                                    a = a + y + "!@#";
+                                    for (AudioModel z : PlaylistsFragment.playlists.get(y)) {
+                                        a = a + z.getTitle() + ";;;";
+                                    }
+                                    a += "\n";
+                                }
+                                try {
+                                    fos = context.openFileOutput(FILE_NAME, context.MODE_PRIVATE);
+                                    fos.write(a.getBytes());
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Toast.makeText(context, song.getTitle()+" added to playlist " + PlaylistsFragment.nameList.get(0), Toast.LENGTH_SHORT).show();
+                            }
                     }
                     return false;
                 }
