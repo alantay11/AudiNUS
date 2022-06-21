@@ -90,11 +90,11 @@ public class PlaylistsFragment extends Fragment {
 
             //noPlaylistTextView.setVisibility(View.VISIBLE);
 
-            recyclerView.setLayoutManager(layoutManager);
-            adapter = new PlayListAdapter(playlists, getActivity(), nameList);
-            recyclerView.setAdapter(adapter);
 
         }
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new PlayListAdapter(playlists, getActivity(), nameList);
+        recyclerView.setAdapter(adapter);
 
 
         return rootView;
@@ -106,8 +106,6 @@ public class PlaylistsFragment extends Fragment {
         FileOutputStream fos = null;
         playlists.put(text, new ArrayList<>());
         nameList.add(text);
-
-        //dont work to update the adapter immediately
         adapter.notifyItemInserted(nameList.size());
 
 
