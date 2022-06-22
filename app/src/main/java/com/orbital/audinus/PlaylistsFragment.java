@@ -1,10 +1,13 @@
 package com.orbital.audinus;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -38,6 +41,7 @@ public class PlaylistsFragment extends Fragment {
     private TextView noPlaylistTextView;
     PlayListAdapter adapter;
     static int position;
+    static Dialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,16 +49,30 @@ public class PlaylistsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_playlists, container, false);
 
+        dialog = new Dialog(this.getContext());
+        dialog.setContentView(R.layout.create_playlist);
+        mEditText = dialog.findViewById(R.id.edit_text);
+        Button saveButton = dialog.findViewById(R.id.button_save);
+        saveButton.setOnClickListener(v -> {
+            save(getView());
+            dialog.dismiss();
+        });
+
+        Button cancelButton = dialog.findViewById(R.id.button_cancel);
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
+
+
+        TextView createPlayList = rootView.findViewById(R.id.createPlaylist);
+        createPlayList.setOnClickListener(v -> dialog.show());
 
         recyclerView = rootView.findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(rootView.getContext());
 
         noPlaylistTextView = rootView.findViewById(R.id.no_playlists_text);
-        mEditText = rootView.findViewById(R.id.edit_text);
-        TextView saveButton = rootView.findViewById(R.id.button_save);
-        saveButton.setOnClickListener(v -> save(this.getView()));
-        TextView loadButton = rootView.findViewById(R.id.button_load);
-        loadButton.setOnClickListener(v -> load(this.getView()));
+
+
+        //TextView loadButton = rootView.findViewById(R.id.button_load);
+        //loadButton.setOnClickListener(v -> load(this.getView()));
         ArrayList<String> a = load(this.getView());
         for (String x : a){
             ArrayList<AudioModel> songTitles = new ArrayList<>();
@@ -172,4 +190,5 @@ public class PlaylistsFragment extends Fragment {
         }
         return a;
     }
+
 }
