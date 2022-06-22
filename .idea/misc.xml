@@ -35,8 +35,10 @@
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/fragment_songs.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/playlist_selection.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/layout/recycler_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/menu/insideplaylist_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/menu/playlist_menu.xml" value="0.365625" />
         <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/menu/recycler_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Jing Yu/StudioProjects/AudiNUS/app/src/main/res/menu/remove_song_playlist.xml" value="0.365625" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/circular_progress_bar.xml" value="0.195" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/circular_shape.xml" value="0.195" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/favorite_48px.xml" value="0.196" />

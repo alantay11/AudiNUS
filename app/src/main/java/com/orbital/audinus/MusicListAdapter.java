@@ -22,9 +22,9 @@ import java.util.ArrayList;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
 
-    private final ArrayList<AudioModel> songList;
-    private final Context context;
-    private static final String FILE_NAME = "example.txt";
+    final ArrayList<AudioModel> songList;
+    final Context context;
+    static final String FILE_NAME = "example.txt";
 
     public MusicListAdapter(ArrayList<AudioModel> songsList, Context context) {
         this.songList = songsList;
