@@ -18,9 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
@@ -85,13 +82,13 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                         case R.id.removeFromQueue:
                             song = songList.get(holder.getAdapterPosition());
                             QueueFragment.songList.remove(song);
-                            Toast.makeText(context, song.getTitle()+" removed from queue", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, song.getTitle() +" removed from queue", Toast.LENGTH_SHORT).show();
                             notifyItemRemoved(holder.getAdapterPosition());
                             break;
 
                         case R.id.addToPlaylist:
-                            if (PlaylistsFragment.playlists.size()==0){
-                                Toast.makeText(context, "There exist no playlist", Toast.LENGTH_SHORT).show();
+                            if (PlaylistsFragment.playlists.size() == 0) {
+                                Toast.makeText(context, "You haven't created any playlists yet", Toast.LENGTH_SHORT).show();
                             } else {
                                 /*
                                 //hardcode to first playlist to test
@@ -136,8 +133,6 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //MyMediaPlayer.getInstance().reset();
                 MyMediaPlayer.currentIndex = holder.getAdapterPosition();
                 Intent intent = new Intent(context, MusicPlayerActivity.class);
                 intent.putParcelableArrayListExtra("LIST", songList);

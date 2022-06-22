@@ -115,7 +115,7 @@ public class PlaylistsFragment extends Fragment {
             String x = "";
             for(String y : nameList) {
                 x = x + y + "!@#";
-                for(AudioModel z : playlists.get(y)){
+                for (AudioModel z : playlists.get(y)) {
                     x = x + z.getTitle() + ";;;";
                 }
                 x+= "\n";
