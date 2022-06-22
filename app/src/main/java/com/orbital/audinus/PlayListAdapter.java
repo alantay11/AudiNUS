@@ -20,6 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,6 +31,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     HashMap<String,ArrayList<AudioModel>> songList;
     final Context context;
     ArrayList<String> playlists;
+    private static final String FILE_NAME = "example.txt";
 
 
 
@@ -71,6 +75,55 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 Intent intent = new Intent(context, InsidePlaylist.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+            }
+        });
+
+        holder.menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(context, holder.menuButton);
+                //inflating menu from xml
+                popup.inflate(R.menu.playlist_menu);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        AudioModel song;
+                        switch (item.getItemId()) {
+                            case R.id.deletePlaylist:
+
+                                String playlistName = PlaylistsFragment.nameList.get(holder.getAdapterPosition());
+                                if(playlistName.equals("Favourites")){
+                                    Toast.makeText(context, "Favourites cannot be deleted", Toast.LENGTH_SHORT).show();
+                                } else {
+                                PlaylistsFragment.playlists.remove(playlistName);
+                                PlaylistsFragment.nameList.remove(playlistName);
+                                notifyItemRemoved(holder.getAdapterPosition());
+                                FileOutputStream fos = null;
+                                try {
+                                    String x = "";
+                                    for (String y : PlaylistsFragment.nameList) {
+                                        x = x + y + "!@#";
+                                        for (AudioModel z : PlaylistsFragment.playlists.get(y)) {
+                                            x = x + z.getTitle() + ";;;";
+                                        }
+                                        x += "\n";
+                                    }
+
+                                    fos = context.openFileOutput(FILE_NAME, context.MODE_PRIVATE);
+                                    fos.write(x.getBytes());
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
             }
         });
 
