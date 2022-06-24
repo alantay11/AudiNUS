@@ -10,4 +10,7 @@
     <item
         android:id="@+id/removeFromQueue"
         android:title="@string/remove_from_queue" />
+    <item
+        android:id="@+id/addToPlaylist"
+        android:title="Add to playlist"/>
     </menu>

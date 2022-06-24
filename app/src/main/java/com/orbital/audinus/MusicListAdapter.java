@@ -22,8 +22,9 @@ import java.util.ArrayList;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
 
-    private final ArrayList<AudioModel> songList;
-    private final Context context;
+    final ArrayList<AudioModel> songList;
+    final Context context;
+    static final String FILE_NAME = "example.txt";
 
     public MusicListAdapter(ArrayList<AudioModel> songsList, Context context) {
         this.songList = songsList;
@@ -81,9 +82,47 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                         case R.id.removeFromQueue:
                             song = songList.get(holder.getAdapterPosition());
                             QueueFragment.songList.remove(song);
-                            Toast.makeText(context, song.getTitle()+" removed from queue", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, song.getTitle() +" removed from queue", Toast.LENGTH_SHORT).show();
                             notifyItemRemoved(holder.getAdapterPosition());
                             break;
+
+                        case R.id.addToPlaylist:
+                            if (PlaylistsFragment.playlists.size() == 0) {
+                                Toast.makeText(context, "You haven't created any playlists yet", Toast.LENGTH_SHORT).show();
+                            } else {
+                                /*
+                                //hardcode to first playlist to test
+                                ArrayList<AudioModel> x = PlaylistsFragment.playlists.get(PlaylistsFragment.nameList.get(0));
+                                song = songList.get(holder.getAdapterPosition());
+                                x.add(song);
+                                PlaylistsFragment.playlists.put(PlaylistsFragment.nameList.get(0),x);
+                                PlaylistsFragment.nameList.add(song.getTitle());
+
+                                FileOutputStream fos = null;
+                                String a = "";
+                                for(String y : PlaylistsFragment.playlists.keySet()) {
+                                    a = a + y + "!@#";
+                                    for (AudioModel z : PlaylistsFragment.playlists.get(y)) {
+                                        a = a + z.getTitle() + ";;;";
+                                    }
+                                    a += "\n";
+                                }
+                                try {
+                                    fos = context.openFileOutput(FILE_NAME, context.MODE_PRIVATE);
+                                    fos.write(a.getBytes());
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                                catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Toast.makeText(context, song.getTitle()+" added to playlist " + PlaylistsFragment.nameList.get(0), Toast.LENGTH_SHORT).show();
+
+                                 */
+                                MiniPlayListAdapter.song = songList.get(holder.getAdapterPosition());
+                                SongsFragment.dialog.show();
+                            }
                     }
                     return false;
                 }
@@ -94,8 +133,6 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //MyMediaPlayer.getInstance().reset();
                 MyMediaPlayer.currentIndex = holder.getAdapterPosition();
                 Intent intent = new Intent(context, MusicPlayerActivity.class);
                 intent.putParcelableArrayListExtra("LIST", songList);
