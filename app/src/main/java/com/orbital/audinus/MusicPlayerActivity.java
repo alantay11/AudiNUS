@@ -83,8 +83,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             public void run() {
                 if (mediaPlayer != null) {
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                    BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
-                    MainActivity.seekBar.setProgress(seekBar.getProgress());
+                    BottomBarFragment.progressBar.setProgress(mediaPlayer.getCurrentPosition());
+                    MainActivity.seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
@@ -140,8 +140,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                     } else {
                         playNextSong();
                         seekBar.setProgress(0);
-                        BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
-                        MainActivity.seekBar.setProgress(seekBar.getProgress());
+                        BottomBarFragment.progressBar.setProgress(0);
+                        MainActivity.seekBar.setProgress(0);
                         MyMediaPlayer.setCurrentTime(0);
                     }
                 } else {

@@ -124,9 +124,9 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> 
                 Intent intent = new Intent(context, MusicPlayerActivity.class);
                 intent.putParcelableArrayListExtra("LIST", songList);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
+                /*if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                }
+                }*/
                 context.startActivity(intent);
 
             }

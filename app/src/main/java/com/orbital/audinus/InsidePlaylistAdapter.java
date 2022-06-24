@@ -75,9 +75,9 @@ public class InsidePlaylistAdapter extends MusicListAdapter {
                 intent.putParcelableArrayListExtra("LIST", songList);
                 //intent.putExtra("PLAYLIST", samePlaylist);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
+                /*if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                }
+                }*/
                 context.startActivity(intent);
 
             }
