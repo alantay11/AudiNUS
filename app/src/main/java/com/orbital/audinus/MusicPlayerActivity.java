@@ -72,7 +72,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         songList = getIntent().getParcelableArrayListExtra(("LIST"));
 
         setResources();
-        if (MyMediaPlayer.getPrevIndex() == MyMediaPlayer.getCurrentIndex()) {
+        if (MyMediaPlayer.isPlayingSameSong())  {
             continueMusic();
         } else {
             playMusic();
@@ -227,8 +227,6 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 .into(MainActivity.imageView);
 
 
-        //BottomBarFragment.setAlbumArt(currentSong.getAlbumArt());
-
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
         MainActivity.nextButton.setOnClickListener(v -> playNextSong());
@@ -329,6 +327,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 setResources();
                 playMusic();
             }
+        } else {
+            Toast.makeText(this, "You've reached the first song", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -450,7 +450,6 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     }
 
 
-    //@SuppressLint("DefaultLocale")
     public static String convertToMMSS(String duration){
         long millis = Long.parseLong(duration);
         return String.format(Locale.ENGLISH,"%02d:%02d",

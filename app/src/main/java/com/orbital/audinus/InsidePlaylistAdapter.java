@@ -2,20 +2,17 @@ package com.orbital.audinus;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Objects;
 
-public class InsidePlaylistAdapter extends MusicListAdapter{
+public class InsidePlaylistAdapter extends MusicListAdapter {
     private final String name;
     public InsidePlaylistAdapter(int position, Context context) {
         super(PlaylistsFragment.playlists.get(PlaylistsFragment.nameList.get(position)), context);
@@ -25,6 +22,7 @@ public class InsidePlaylistAdapter extends MusicListAdapter{
 
     @Override
     public void onBindViewHolder(MusicListAdapter.ViewHolder holder, int position) {
+
         AudioModel songData = songList.get(holder.getAdapterPosition());
         holder.titleTextView.setText(songData.getTitle());
         Glide.with(context)
@@ -36,40 +34,32 @@ public class InsidePlaylistAdapter extends MusicListAdapter{
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(context, holder.menuButton);
-                //inflating menu from xml
                 popup.inflate(R.menu.insideplaylist_menu);
-                //adding click listener
+
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         AudioModel song = songList.get(holder.getAdapterPosition());
-                        switch (item.getItemId()) {
-                            case R.id.removeSong:
-                                    songList.remove(song);
-                                    PlaylistsFragment.playlists.put(name, songList);
-                                    notifyItemRemoved(holder.getAdapterPosition());
+                        if (item.getItemId() == R.id.removeSong) {
+                            songList.remove(song);
+                            PlaylistsFragment.playlists.put(name, songList);
+                            notifyItemRemoved(holder.getAdapterPosition());
 
-                                    FileOutputStream fos = null;
-                                String a = "";
-                                for(String y : PlaylistsFragment.playlists.keySet()) {
-                                    a = a + y + "!@#";
-                                    for (AudioModel z : PlaylistsFragment.playlists.get(y)) {
-                                        a = a + z.getTitle() + ";;;";
-                                    }
-                                    a += "\n";
+                            FileOutputStream fos;
+                            String a = "";
+                            for (String y : PlaylistsFragment.playlists.keySet()) {
+                                a += y + "!@#";
+                                for (AudioModel z : Objects.requireNonNull(PlaylistsFragment.playlists.get(y))) {
+                                    a += z.getTitle() + ";;;";
                                 }
-                                try {
-                                    fos = context.openFileOutput(FILE_NAME, context.MODE_PRIVATE);
-                                    fos.write(a.getBytes());
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                }
-                                catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                                break;
-
+                                a += "\n";
+                            }
+                            try {
+                                fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                                fos.write(a.getBytes());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                         return false;
                     }
@@ -83,6 +73,7 @@ public class InsidePlaylistAdapter extends MusicListAdapter{
                 MyMediaPlayer.currentIndex = holder.getAdapterPosition();
                 Intent intent = new Intent(context, MusicPlayerActivity.class);
                 intent.putParcelableArrayListExtra("LIST", songList);
+                //intent.putExtra("PLAYLIST", samePlaylist);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

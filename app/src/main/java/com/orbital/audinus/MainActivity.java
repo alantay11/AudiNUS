@@ -35,14 +35,7 @@ public class MainActivity extends AppCompatActivity {
     static TextView currentTimeTextView, totalTimeTextView;
     static SeekBar seekBar;
 
-
-
-
-
-
-
 //BottomNavigationView bottomNavigationView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +134,5 @@ public class MainActivity extends AppCompatActivity {
         } else{
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }
-
     }
 }

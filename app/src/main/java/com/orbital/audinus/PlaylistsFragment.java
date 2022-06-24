@@ -1,13 +1,13 @@
 package com.orbital.audinus;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -16,14 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
-/**
+/*
  * A simple {@link Fragment} subclass.
  * Use the {@link PlaylistsFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -65,7 +65,7 @@ public class PlaylistsFragment extends Fragment {
         TextView createPlayList = rootView.findViewById(R.id.createPlaylist);
         createPlayList.setOnClickListener(v -> dialog.show());
 
-        recyclerView = rootView.findViewById(R.id.recycler_view);
+        recyclerView = rootView.findViewById(R.id.inside_recycler_view);
         layoutManager = new LinearLayoutManager(rootView.getContext());
 
         noPlaylistTextView = rootView.findViewById(R.id.no_playlists_text);
@@ -78,11 +78,11 @@ public class PlaylistsFragment extends Fragment {
             ArrayList<AudioModel> songTitles = new ArrayList<>();
             int index = x.indexOf("!@#");
             String title = x.substring(0,index);
-            x = x.substring(index + 3, x.length());
+            x = x.substring(index + 3);
             while (x.length() > 0) {
                 index = x.indexOf(";;;");
                 String songName = x.substring(0,index);
-                x = x.substring(index + 3, x.length());
+                x = x.substring(index + 3);
                 songTitles.add(SongsFragment.getAudioModel(songName));
             }
             playlists.put(title,songTitles);
@@ -95,13 +95,11 @@ public class PlaylistsFragment extends Fragment {
             String fav = "Favourites";
             playlists.put(fav, new ArrayList<>());
             nameList.add(fav);
-            FileOutputStream fos = null;
+            FileOutputStream fos;
             try {
-                fos = getActivity().openFileOutput(FILE_NAME, getActivity().MODE_PRIVATE);
+                fos = requireActivity().openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
                 fos.write((fav+"!@#").getBytes());
                 fos.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -127,24 +125,20 @@ public class PlaylistsFragment extends Fragment {
         adapter.notifyItemInserted(nameList.size());
 
 
-
-
         try {
             String x = "";
             for(String y : nameList) {
-                x = x + y + "!@#";
-                for (AudioModel z : playlists.get(y)) {
-                    x = x + z.getTitle() + ";;;";
+                x += y + "!@#";
+                for (AudioModel z : Objects.requireNonNull(playlists.get(y))) {
+                    x += z.getTitle() + ";;;";
                 }
                 x+= "\n";
                 noPlaylistTextView.setVisibility(View.INVISIBLE);
             }
 
-            fos = getActivity().openFileOutput(FILE_NAME, getActivity().MODE_PRIVATE);
+            fos = requireActivity().openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
             fos.write(x.getBytes());
             mEditText.getText().clear();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -163,7 +157,7 @@ public class PlaylistsFragment extends Fragment {
         ArrayList<String> a = new ArrayList<>();
 
         try {
-            fis = getActivity().openFileInput(FILE_NAME);
+            fis = requireActivity().openFileInput(FILE_NAME);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -175,8 +169,6 @@ public class PlaylistsFragment extends Fragment {
             }
             //mEditText.setText(sb.toString());//for debugging, delete to not display anything on the input line
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -190,5 +182,4 @@ public class PlaylistsFragment extends Fragment {
         }
         return a;
     }
-
 }

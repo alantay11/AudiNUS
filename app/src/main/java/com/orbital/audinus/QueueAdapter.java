@@ -20,13 +20,13 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
+public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> {
 
     final ArrayList<AudioModel> songList;
     final Context context;
     static final String FILE_NAME = "example.txt";
 
-    public MusicListAdapter(ArrayList<AudioModel> songsList, Context context) {
+    public QueueAdapter(ArrayList<AudioModel> songsList, Context context) {
         this.songList = songsList;
         this.context = context;
     }
@@ -39,7 +39,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(MusicListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(QueueAdapter.ViewHolder holder, int position) {
         AudioModel songData = songList.get(holder.getAdapterPosition());
         holder.titleTextView.setText(songData.getTitle());
         Glide.with(context)
@@ -52,7 +52,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
             public void onClick(View v) {
             PopupMenu popup = new PopupMenu(context, holder.menuButton);
             //inflating menu from xml
-                popup.inflate(R.menu.recycler_menu);
+                popup.inflate(R.menu.queue_menu);
             //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -68,10 +68,11 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                         intent.putExtra("SONG", songList.get(holder.getAdapterPosition()));
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
-                    } else if (item.getItemId() == R.id.addToQueue) {
+                    } else if (item.getItemId() == R.id.removeFromQueue) {
                         song = songList.get(holder.getAdapterPosition());
-                        QueueFragment.songList.add(song);
-                        Toast.makeText(context, song.getTitle() + " added to queue", Toast.LENGTH_SHORT).show();
+                        QueueFragment.songList.remove(song);
+                        Toast.makeText(context, song.getTitle() + " removed from queue", Toast.LENGTH_SHORT).show();
+                        notifyItemRemoved(holder.getAdapterPosition());
                     } else if (item.getItemId() == R.id.addToPlaylist) {
                             if (PlaylistsFragment.playlists.size() == 0) {
                                 Toast.makeText(context, "You haven't created any playlists yet", Toast.LENGTH_SHORT).show();

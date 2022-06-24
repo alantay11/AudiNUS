@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/**
+/*
  * A simple {@link Fragment} subclass.
  * Use the {@link SongsFragment#} factory method to
  * create an instance of this fragment.
@@ -51,13 +51,13 @@ public class SongsFragment extends Fragment {
                 }
             });
             layoutManager = new LinearLayoutManager(dialog.getContext());
-            RecyclerView recyclerView2 = dialog.findViewById(R.id.recycler_view);
+            RecyclerView recyclerView2 = dialog.findViewById(R.id.inside_recycler_view);
             recyclerView2.setLayoutManager(layoutManager);
             recyclerView2.setAdapter(new MiniPlayListAdapter(PlaylistsFragment.playlists, getActivity(), PlaylistsFragment.nameList));
 
             rootView = inflater.inflate(R.layout.fragment_songs, container, false);
 
-            recyclerView = rootView.findViewById(R.id.recycler_view);
+            recyclerView = rootView.findViewById(R.id.inside_recycler_view);
             TextView noMusicTextView = rootView.findViewById(R.id.no_songs_text);
             searchView = rootView.findViewById(R.id.search_bar);
 

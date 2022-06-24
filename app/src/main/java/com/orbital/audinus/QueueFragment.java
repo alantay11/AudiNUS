@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-/**
+/*
  * A simple {@link Fragment} subclass.
  * Use the {@link QueueFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -27,15 +27,13 @@ public class QueueFragment extends Fragment {
     View rootView;
 
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
             rootView = inflater.inflate(R.layout.fragment_queue, container, false);
 
-            recyclerView = rootView.findViewById(R.id.recycler_view);
+            recyclerView = rootView.findViewById(R.id.inside_recycler_view);
             TextView noMusicTextView = rootView.findViewById(R.id.no_songs_text);
             searchView = rootView.findViewById(R.id.search_bar);
             searchView.clearFocus();
@@ -53,7 +51,7 @@ public class QueueFragment extends Fragment {
                             filteredList.add(x);
                         }
                     }
-                    recyclerView.setAdapter(new MusicListAdapter(filteredList, getActivity()));
+                    recyclerView.setAdapter(new QueueAdapter(filteredList, getActivity()));
                     return false;
                 }
             });
@@ -61,16 +59,12 @@ public class QueueFragment extends Fragment {
 
             layoutManager = new LinearLayoutManager(rootView.getContext());
 
-
-
             if (songList.isEmpty()) {
                 noMusicTextView.setVisibility(View.VISIBLE);
             } else {
                 recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(new MusicListAdapter(songList, getActivity()));
+                recyclerView.setAdapter(new QueueAdapter(songList, getActivity()));
             }
-
-
 
         return rootView;
     }

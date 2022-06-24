@@ -23,7 +23,7 @@ public class TagEditorActivity extends AppCompatActivity {
     AudioModel song;
     AudioFile songFile;
     Tag tag;
-    String TAG = "TAG";
+    //String TAG = "TAG";
     TextInputLayout title, artist, album, composer, year, discNo, track, comment;
     ImageButton saveButton;
 
@@ -59,7 +59,6 @@ public class TagEditorActivity extends AppCompatActivity {
             Objects.requireNonNull(comment.getEditText()).setText(tag.getFirst(FieldKey.COMMENT));
 
             saveButton.setOnClickListener(v -> save());
-
 
             /*Iterator iterator = tag.getFields();
             while(iterator.hasNext())
