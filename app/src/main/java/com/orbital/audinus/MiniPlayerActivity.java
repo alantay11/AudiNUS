@@ -123,6 +123,7 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
             mediaPlayer.start();
             seekBar.setProgress(0);
             MyMediaPlayer.setPrevIndex(MyMediaPlayer.getCurrentIndex());
+            MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
             seekBar.setMax(mediaPlayer.getDuration());
         } catch (IOException e) {
             e.printStackTrace();
