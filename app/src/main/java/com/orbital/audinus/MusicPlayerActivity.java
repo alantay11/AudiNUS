@@ -202,6 +202,10 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         titleTextView.setText(currentSong.getTitle());
         totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
 
+        if (MyMediaPlayer.isPlayingSameSong()) {
+            MyMediaPlayer.setCurrentSong(currentSong.getAlbumArt());
+        }
+
 
         MediaExtractor mex = new MediaExtractor();
         try {
@@ -272,7 +276,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 seekBar.setProgress(0);
                 BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
                 MainActivity.seekBar.setProgress(seekBar.getProgress());
-                MyMediaPlayer.setPrevIndex(MyMediaPlayer.getCurrentIndex());
+                MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
             }
 
             seekBar.setMax(mediaPlayer.getDuration());

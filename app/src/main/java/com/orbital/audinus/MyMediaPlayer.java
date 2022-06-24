@@ -2,6 +2,8 @@ package com.orbital.audinus;
 
 import android.media.MediaPlayer;
 
+import java.util.Objects;
+
 public class MyMediaPlayer {
 
     public static MediaPlayer instance;
@@ -9,6 +11,11 @@ public class MyMediaPlayer {
     public static int currentIndex = -1;
     public static int prevIndex = -2;
     public static int currentTime = 0;
+
+
+
+    public static String currentSong = "";
+    public static String prevSong = "_";
 
     public static boolean isRepeat;
     public static boolean isShuffle;
@@ -49,7 +56,19 @@ public class MyMediaPlayer {
     }
 
     public static boolean isPlayingSameSong() {
-        return MyMediaPlayer.currentIndex == MyMediaPlayer.prevIndex;
+        return Objects.equals(MyMediaPlayer.currentSong, MyMediaPlayer.prevSong);//MyMediaPlayer.currentIndex == MyMediaPlayer.prevIndex;
+    }
+
+    public static void setCurrentSong(String currentSong) {
+        MyMediaPlayer.currentSong = currentSong;
+    }
+
+    public static String getCurrentSong() {
+        return currentSong;
+    }
+
+    public static void setPrevSong(String prevSong) {
+        MyMediaPlayer.prevSong = prevSong;
     }
 
     public static void setPrevIndex(int prevIndex) {
