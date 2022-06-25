@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
 
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
-        previousButton.setOnClickListener(v -> backButtonAction());
+        previousButton.setOnClickListener(v -> prevButton());
         repeatButton.setOnClickListener(v -> toggleRepeat());
         shuffleButton.setOnClickListener(v -> toggleShuffle());
         equalizerButton.setOnClickListener(v -> {
@@ -387,7 +387,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
                 MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
             }
-
             seekBar.setMax(mediaPlayer.getDuration());
             BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
         } catch (IOException e) {
@@ -416,8 +415,8 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
     }
 
-    public void playNextSong() {
-        if (MyMediaPlayer.getCurrentIndex() != songList.size() - 1) {
+    public void playNextSong() { Log.d("TAG", MyMediaPlayer.getCurrentIndex() + " current " + (songList.size() - 1) +" max");
+        if (MyMediaPlayer.getCurrentIndex() < songList.size() - 1) {
             MyMediaPlayer.nextSong();
             setResources();
             playMusic();
@@ -426,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         }
     }
 
-    public void backButtonAction() {
+    public void prevButton() {Log.d("TAG", MyMediaPlayer.getCurrentIndex() + " current " + (songList.size() - 1) +" max");
         if (MyMediaPlayer.getCurrentIndex() != 0) {
             if (mediaPlayer.getCurrentPosition() >= 5000) {
                 mediaPlayer.seekTo(0);
@@ -530,7 +529,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
 
                                      @Override
                                      public void onSkipToPrevious() {
-                                         backButtonAction();
+                                         prevButton();
                                          Log.d( "MediaPlayerService", "onSkipToPrevious");
                                      }
                                  }
@@ -554,7 +553,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         } else if (MyMediaPlayer.isShuffle()) {
             playRandomSong();
         } else {
-            playNextSong();
+            playNextSong(); //this line causing weird problem
         }
     }
 
