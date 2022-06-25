@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -84,17 +83,17 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 if (mediaPlayer != null) {
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     BottomBarFragment.progressBar.setProgress(mediaPlayer.getCurrentPosition());
-                    MainActivity.seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                    //MainActivity.seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
                         BottomBarFragment.playPauseButton.setImageResource(R.drawable.pause_48px);
-                        MainActivity.playPauseButton.setImageResource(R.drawable.pause_48px);
+                      //  MainActivity.playPauseButton.setImageResource(R.drawable.pause_48px);
                         MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
                     } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                         BottomBarFragment.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
-                        MainActivity.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
+                      //  MainActivity.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                     }
 
                     if (MyMediaPlayer.isShuffle()) {
@@ -141,20 +140,20 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                         playNextSong();
                         seekBar.setProgress(0);
                         BottomBarFragment.progressBar.setProgress(0);
-                        MainActivity.seekBar.setProgress(0);
+                    //    MainActivity.seekBar.setProgress(0);
                         MyMediaPlayer.setCurrentTime(0);
                     }
                 } else {
                     mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                     seekBar.setProgress(MyMediaPlayer.getCurrentTime());
                     BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
-                    MainActivity.seekBar.setProgress(seekBar.getProgress());
+                  //  MainActivity.seekBar.setProgress(seekBar.getProgress());
                     playPause();
                 }
             }
         });
 
-        MainActivity.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+       /* MainActivity.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (mediaPlayer != null && fromUser) {
@@ -191,7 +190,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                     playPause();
                 }
             }
-        });
+        });*/
 
     }
 
@@ -224,18 +223,12 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 .placeholder(R.drawable.music_note_48px)
                 .into(albumArt);
 
-        MainActivity.imageView.setVisibility(View.VISIBLE);
-        Glide.with(this)
-                .load(currentSong.getAlbumArt())
-                .placeholder(R.drawable.music_note_48px)
-                .into(MainActivity.imageView);
-
 
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
-        MainActivity.nextButton.setOnClickListener(v -> playNextSong());
+       // MainActivity.nextButton.setOnClickListener(v -> playNextSong());
         previousButton.setOnClickListener(v -> backButtonAction());
-        MainActivity.previousButton.setOnClickListener(v -> backButtonAction());
+       // MainActivity.previousButton.setOnClickListener(v -> backButtonAction());
         repeatButton.setOnClickListener(v -> toggleRepeat());
         shuffleButton.setOnClickListener(v -> toggleShuffle());
         equalizerButton.setOnClickListener(v -> {
@@ -252,7 +245,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
         });
         BottomBarFragment.songName.setText(currentSong.getTitle());
         BottomBarFragment.playPauseButton.setOnClickListener(v -> playPause());
-        MainActivity.playPauseButton.setOnClickListener(v -> playPause());
+       // MainActivity.playPauseButton.setOnClickListener(v -> playPause());
     }
 
    /* @Override
@@ -271,17 +264,17 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
                 mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());
                 BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
-                MainActivity.seekBar.setProgress(seekBar.getProgress());
+            //    MainActivity.seekBar.setProgress(seekBar.getProgress());
             } else {
                 seekBar.setProgress(0);
                 BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
-                MainActivity.seekBar.setProgress(seekBar.getProgress());
+            //    MainActivity.seekBar.setProgress(seekBar.getProgress());
                 MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
             }
 
             seekBar.setMax(mediaPlayer.getDuration());
             BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
-            MainActivity.seekBar.setMax(mediaPlayer.getDuration());
+         //   MainActivity.seekBar.setMax(mediaPlayer.getDuration());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -296,7 +289,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.start();
             seekBar.setProgress(0);
             BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
-            MainActivity.seekBar.setProgress(seekBar.getProgress());
+        //    MainActivity.seekBar.setProgress(seekBar.getProgress());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -305,10 +298,10 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     public void continueMusic() {
         seekBar.setProgress(mediaPlayer.getCurrentPosition());
         BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
-        MainActivity.seekBar.setProgress(seekBar.getProgress());
+    //    MainActivity.seekBar.setProgress(seekBar.getProgress());
         seekBar.setMax(mediaPlayer.getDuration());
         BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
-        MainActivity.seekBar.setMax(mediaPlayer.getDuration());
+    //    MainActivity.seekBar.setMax(mediaPlayer.getDuration());
     }
 
     public void playNextSong() {
@@ -464,7 +457,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements MediaPlaye
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        MainActivity.slidingLayout.setPanelHeight(125);
+        MainActivity.slidingLayout.setPanelHeight(150);
         startActivity(intent);
     }
 }

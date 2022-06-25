@@ -1,6 +1,7 @@
 package com.orbital.audinus;
 
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import java.util.Objects;
 
@@ -56,6 +57,7 @@ public class MyMediaPlayer {
     }
 
     public static boolean isPlayingSameSong() {
+        Log.d("SD", "current = " + currentSong + " prev = " + prevSong);
         return Objects.equals(MyMediaPlayer.currentSong, MyMediaPlayer.prevSong);//MyMediaPlayer.currentIndex == MyMediaPlayer.prevIndex;
     }
 
