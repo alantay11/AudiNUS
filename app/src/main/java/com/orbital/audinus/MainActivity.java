@@ -69,9 +69,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     MediaSession mediaSession;
     //private static final String TAG = "MyActivity";
-
-
-
 //BottomNavigationView bottomNavigationView;
 
     @Override
@@ -148,10 +145,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
 
 
 
-
-
-
-
         mediaPlayer.setOnCompletionListener(this);
 
 
@@ -170,10 +163,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         albumArt = findViewById(R.id.album_art);
 
         titleTextView.setSelected(true);
-
-
-
-
     }
 
 
@@ -183,14 +172,14 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
     }
 
     private void requestPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
-                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ) {
-            Toast.makeText(this, "Storage permissions are needed to manage your music", Toast.LENGTH_SHORT).show();
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-
-        if (Build.VERSION.SDK_INT >= 30 && !Environment.isExternalStorageManager()) {
+        if (Build.VERSION.SDK_INT < 30) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                Toast.makeText(this, "Storage permissions are needed to manage your music", Toast.LENGTH_SHORT).show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        } else if (!Environment.isExternalStorageManager()) {
             Intent intent = new Intent();
             intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
             Uri uri = Uri.fromParts("package", this.getPackageName(), null);
@@ -241,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
     public void musicPlayer() {
         setResources();
         if (MyMediaPlayer.isPlayingSameSong()) {
-            continueMusic();                Log.d("TAG", "same song");
+            continueMusic();
         } else {
             playMusic();
         }
@@ -316,6 +305,11 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 }
             }
         });
+    }
+
+    public void musicPlayer(ArrayList<AudioModel> filteredList) {
+        songList = filteredList;
+        musicPlayer();
     }
 
     void setResources() {

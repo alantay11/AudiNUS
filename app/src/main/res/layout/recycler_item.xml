@@ -30,7 +30,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingHorizontal="5dp"
-        android:paddingVertical="10dp"
+        android:paddingVertical="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/menu_button_recycler"
         app:layout_constraintStart_toEndOf="@id/album_art_recycler"

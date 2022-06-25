@@ -99,7 +99,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                 }*/
                // context.startActivity(intent);
                 MainActivity ac = (MainActivity) context;
-                ac.musicPlayer();
+                ac.musicPlayer(songList);
                 MainActivity.slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
             }
         });
