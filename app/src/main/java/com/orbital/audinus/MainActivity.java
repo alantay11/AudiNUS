@@ -3,6 +3,7 @@ package com.orbital.audinus;
 import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -566,5 +567,9 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         return String.format(Locale.ENGLISH,"%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
+    }
+
+    public Context getContext() {
+        return this;
     }
 }
