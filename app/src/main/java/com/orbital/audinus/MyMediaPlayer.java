@@ -13,8 +13,6 @@ public class MyMediaPlayer {
     public static int prevIndex = -2;
     public static int currentTime = 0;
 
-
-
     public static String currentSong = "";
     public static String prevSong = "_";
 
@@ -58,7 +56,7 @@ public class MyMediaPlayer {
 
     public static boolean isPlayingSameSong() {
         Log.d("SD", "current = " + currentSong + " prev = " + prevSong);
-        return Objects.equals(MyMediaPlayer.currentSong, MyMediaPlayer.prevSong);//MyMediaPlayer.currentIndex == MyMediaPlayer.prevIndex;
+        return Objects.equals(MyMediaPlayer.currentSong, MyMediaPlayer.prevSong);
     }
 
     public static void setCurrentSong(String currentSong) {

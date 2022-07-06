@@ -229,11 +229,13 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
 
     public void musicPlayer() {
         setResources();
+        Log.d("TAG", "this is the problem part before start?");
         if (MyMediaPlayer.isPlayingSameSong()) {
             continueMusic();
         } else {
             playMusic();
-        }
+        }         Log.d("TAG", "after start?");
+
 
         this.runOnUiThread(new Runnable() {
             @Override
@@ -318,12 +320,14 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         titleTextView.setText(currentSong.getTitle());
         totalTimeTextView.setText(convertToMMSS(currentSong.getDuration()));
 
-        if (MyMediaPlayer.isPlayingSameSong()) {
+        MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
+        MyMediaPlayer.setCurrentSong(currentSong.getPath());
+
+        /*if (MyMediaPlayer.isPlayingSameSong()) {
             MyMediaPlayer.setCurrentSong(currentSong.getPath());
         } else {
             MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
-        }
-
+        }*/
 
         MediaExtractor mex = new MediaExtractor();
         try {
@@ -341,9 +345,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 .load(currentSong.getAlbumArt())
                 .placeholder(R.drawable.music_note_48px)
                 .into(albumArt);
-
-
-
 
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
@@ -377,7 +378,9 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         try {
             mediaPlayer.setDataSource(currentSong.getPath());
             mediaPlayer.prepare();
+            //Log.d("TAG", "this is the problem part before start?");
             mediaPlayer.start();
+            //Log.d("TAG", "after start?");
             if (MyMediaPlayer.isPlayingSameSong()) {
                 mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());

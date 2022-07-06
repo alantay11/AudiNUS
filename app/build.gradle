@@ -7,12 +7,12 @@ android {
 
     defaultConfig {
         applicationId "com.orbital.audinus"
-        minSdk 29
         targetSdk 32
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        minSdk 28
     }
 
     buildTypes {
