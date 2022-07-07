@@ -2,6 +2,7 @@ package com.orbital.audinus;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,10 +35,9 @@ import java.util.Objects;
 public class PlaylistsFragment extends Fragment {
 
 
-    private RecyclerView recyclerView;
+    static RecyclerView recyclerView;
     static ArrayList<String> nameList = new ArrayList<>();
     private LinearLayoutManager layoutManager;
-
     private static final String FILE_NAME = "example.txt";
     EditText mEditText;
     static HashMap<String, ArrayList<AudioModel>> playlists = new HashMap<>(); //!@#
@@ -42,12 +45,15 @@ public class PlaylistsFragment extends Fragment {
     PlayListAdapter adapter;
     static int position;
     static Dialog dialog;
+    static TextView createPlayList;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_playlists, container, false);
+
 
         dialog = new Dialog(this.getContext());
         dialog.setContentView(R.layout.create_playlist);
@@ -62,7 +68,7 @@ public class PlaylistsFragment extends Fragment {
         cancelButton.setOnClickListener(v -> dialog.dismiss());
 
 
-        TextView createPlayList = rootView.findViewById(R.id.createPlaylist);
+        createPlayList = rootView.findViewById(R.id.createPlaylist);
         createPlayList.setOnClickListener(v -> dialog.show());
 
         recyclerView = rootView.findViewById(R.id.inside_recycler_view);
@@ -182,4 +188,5 @@ public class PlaylistsFragment extends Fragment {
         }
         return a;
     }
+
 }

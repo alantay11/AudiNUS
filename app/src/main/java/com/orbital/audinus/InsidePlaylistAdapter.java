@@ -1,5 +1,6 @@
 package com.orbital.audinus;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
@@ -83,10 +84,10 @@ public class InsidePlaylistAdapter extends MusicListAdapter {
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 }*/
                 //context.startActivity(intent);
-                MainActivity ac = (MainActivity) mContext;
+                MainActivity ac = (MainActivity) MainActivity.context;
                 ac.musicPlayer(songList);
                 MainActivity.slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-
+                //((Activity)mContext).finish();
             }
         });
 

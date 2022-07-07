@@ -56,9 +56,11 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
     private TabLayout Tablayout;
     private FragmentContainerView fragmentContainerView;
     static SlidingUpPanelLayout slidingLayout;
+    static Context context;
     //static ImageView imageView, playPauseButton, nextButton, previousButton;
     //static TextView currentTimeTextView, totalTimeTextView;
     //static SeekBar seekBar;
+
 
 
 
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 onCreate(savedInstanceState);
             }
         }
+            context = getContext();
             setContentView(R.layout.activity_main);
             Tablayout = findViewById(R.id.views);
             viewPager = findViewById(R.id.viewpager);
