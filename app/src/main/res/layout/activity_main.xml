@@ -97,11 +97,11 @@
                 tools:text="Song Title" />
 
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/album_art"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_marginTop="32dp"
+                android:layout_width="375dp"
+                android:layout_height="375dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
                 android:importantForAccessibility="no"
                 android:padding="20dp"
@@ -110,7 +110,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/song_title"
-                app:layout_constraintVertical_bias="0.204" />
+                app:layout_constraintVertical_bias="0.204"
+                app:shapeAppearanceOverlay="@style/roundedCornersImageView" />
 
             <SeekBar
                 android:id="@+id/seek_bar"
@@ -119,6 +120,7 @@
                 android:layout_marginStart="45dp"
                 android:layout_marginTop="49dp"
                 android:layout_marginEnd="45dp"
+                android:background="?selectableItemBackgroundBorderless"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/album_art" />
@@ -176,7 +178,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="225dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="122dp"
+                android:layout_marginBottom="140dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:importantForAccessibility="no"
                 android:src="@drawable/skip_previous_48px"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -189,7 +192,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="225dp"
-                android:layout_marginBottom="122dp"
+                android:layout_marginBottom="140dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:importantForAccessibility="no"
                 android:src="@drawable/skip_next_48px"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -201,7 +205,8 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginTop="219dp"
-                android:layout_marginBottom="112dp"
+                android:layout_marginBottom="130dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:importantForAccessibility="no"
                 android:src="@drawable/pause_48px"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -217,7 +222,8 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="182dp"
                 android:layout_marginEnd="26dp"
-                android:layout_marginBottom="128dp"
+                android:layout_marginBottom="146dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/previous"
@@ -232,7 +238,8 @@
                 android:layout_marginStart="26dp"
                 android:layout_marginTop="182dp"
                 android:layout_marginEnd="40dp"
-                android:layout_marginBottom="128dp"
+                android:layout_marginBottom="146dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -244,8 +251,9 @@
                 android:id="@+id/equalizer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="48dp"
                 android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:importantForAccessibility="no"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
