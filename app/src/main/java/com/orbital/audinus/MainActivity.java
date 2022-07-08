@@ -23,6 +23,7 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     MediaSession mediaSession;
+    FragmentContainerView bar;
     //private static final String TAG = "MyActivity";
 //BottomNavigationView bottomNavigationView;
 
@@ -110,6 +112,10 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
             slidingLayout.setPanelSlideListener(onSlideListener());
             slidingLayout.setPanelHeight(0);
             Tablayout.setupWithViewPager(viewPager);
+            //slidingLayout.setDragView(findViewById(R.id.song_title));
+
+        bar = findViewById(R.id.currently_playing_bar);
+
 
 
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -200,10 +206,19 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
 
             @Override
             public void onPanelCollapsed(View view) {
+                slidingLayout.setTouchEnabled(true);
             }
 
             @Override
             public void onPanelExpanded(View view) {
+                slidingLayout.setTouchEnabled(false);
+                bar.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        slidingLayout.setTouchEnabled(true);
+                        return false;
+                    }
+                });
             }
 
             @Override
