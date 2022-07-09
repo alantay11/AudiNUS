@@ -194,7 +194,7 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
             public void onPanelCollapsed(View view) {
                 slidingLayout.setTouchEnabled(true);
                 slidingLayout.setLayoutParams(ogParams);
-
+                slidingLayout.setPanelHeight(150);
             }
 
             @Override
