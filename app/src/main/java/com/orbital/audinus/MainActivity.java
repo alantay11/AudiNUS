@@ -25,6 +25,7 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -69,6 +70,9 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     MediaSession mediaSession;
     FragmentContainerView bar;
+    ViewGroup.LayoutParams ogParams;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +94,7 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         slidingLayout = findViewById(R.id.sliding_layout);
         slidingLayout.setPanelSlideListener(onSlideListener());
         slidingLayout.setPanelHeight(0);
-
-
-
-        slidingLayout.setDragView(findViewById(R.id.song_title));
+        ogParams =  slidingLayout.getLayoutParams();
 
         bar = findViewById(R.id.currently_playing_bar);
 
@@ -135,6 +136,7 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(fragmentAdapter.getTitle(position))
         ).attach();
+
 
 
         mediaPlayer.setOnCompletionListener(this);
@@ -183,15 +185,27 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         return new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View view, float v) {
+                SlidingUpPanelLayout.LayoutParams params = new SlidingUpPanelLayout.LayoutParams(
+                        SlidingUpPanelLayout.LayoutParams.MATCH_PARENT,
+                        SlidingUpPanelLayout.LayoutParams.MATCH_PARENT
+                );
+                slidingLayout.setLayoutParams(params);
             }
 
             @Override
             public void onPanelCollapsed(View view) {
                 slidingLayout.setTouchEnabled(true);
+                slidingLayout.setLayoutParams(ogParams);
+
             }
 
             @Override
             public void onPanelExpanded(View view) {
+                SlidingUpPanelLayout.LayoutParams params = new SlidingUpPanelLayout.LayoutParams(
+                        SlidingUpPanelLayout.LayoutParams.MATCH_PARENT,
+                        SlidingUpPanelLayout.LayoutParams.MATCH_PARENT
+                );
+                slidingLayout.setLayoutParams(params);
                 slidingLayout.setTouchEnabled(false);
                 bar.setOnTouchListener(new View.OnTouchListener() {
                     @Override
