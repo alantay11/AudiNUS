@@ -35,12 +35,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.File;
@@ -51,10 +53,10 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
+public class MainActivity extends FragmentActivity implements MediaPlayer.OnCompletionListener {
 
-    private ViewPager viewPager;
-    private TabLayout Tablayout;
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
     private FragmentContainerView fragmentContainerView;
     static SlidingUpPanelLayout slidingLayout;
     static Context context;
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
     TextView titleTextView, currentTimeTextView, totalTimeTextView, bitDepthTextView, sampleRateTextView;
     SeekBar seekBar;
     ImageView playPauseButton, nextButton, previousButton, albumArt, shuffleButton, repeatButton, equalizerButton;
-    ArrayList<AudioModel> songList = new ArrayList<>();
+    static ArrayList<AudioModel> songList = new ArrayList<>();
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     MediaSession mediaSession;
@@ -81,14 +83,16 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
 
         context = this;
         setContentView(R.layout.activity_main);
-        Tablayout = findViewById(R.id.views);
+        tabLayout = findViewById(R.id.views);
         viewPager = findViewById(R.id.viewpager);
         fragmentContainerView = findViewById(R.id.currently_playing_bar);
 
         slidingLayout = findViewById(R.id.sliding_layout);
         slidingLayout.setPanelSlideListener(onSlideListener());
         slidingLayout.setPanelHeight(0);
-        Tablayout.setupWithViewPager(viewPager);
+
+
+
         slidingLayout.setDragView(findViewById(R.id.song_title));
 
         bar = findViewById(R.id.currently_playing_bar);
@@ -123,11 +127,25 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         SongsFragment frag = new SongsFragment();
         frag.setArguments(bundle);
 
-            FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+            FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
             fragmentAdapter.addFragment(frag, "songs");
             fragmentAdapter.addFragment(new PlaylistsFragment(), "playlist");
             fragmentAdapter.addFragment(new QueueFragment(), "queue");
             viewPager.setAdapter(fragmentAdapter);
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {
+                    switch (position) {
+                        case 0:
+                            tab.setText("songs");
+                            break;
+                        case 1:
+                            tab.setText("playlists");
+                            break;
+                        default:
+                            tab.setText("queue");
+                    }
+                }
+        ).attach();
 
 
         mediaPlayer.setOnCompletionListener(this);
