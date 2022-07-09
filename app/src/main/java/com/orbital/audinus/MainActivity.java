@@ -58,12 +58,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
     private FragmentContainerView fragmentContainerView;
     static SlidingUpPanelLayout slidingLayout;
     static Context context;
-    //static ImageView imageView, playPauseButton, nextButton, previousButton;
-    //static TextView currentTimeTextView, totalTimeTextView;
-    //static SeekBar seekBar;
-
-
-
 
     TextView titleTextView, currentTimeTextView, totalTimeTextView, bitDepthTextView, sampleRateTextView;
     SeekBar seekBar;
@@ -73,13 +67,10 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     MediaSession mediaSession;
     FragmentContainerView bar;
-    //private static final String TAG = "MyActivity";
-//BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         if (!checkPermission()) {
             requestPermission();
@@ -87,32 +78,18 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 onCreate(savedInstanceState);
             }
         }
-            context = getContext();
-            setContentView(R.layout.activity_main);
-            Tablayout = findViewById(R.id.views);
-            viewPager = findViewById(R.id.viewpager);
-            fragmentContainerView = findViewById(R.id.currently_playing_bar);
-            /*albumArt = findViewById(R.id.album_art);
-            playPauseButton = findViewById(R.id.pause_play);
-            nextButton = findViewById(R.id.next);
-            previousButton = findViewById(R.id.previous);
-            currentTimeTextView = findViewById(R.id.current_time);
-            totalTimeTextView = findViewById(R.id.total_time);
-            seekBar = findViewById(R.id.seek_bar);*/
-            /*albumArt.setOnClickListener(v -> {
-                Intent intent = new Intent(this, MusicPlayerActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                }
-                startActivity(intent);
-            });*/
 
-            slidingLayout = findViewById(R.id.sliding_layout);
-            slidingLayout.setPanelSlideListener(onSlideListener());
-            slidingLayout.setPanelHeight(0);
-            Tablayout.setupWithViewPager(viewPager);
-            //slidingLayout.setDragView(findViewById(R.id.song_title));
+        context = this;
+        setContentView(R.layout.activity_main);
+        Tablayout = findViewById(R.id.views);
+        viewPager = findViewById(R.id.viewpager);
+        fragmentContainerView = findViewById(R.id.currently_playing_bar);
+
+        slidingLayout = findViewById(R.id.sliding_layout);
+        slidingLayout.setPanelSlideListener(onSlideListener());
+        slidingLayout.setPanelHeight(0);
+        Tablayout.setupWithViewPager(viewPager);
+        slidingLayout.setDragView(findViewById(R.id.song_title));
 
         bar = findViewById(R.id.currently_playing_bar);
 
@@ -153,10 +130,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
             viewPager.setAdapter(fragmentAdapter);
 
 
-
-
         mediaPlayer.setOnCompletionListener(this);
-
 
         titleTextView = findViewById(R.id.song_title);
         currentTimeTextView = findViewById(R.id.current_time);
@@ -242,18 +216,15 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
     }
 
 
-
-
     ///////////////////////
 
     public void musicPlayer() {
         setResources();
-        Log.d("TAG", "this is the problem part before start?");
         if (MyMediaPlayer.isPlayingSameSong()) {
             continueMusic();
         } else {
             playMusic();
-        }         Log.d("TAG", "after start?");
+        }
 
 
         this.runOnUiThread(new Runnable() {
@@ -496,8 +467,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         try {
             art = ImageDecoder.decodeBitmap(source);
         } catch (IOException e) {
-            //art = BitmapFactory.decodeResource(this.getResources(), R.drawable.music_note_48px);
-            //Log.d(TAG, "failed bitmap");
             e.printStackTrace();
         }
         initMediaSessions();
@@ -575,7 +544,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         } else if (MyMediaPlayer.isShuffle()) {
             playRandomSong();
         } else {
-            playNextSong(); //this line causing weird problem
+            playNextSong();
         }
     }
 
@@ -585,9 +554,5 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         return String.format(Locale.ENGLISH,"%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
-    }
-
-    public Context getContext() {
-        return this;
     }
 }
