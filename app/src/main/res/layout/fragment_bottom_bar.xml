@@ -51,6 +51,7 @@
         android:importantForAccessibility="no"
         android:padding="6dp"
         android:src="@drawable/pause_48px"
+        android:background="?selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

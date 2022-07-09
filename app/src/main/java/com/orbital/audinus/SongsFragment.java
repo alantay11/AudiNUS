@@ -97,6 +97,7 @@ public class SongsFragment extends Fragment {
                 public void onClick(View v) {
                     searchView.setQuery("", false);
                     searchView.clearFocus();
+                    searchView.onActionViewCollapsed();
                     recyclerView.setAdapter(new MusicListAdapter(songList, getActivity()));
                 }
             });

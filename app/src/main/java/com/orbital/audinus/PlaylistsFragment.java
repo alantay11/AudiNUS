@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -45,7 +46,7 @@ public class PlaylistsFragment extends Fragment {
     PlayListAdapter adapter;
     static int position;
     static Dialog dialog;
-    static TextView createPlayList;
+    static ImageButton createPlayList;
 
 
     @Override
