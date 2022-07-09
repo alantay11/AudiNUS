@@ -27,6 +27,8 @@
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/ic_baseline_pause_circle_outline_24.xml" value="0.26" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/ic_baseline_play_circle_outline_24.xml" value="0.26" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/ic_baseline_skip_next_24.xml" value="0.196" />
+        <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/menu_48px.xml" value="0.196" />
+        <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/more_vert_48px.xml" value="0.196" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/pause_48px.xml" value="0.196" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/play_arrow_48px.xml" value="0.196" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/drawable/play_button.xml" value="0.26" />
@@ -46,6 +48,7 @@
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/fragment_fragment3.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/fragment_fragmentbot.xml" value="0.33" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/fragment_playlists.xml" value="0.33" />
+        <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/fragment_queue.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/fragment_songs.xml" value="0.33" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/playlist_selection.xml" value="0.5" />
         <entry key="..\:/Users/Uni/AndroidStudioProjects/AudiNUS/app/src/main/res/layout/recycler_item.xml" value="0.33" />

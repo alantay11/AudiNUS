@@ -58,7 +58,6 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
 
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
-    private FragmentContainerView fragmentContainerView;
     static SlidingUpPanelLayout slidingLayout;
     static Context context;
 
@@ -89,7 +88,6 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         setContentView(R.layout.activity_main);
         tabLayout = findViewById(R.id.views);
         viewPager = findViewById(R.id.viewpager);
-        fragmentContainerView = findViewById(R.id.currently_playing_bar);
 
         slidingLayout = findViewById(R.id.sliding_layout);
         slidingLayout.setPanelSlideListener(onSlideListener());

@@ -111,7 +111,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         return songList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView titleTextView;
         ImageView albumArtRImageView;
