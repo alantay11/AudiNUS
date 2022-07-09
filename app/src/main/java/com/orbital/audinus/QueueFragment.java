@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 /*
  * A simple {@link Fragment} subclass.
@@ -56,6 +58,19 @@ public class QueueFragment extends Fragment {
                 }
             });
 
+        int searchCloseButtonId = searchView.getContext().getResources()
+                .getIdentifier("android:id/search_close_btn", null, null);
+        ImageView closeButton = searchView.findViewById(searchCloseButtonId);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setQuery("", false);
+                searchView.clearFocus();
+                searchView.onActionViewCollapsed();
+                recyclerView.setAdapter(new QueueAdapter(songList, getActivity()));
+            }
+        });
+
 
             layoutManager = new LinearLayoutManager(rootView.getContext());
 
@@ -65,7 +80,6 @@ public class QueueFragment extends Fragment {
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(new QueueAdapter(songList, getActivity()));
             }
-
         return rootView;
     }
 }

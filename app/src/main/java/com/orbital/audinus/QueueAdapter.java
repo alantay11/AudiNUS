@@ -23,12 +23,11 @@ import java.util.ArrayList;
 
 public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> {
 
-    final ArrayList<AudioModel> songList;
+    static ArrayList<AudioModel> songList;
     final Context context;
-    static final String FILE_NAME = "example.txt";
 
     public QueueAdapter(ArrayList<AudioModel> songsList, Context context) {
-        this.songList = songsList;
+        songList = songsList;
         this.context = context;
     }
 
@@ -72,6 +71,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> 
                     } else if (item.getItemId() == R.id.removeFromQueue) {
                         song = songList.get(holder.getAdapterPosition());
                         QueueFragment.songList.remove(song);
+                        songList.remove(song);
                         Toast.makeText(context, song.getTitle() + " removed from queue", Toast.LENGTH_SHORT).show();
                         notifyItemRemoved(holder.getAdapterPosition());
                     } else if (item.getItemId() == R.id.addToPlaylist) {
