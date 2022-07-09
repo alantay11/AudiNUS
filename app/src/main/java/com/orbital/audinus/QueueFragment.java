@@ -82,4 +82,10 @@ public class QueueFragment extends Fragment {
             }
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerView.setAdapter(new QueueAdapter(songList, getActivity()));
+    }
 }
