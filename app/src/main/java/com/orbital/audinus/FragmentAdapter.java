@@ -23,18 +23,7 @@ public class FragmentAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position) {
-            case 0:
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("SONGS", MainActivity.songList);
-                SongsFragment frag = new SongsFragment();
-                frag.setArguments(bundle);
-                return frag;
-            case 1:
-                return new PlaylistsFragment();
-            default:
-                return new QueueFragment();
-        }
+        return fragmentArrayList.get(position);
     }
 
     @Override
@@ -45,5 +34,9 @@ public class FragmentAdapter extends FragmentStateAdapter {
     public void addFragment(Fragment fragment, String title){
         fragmentArrayList.add(fragment);
         fragmentTitle.add(title);
+    }
+
+    public String getTitle(int pos) {
+        return this.fragmentTitle.get(pos);
     }
 }

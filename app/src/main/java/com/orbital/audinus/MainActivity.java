@@ -129,22 +129,11 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
 
             FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
             fragmentAdapter.addFragment(frag, "songs");
-            fragmentAdapter.addFragment(new PlaylistsFragment(), "playlist");
+            fragmentAdapter.addFragment(new PlaylistsFragment(), "playlists");
             fragmentAdapter.addFragment(new QueueFragment(), "queue");
             viewPager.setAdapter(fragmentAdapter);
         new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> {
-                    switch (position) {
-                        case 0:
-                            tab.setText("songs");
-                            break;
-                        case 1:
-                            tab.setText("playlists");
-                            break;
-                        default:
-                            tab.setText("queue");
-                    }
-                }
+                (tab, position) -> tab.setText(fragmentAdapter.getTitle(position))
         ).attach();
 
 
