@@ -22,7 +22,7 @@
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/music_note_48px" />
+        android:src="@drawable/music_note_48px" />
 
     <TextView
         android:id="@+id/song_title_recycler"
@@ -51,7 +51,7 @@
         android:background="?selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/more_vert_48px"
+        android:src="@drawable/more_vert_48px"
         tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
