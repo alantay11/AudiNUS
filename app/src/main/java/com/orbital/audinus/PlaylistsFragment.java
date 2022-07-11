@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -37,11 +38,11 @@ public class PlaylistsFragment extends Fragment {
 
 
     static RecyclerView recyclerView;
-    static ArrayList<String> nameList = new ArrayList<>();
+    static ArrayList<String> nameList;
     private LinearLayoutManager layoutManager;
     private static final String FILE_NAME = "example.txt";
     EditText mEditText;
-    static HashMap<String, ArrayList<AudioModel>> playlists = new HashMap<>(); //!@#
+    static HashMap<String, ArrayList<AudioModel>> playlists;
     private TextView noPlaylistTextView;
     PlayListAdapter adapter;
     static int position;
@@ -54,6 +55,14 @@ public class PlaylistsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_playlists, container, false);
+
+        if (nameList == null) {
+            nameList = new ArrayList<>();
+        }
+
+        if (playlists == null){
+            playlists = new HashMap<>(); //!@#
+        }
 
 
         dialog = new Dialog(this.getContext());
@@ -80,21 +89,8 @@ public class PlaylistsFragment extends Fragment {
 
         //TextView loadButton = rootView.findViewById(R.id.button_load);
         //loadButton.setOnClickListener(v -> load(this.getView()));
+
         ArrayList<String> a = load(this.getView());
-        for (String x : a){
-            ArrayList<AudioModel> songTitles = new ArrayList<>();
-            int index = x.indexOf("!@#");
-            String title = x.substring(0,index);
-            x = x.substring(index + 3);
-            while (x.length() > 0) {
-                index = x.indexOf(";;;");
-                String songName = x.substring(0,index);
-                x = x.substring(index + 3);
-                songTitles.add(SongsFragment.getAudioModel(songName));
-            }
-            playlists.put(title,songTitles);
-            nameList.add(title);
-        }
 
 
 
@@ -127,9 +123,14 @@ public class PlaylistsFragment extends Fragment {
     public void save(View v) {
         String text = mEditText.getText().toString();
         FileOutputStream fos = null;
-        playlists.put(text, new ArrayList<>());
-        nameList.add(text);
-        adapter.notifyItemInserted(nameList.size());
+
+        if (text.length() == 0 || playlists.containsKey((Object) text)){
+            Toast.makeText(getContext(), "Playlist already exist or is invalid", Toast.LENGTH_SHORT).show();
+        } else {
+            playlists.put(text, new ArrayList<>());
+            nameList.add(text);
+            adapter.notifyItemInserted(nameList.size());
+        }
 
 
         try {
