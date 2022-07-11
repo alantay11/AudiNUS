@@ -56,15 +56,6 @@ public class PlaylistsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_playlists, container, false);
 
-        if (nameList == null) {
-            nameList = new ArrayList<>();
-        }
-
-        if (playlists == null){
-            playlists = new HashMap<>(); //!@#
-        }
-
-
         dialog = new Dialog(this.getContext());
         dialog.setContentView(R.layout.create_playlist);
         mEditText = dialog.findViewById(R.id.edit_text);
@@ -91,7 +82,6 @@ public class PlaylistsFragment extends Fragment {
         //loadButton.setOnClickListener(v -> load(this.getView()));
 
         ArrayList<String> a = load(this.getView());
-
 
 
         if (playlists.isEmpty()) {

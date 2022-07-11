@@ -49,6 +49,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -95,6 +96,11 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         ogParams =  slidingLayout.getLayoutParams();
 
         bar = findViewById(R.id.currently_playing_bar);
+
+
+
+        PlaylistsFragment.nameList = new ArrayList<>();
+        PlaylistsFragment.playlists = new HashMap<>(); //!@#
 
 
 
