@@ -48,6 +48,7 @@ public class PlaylistsFragment extends Fragment {
     static int position;
     static Dialog dialog;
     static ImageButton createPlayList;
+    static boolean read;
 
 
     @Override
@@ -82,6 +83,24 @@ public class PlaylistsFragment extends Fragment {
         //loadButton.setOnClickListener(v -> load(this.getView()));
 
         ArrayList<String> a = load(this.getView());
+
+        if (read != true){
+            read = true;
+            for (String x : a){
+                ArrayList<AudioModel> songTitles = new ArrayList<>();
+                int index = x.indexOf("!@#");
+                String title = x.substring(0,index);
+                x = x.substring(index + 3);
+                while (x.length() > 0) {
+                    index = x.indexOf(";;;");
+                    String songName = x.substring(0,index);
+                    x = x.substring(index + 3);
+                    songTitles.add(SongsFragment.getAudioModel(songName));
+                }
+                playlists.put(title,songTitles);
+                nameList.add(title);
+            }
+        }
 
 
         if (playlists.isEmpty()) {
