@@ -65,8 +65,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="60dp"
                 android:importantForAccessibility="no"
-                app:layout_constraintTop_toTopOf="parent"
-                ></androidx.viewpager2.widget.ViewPager2>
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- SLIDING LAYOUT -->
@@ -84,9 +83,9 @@
                 android:id="@+id/song_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="8dp"
                 android:ellipsize="marquee"
                 android:padding="20dp"
                 android:singleLine="true"
@@ -111,15 +110,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/song_title"
                 app:layout_constraintVertical_bias="0.204"
-                app:shapeAppearanceOverlay="@style/roundedCornersImageView" />
+                app:shapeAppearanceOverlay="@style/mainAlbumArtTheme" />
 
             <SeekBar
                 android:id="@+id/seek_bar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="45dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="49dp"
-                android:layout_marginEnd="45dp"
+                android:layout_marginEnd="40dp"
                 android:background="?selectableItemBackgroundBorderless"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -251,22 +250,64 @@
                 android:id="@+id/equalizer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="572dp"
+                android:layout_marginEnd="180dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:importantForAccessibility="no"
+                android:src="@drawable/graphic_eq_48px"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/graphic_eq_48px" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/currently_playing_bar"
-                android:name="com.orbital.audinus.BottomBarFragment"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/album_art_bottom"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:layout="@layout/fragment_bottom_bar" />
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/miniAlbumArtTheme"/>
+
+            <TextView
+                android:id="@+id/song_name_bottom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:singleLine="true"
+                app:layout_constraintEnd_toStartOf="@id/progress_bar_bottom"
+                app:layout_constraintStart_toEndOf="@+id/album_art_bottom"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Music" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_bar_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                app:indicatorColor="?colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:trackColor="?colorPrimary" />
+
+            <ImageView
+                android:id="@+id/pause_play_bottom"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:importantForAccessibility="no"
+                android:padding="6dp"
+                android:src="@drawable/pause_48px"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -276,5 +317,7 @@
         android:id="@+id/layer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="sliding_layout" />
+        app:constraint_referenced_ids="sliding_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

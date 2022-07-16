@@ -15,14 +15,15 @@
     android:clickable="true">
 
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/album_art_recycler"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/music_note_48px" />
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/miniAlbumArtTheme" />
 
     <TextView
         android:id="@+id/song_title_recycler"

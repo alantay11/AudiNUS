@@ -50,10 +50,6 @@
             android:name=".TagEditorActivity"
             android:exported="false" />
         <activity
-            android:name=".MusicPlayerActivity"
-            android:configChanges="orientation|screenSize|keyboard"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

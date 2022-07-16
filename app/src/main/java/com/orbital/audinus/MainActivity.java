@@ -27,6 +27,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,9 +63,10 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
     static SlidingUpPanelLayout slidingLayout;
     static Context context;
 
-    TextView titleTextView, currentTimeTextView, totalTimeTextView, bitDepthTextView, sampleRateTextView;
+    TextView titleTextView, currentTimeTextView, totalTimeTextView, bitDepthTextView, sampleRateTextView, songNameBottom;
     SeekBar seekBar;
-    ImageView playPauseButton, nextButton, previousButton, albumArt, shuffleButton, repeatButton, equalizerButton;
+    ImageView playPauseButton, nextButton, previousButton, albumArt, shuffleButton, repeatButton, equalizerButton, playPauseButtonBottom, albumArtBottom;
+    ProgressBar progressBarBottom;
     static ArrayList<AudioModel> songList = new ArrayList<>();
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
@@ -94,8 +96,6 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         slidingLayout.setPanelSlideListener(onSlideListener());
         slidingLayout.setPanelHeight(0);
         ogParams =  slidingLayout.getLayoutParams();
-
-        bar = findViewById(R.id.currently_playing_bar);
 
 
 
@@ -160,6 +160,14 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         albumArt = findViewById(R.id.album_art);
 
         titleTextView.setSelected(true);
+
+        songNameBottom = findViewById(R.id.song_name_bottom);
+        songNameBottom.setText(R.string.NoSongBottomBarText);
+        songNameBottom.setSelected(true);
+
+        playPauseButtonBottom = findViewById(R.id.pause_play_bottom);
+        albumArtBottom = findViewById(R.id.album_art_bottom);
+        progressBarBottom = findViewById(R.id.progress_bar_bottom);
     }
 
 
@@ -201,23 +209,35 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
                 slidingLayout.setTouchEnabled(true);
                 slidingLayout.setLayoutParams(ogParams);
                 slidingLayout.setPanelHeight(150);
+
+                titleTextView.setVisibility(View.INVISIBLE);
+                albumArtBottom.setVisibility(View.VISIBLE);
+                songNameBottom.setVisibility(View.VISIBLE);
+                playPauseButtonBottom.setVisibility(View.VISIBLE);
+                progressBarBottom.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPanelExpanded(View view) {
+                titleTextView.setVisibility(View.VISIBLE);
+                albumArtBottom.setVisibility(View.INVISIBLE);
+                songNameBottom.setVisibility(View.INVISIBLE);
+                playPauseButtonBottom.setVisibility(View.INVISIBLE);
+                progressBarBottom.setVisibility(View.INVISIBLE);
+
                 SlidingUpPanelLayout.LayoutParams params = new SlidingUpPanelLayout.LayoutParams(
                         SlidingUpPanelLayout.LayoutParams.MATCH_PARENT,
                         SlidingUpPanelLayout.LayoutParams.MATCH_PARENT
                 );
                 slidingLayout.setLayoutParams(params);
-                slidingLayout.setTouchEnabled(false);
-                bar.setOnTouchListener(new View.OnTouchListener() {
+                slidingLayout.setTouchEnabled(true);
+                /*bar.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         slidingLayout.setTouchEnabled(true);
                         return false;
                     }
-                });
+                });*/
             }
 
             @Override
@@ -257,15 +277,18 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
             public void run() {
                 if (mediaPlayer != null) {
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                    BottomBarFragment.progressBar.setProgress(mediaPlayer.getCurrentPosition());
+                    //BottomBarFragment.progressBar.setProgress(mediaPlayer.getCurrentPosition());
+                    progressBarBottom.setProgress(mediaPlayer.getCurrentPosition());
                     currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
-                        BottomBarFragment.playPauseButton.setImageResource(R.drawable.pause_48px);
+                        //BottomBarFragment.playPauseButton.setImageResource(R.drawable.pause_48px);
+                        playPauseButtonBottom.setImageResource(R.drawable.pause_48px);
                         MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
                     } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
-                        BottomBarFragment.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
+                        //BottomBarFragment.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
+                        playPauseButtonBottom.setImageResource(R.drawable.play_arrow_48px);
                     }
 
                     if (MyMediaPlayer.isShuffle()) {
@@ -311,13 +334,15 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
                     } else {
                         playNextSong();
                         seekBar.setProgress(0);
-                        BottomBarFragment.progressBar.setProgress(0);
+                        //BottomBarFragment.progressBar.setProgress(0);
+                        progressBarBottom.setProgress(0);
                         MyMediaPlayer.setCurrentTime(0);
                     }
                 } else {
                     mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                     seekBar.setProgress(MyMediaPlayer.getCurrentTime());
-                    BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                    //BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                    progressBarBottom.setProgress(seekBar.getProgress());
                     playPause();
                 }
             }
@@ -338,12 +363,6 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
         MyMediaPlayer.setCurrentSong(currentSong.getPath());
 
-        /*if (MyMediaPlayer.isPlayingSameSong()) {
-            MyMediaPlayer.setCurrentSong(currentSong.getPath());
-        } else {
-            MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
-        }*/
-
         MediaExtractor mex = new MediaExtractor();
         try {
             mex.setDataSource(currentSong.getPath());
@@ -360,6 +379,11 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
                 .load(currentSong.getAlbumArt())
                 .placeholder(R.drawable.music_note_48px)
                 .into(albumArt);
+
+        Glide.with(this)
+                .load(currentSong.getAlbumArt())
+                .placeholder(R.drawable.music_note_48px)
+                .into(albumArtBottom);
 
         playPauseButton.setOnClickListener(v -> playPause());
         nextButton.setOnClickListener(v -> playNextSong());
@@ -378,8 +402,24 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
                 //Toast.makeText(this, "Your phone doesn't support equalization", Toast.LENGTH_SHORT).show();
             }
         });
-        BottomBarFragment.songName.setText(currentSong.getTitle());
-        BottomBarFragment.playPauseButton.setOnClickListener(v -> playPause());
+
+        albumArt.setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL);
+                intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MyMediaPlayer.getInstance().getAudioSessionId());
+                intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
+                intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
+                startActivityForResult(intent, 13);
+                getApplicationContext().startActivity(intent);
+            } catch (Exception e) {
+                //Toast.makeText(this, "Your phone doesn't support equalization", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //BottomBarFragment.songName.setText(currentSong.getTitle());
+        //BottomBarFragment.playPauseButton.setOnClickListener(v -> playPause());
+        songNameBottom.setText(currentSong.getTitle());
+        playPauseButton.setOnClickListener(v -> playPause());
+        playPauseButtonBottom.setOnClickListener(v -> playPause());
     }
 
    /* @Override
@@ -399,14 +439,17 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
             if (MyMediaPlayer.isPlayingSameSong()) {
                 mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                //BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                progressBarBottom.setProgress(seekBar.getProgress());
             } else {
                 seekBar.setProgress(0);
-                BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                //BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                progressBarBottom.setProgress(seekBar.getProgress());
                 MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
             }
             seekBar.setMax(mediaPlayer.getDuration());
-            BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
+            //BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
+            progressBarBottom.setMax(mediaPlayer.getDuration());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -420,7 +463,8 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
             mediaPlayer.prepare();
             mediaPlayer.start();
             seekBar.setProgress(0);
-            BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+            //BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+            progressBarBottom.setProgress(seekBar.getProgress());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -428,9 +472,11 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
 
     public void continueMusic() {
         seekBar.setProgress(mediaPlayer.getCurrentPosition());
-        BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+        //BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+        progressBarBottom.setProgress(seekBar.getProgress());
         seekBar.setMax(mediaPlayer.getDuration());
-        BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
+        //BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
+        progressBarBottom.setMax(mediaPlayer.getDuration());
     }
 
     public void playNextSong() { Log.d("TAG", MyMediaPlayer.getCurrentIndex() + " current " + (songList.size() - 1) +" max");
