@@ -73,7 +73,7 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
     MediaSession mediaSession;
     FragmentContainerView bar;
     ViewGroup.LayoutParams ogParams;
-
+    private boolean dragging;
 
 
     @Override
@@ -276,18 +276,17 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
             @Override
             public void run() {
                 if (mediaPlayer != null) {
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                    //BottomBarFragment.progressBar.setProgress(mediaPlayer.getCurrentPosition());
+                    if (!dragging) {
+                        seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                    }
                     progressBarBottom.setProgress(mediaPlayer.getCurrentPosition());
                     currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
-                        //BottomBarFragment.playPauseButton.setImageResource(R.drawable.pause_48px);
                         playPauseButtonBottom.setImageResource(R.drawable.pause_48px);
-                        MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
+                        //MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
                     } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
-                        //BottomBarFragment.playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                         playPauseButtonBottom.setImageResource(R.drawable.play_arrow_48px);
                     }
 
@@ -312,21 +311,20 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (mediaPlayer != null && fromUser) {
+                /*if (mediaPlayer != null && fromUser) {
                     MyMediaPlayer.setCurrentTime(progress);
-                }
+                }*/
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                if (mediaPlayer.isPlaying()) {
-                    playPause();
-                }
+                dragging = true;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if (MyMediaPlayer.getCurrentTime() >= mediaPlayer.getDuration()) {
+                dragging = false;
+                if (seekBar.getProgress() == seekBar.getMax()) {
                     if (MyMediaPlayer.isRepeat()) {
                         repeatMusic();
                     } else if (MyMediaPlayer.isShuffle()) {
@@ -334,17 +332,14 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
                     } else {
                         playNextSong();
                         seekBar.setProgress(0);
-                        //BottomBarFragment.progressBar.setProgress(0);
                         progressBarBottom.setProgress(0);
-                        MyMediaPlayer.setCurrentTime(0);
+                        //MyMediaPlayer.setCurrentTime(0);
                     }
                 } else {
-                    mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
-                    seekBar.setProgress(MyMediaPlayer.getCurrentTime());
-                    //BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
+                    mediaPlayer.seekTo(seekBar.getProgress());
                     progressBarBottom.setProgress(seekBar.getProgress());
-                    playPause();
                 }
+
             }
         });
     }
@@ -415,8 +410,6 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
                 //Toast.makeText(this, "Your phone doesn't support equalization", Toast.LENGTH_SHORT).show();
             }
         });
-        //BottomBarFragment.songName.setText(currentSong.getTitle());
-        //BottomBarFragment.playPauseButton.setOnClickListener(v -> playPause());
         songNameBottom.setText(currentSong.getTitle());
         playPauseButton.setOnClickListener(v -> playPause());
         playPauseButtonBottom.setOnClickListener(v -> playPause());
@@ -429,29 +422,26 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
 
     public void playMusic() {
 
-        mediaPlayer.reset();
-        try {
-            mediaPlayer.setDataSource(currentSong.getPath());
-            mediaPlayer.prepare();
-            //Log.d("TAG", "this is the problem part before start?");
-            mediaPlayer.start();
-            //Log.d("TAG", "after start?");
-            if (MyMediaPlayer.isPlayingSameSong()) {
-                mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
-                seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                //BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
-                progressBarBottom.setProgress(seekBar.getProgress());
-            } else {
+        if (MyMediaPlayer.isPlayingSameSong()) {
+            seekBar.setProgress(mediaPlayer.getCurrentPosition());
+            progressBarBottom.setProgress(seekBar.getProgress());
+        } else {
+
+            mediaPlayer.reset();
+            try {
+                mediaPlayer.setDataSource(currentSong.getPath());
+                mediaPlayer.prepare();
+                //Log.d("TAG", "this is the problem part before start?");
+                mediaPlayer.start();
+                //Log.d("TAG", "after start?");
                 seekBar.setProgress(0);
-                //BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
                 progressBarBottom.setProgress(seekBar.getProgress());
                 MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
+                seekBar.setMax(mediaPlayer.getDuration());
+                progressBarBottom.setMax(mediaPlayer.getDuration());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            seekBar.setMax(mediaPlayer.getDuration());
-            //BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
-            progressBarBottom.setMax(mediaPlayer.getDuration());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         createNotification();
     }
@@ -463,7 +453,6 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
             mediaPlayer.prepare();
             mediaPlayer.start();
             seekBar.setProgress(0);
-            //BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
             progressBarBottom.setProgress(seekBar.getProgress());
         } catch (IOException e) {
             e.printStackTrace();
@@ -472,10 +461,8 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
 
     public void continueMusic() {
         seekBar.setProgress(mediaPlayer.getCurrentPosition());
-        //BottomBarFragment.progressBar.setProgress(seekBar.getProgress());
         progressBarBottom.setProgress(seekBar.getProgress());
         seekBar.setMax(mediaPlayer.getDuration());
-        //BottomBarFragment.progressBar.setMax(mediaPlayer.getDuration());
         progressBarBottom.setMax(mediaPlayer.getDuration());
     }
 

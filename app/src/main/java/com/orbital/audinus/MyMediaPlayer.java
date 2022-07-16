@@ -11,7 +11,6 @@ public class MyMediaPlayer {
 
     public static int currentIndex = -1;
     public static int prevIndex = -2;
-    public static int currentTime = 0;
 
     public static String currentSong = "";
     public static String prevSong = "_";
@@ -40,10 +39,6 @@ public class MyMediaPlayer {
 
     public static int getPrevIndex() {
         return MyMediaPlayer.prevIndex;
-    }
-
-    public static int getCurrentTime() {
-        return MyMediaPlayer.currentTime;
     }
 
     public static boolean isRepeat() {
@@ -77,10 +72,6 @@ public class MyMediaPlayer {
 
     public static void setCurrentIndex(int currentIndex) {
         MyMediaPlayer.currentIndex = currentIndex;
-    }
-
-    public static void setCurrentTime(int currentPosition) {
-        MyMediaPlayer.currentTime = currentPosition;
     }
 
     public static void toggleRepeat() {
