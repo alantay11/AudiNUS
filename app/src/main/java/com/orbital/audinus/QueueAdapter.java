@@ -17,17 +17,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
 public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> {
 
-    final ArrayList<AudioModel> songList;
+    static ArrayList<AudioModel> songList;
     final Context context;
-    static final String FILE_NAME = "example.txt";
 
     public QueueAdapter(ArrayList<AudioModel> songsList, Context context) {
-        this.songList = songsList;
+        songList = songsList;
         this.context = context;
     }
 
@@ -71,6 +71,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> 
                     } else if (item.getItemId() == R.id.removeFromQueue) {
                         song = songList.get(holder.getAdapterPosition());
                         QueueFragment.songList.remove(song);
+                        songList.remove(song);
                         Toast.makeText(context, song.getTitle() + " removed from queue", Toast.LENGTH_SHORT).show();
                         notifyItemRemoved(holder.getAdapterPosition());
                     } else if (item.getItemId() == R.id.addToPlaylist) {
@@ -121,14 +122,15 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 MyMediaPlayer.currentIndex = holder.getAdapterPosition();
-                Intent intent = new Intent(context, MusicPlayerActivity.class);
+                /*Intent intent = new Intent(context, MusicPlayerActivity.class);
                 intent.putParcelableArrayListExtra("LIST", songList);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);*/
                 /*if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 }*/
-                context.startActivity(intent);
-
+                MainActivity ac = (MainActivity) context;
+                ac.musicPlayer(songList);
+                MainActivity.slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
             }
         });
 

@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
@@ -90,14 +91,16 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
             @Override
             public void onClick(View v) {
                 MyMediaPlayer.currentIndex = holder.getAdapterPosition();
-                Intent intent = new Intent(context, MusicPlayerActivity.class);
-                intent.putParcelableArrayListExtra("LIST", songList);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //Intent intent = new Intent(context, MusicPlayerActivity.class);
+               // intent.putParcelableArrayListExtra("LIST", songList);
+               // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 /*if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 }*/
-                context.startActivity(intent);
-
+               // context.startActivity(intent);
+                MainActivity ac = (MainActivity) context;
+                ac.musicPlayer(songList);
+                MainActivity.slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
             }
         });
 
@@ -108,7 +111,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         return songList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView titleTextView;
         ImageView albumArtRImageView;

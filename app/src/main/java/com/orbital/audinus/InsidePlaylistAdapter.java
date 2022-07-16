@@ -1,5 +1,6 @@
 package com.orbital.audinus;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.PopupMenu;
 
 import com.bumptech.glide.Glide;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,9 +16,12 @@ import java.util.Objects;
 
 public class InsidePlaylistAdapter extends MusicListAdapter {
     private final String name;
+    private Context mContext;
+
     public InsidePlaylistAdapter(int position, Context context) {
         super(PlaylistsFragment.playlists.get(PlaylistsFragment.nameList.get(position)), context);
         this.name = PlaylistsFragment.nameList.get(position);
+        this.mContext = context;
     }
 
 
@@ -71,15 +76,18 @@ public class InsidePlaylistAdapter extends MusicListAdapter {
             @Override
             public void onClick(View v) {
                 MyMediaPlayer.currentIndex = holder.getAdapterPosition();
-                Intent intent = new Intent(context, MusicPlayerActivity.class);
-                intent.putParcelableArrayListExtra("LIST", songList);
+                //Intent intent = new Intent(context, MusicPlayerActivity.class);
+                //intent.putParcelableArrayListExtra("LIST", songList);
                 //intent.putExtra("PLAYLIST", samePlaylist);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 /*if (MyMediaPlayer.isPlayingSameSong()) { //prevents crash but causes progressbar to freak out sometimes
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 }*/
-                context.startActivity(intent);
-
+                //context.startActivity(intent);
+                MainActivity ac = (MainActivity) MainActivity.context;
+                ac.musicPlayer(songList);
+                MainActivity.slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                //((Activity)mContext).finish();
             }
         });
 

@@ -8,9 +8,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tag_song_title"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:importantForAccessibility="no"
+        app:hintTextColor="?attr/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -18,112 +21,134 @@
             android:id="@+id/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/title"
             android:importantForAccessibility="no" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tag_artist"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:importantForAccessibility="no"
+        app:hintTextColor="?attr/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tag_song_title">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no" />
+            android:importantForAccessibility="no"
+            android:hint="@string/artist"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tag_album"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:importantForAccessibility="no"
+        app:hintTextColor="?attr/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tag_artist">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no" />
+            android:importantForAccessibility="no"
+            android:hint="@string/album"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tag_composer"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:importantForAccessibility="no"
+        app:hintTextColor="?attr/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tag_album">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no" />
+            android:importantForAccessibility="no"
+            android:hint="@string/composer"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tag_year"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:importantForAccessibility="no"
+        app:hintTextColor="?attr/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tag_composer">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no" />
+            android:importantForAccessibility="no"
+            android:hint="@string/year"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tag_disc_no"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:importantForAccessibility="no"
+        app:hintTextColor="?attr/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tag_year">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no" />
+            android:importantForAccessibility="no"
+            android:hint="@string/disc_number"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tag_track"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:importantForAccessibility="no"
+        app:hintTextColor="?attr/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tag_disc_no">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no" />
+            android:importantForAccessibility="no"
+            android:hint="@string/track_number"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tag_comment"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:importantForAccessibility="no"
+        app:hintTextColor="?attr/colorSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tag_track">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no" />
+            android:importantForAccessibility="no"
+            android:hint="@string/comment"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
@@ -131,8 +156,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:importantForAccessibility="no"
+        android:background="?selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tag_comment"
-        app:srcCompat="@android:drawable/ic_menu_save" />
+        app:srcCompat="@drawable/save_48px" />
 </androidx.constraintlayout.widget.ConstraintLayout>

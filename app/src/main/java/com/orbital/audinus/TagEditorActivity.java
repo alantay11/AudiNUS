@@ -23,7 +23,6 @@ public class TagEditorActivity extends AppCompatActivity {
     AudioModel song;
     AudioFile songFile;
     Tag tag;
-    //String TAG = "TAG";
     TextInputLayout title, artist, album, composer, year, discNo, track, comment;
     ImageButton saveButton;
 
@@ -48,7 +47,6 @@ public class TagEditorActivity extends AppCompatActivity {
             comment = findViewById(R.id.tag_comment);
             saveButton = findViewById(R.id.tag_save_button);
 
-
             Objects.requireNonNull(title.getEditText()).setText(tag.getFirst(FieldKey.TITLE));
             Objects.requireNonNull(artist.getEditText()).setText(tag.getFirst(FieldKey.ARTIST));
             Objects.requireNonNull(album.getEditText()).setText(tag.getFirst(FieldKey.ALBUM));
@@ -59,12 +57,6 @@ public class TagEditorActivity extends AppCompatActivity {
             Objects.requireNonNull(comment.getEditText()).setText(tag.getFirst(FieldKey.COMMENT));
 
             saveButton.setOnClickListener(v -> save());
-
-            /*Iterator iterator = tag.getFields();
-            while(iterator.hasNext())
-            {
-                Log.d(TAG, iterator.next().toString());
-            }*/
         } catch (Exception e) {
             Toast.makeText(this, "This file cannot be edited", Toast.LENGTH_SHORT).show();
         }

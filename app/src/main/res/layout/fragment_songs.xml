@@ -13,11 +13,10 @@
         android:id="@+id/search_bar"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/search_view"
+        android:iconifiedByDefault="true"
+        android:queryBackground="@color/transparent"
         android:queryHint="Enter Song Name"
-        android:iconifiedByDefault="false"
-        android:queryBackground="@color/transparent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/no_songs_text"
@@ -33,11 +32,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/inside_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:layout_marginTop="45dp"/>
+        android:layout_marginTop="40dp"/>
 
 
 </FrameLayout>

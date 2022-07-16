@@ -18,6 +18,7 @@ import org.jaudiotagger.tag.Tag;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
@@ -29,6 +30,7 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
     String filename;
     Uri file;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
+    private boolean dragging;
 
 
     @Override
@@ -57,7 +59,7 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
         }
 
         try {
-            songFile = AudioFileIO.read(new File(file.getPath()));
+            songFile = AudioFileIO.read(new File(Objects.requireNonNull(file).getPath()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,12 +73,14 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
             @Override
             public void run() {
                 if (mediaPlayer != null) {
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                    if (!dragging) {
+                        seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                    }
                     //currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
 
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
-                        MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
+                        //MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
                     } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                     }
@@ -88,27 +92,21 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (mediaPlayer != null && fromUser) {
-                    MyMediaPlayer.setCurrentTime(progress);
-                }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                if (mediaPlayer.isPlaying()) {
-                    playPause();
-                }
+                dragging = true;
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if (MyMediaPlayer.getCurrentTime() >= mediaPlayer.getDuration()) {
+                if (seekBar.getProgress() == seekBar.getMax()) {
                         /*seekBar.setProgress(0);
                         MyMediaPlayer.setCurrentTime(0);*/
+                    mediaPlayer.pause();
                 } else {
-                    mediaPlayer.seekTo(MyMediaPlayer.getCurrentTime());
-                    seekBar.setProgress(MyMediaPlayer.getCurrentTime());
-                    playPause();
+                    mediaPlayer.seekTo(seekBar.getProgress());
                 }
             }
         });
@@ -132,7 +130,8 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
 
     @Override
     public void onCompletion(MediaPlayer mp){
-            //playNextSong();
+        mediaPlayer.pause();
+        //playNextSong();
     }
 
     @Override
@@ -143,7 +142,9 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
 
 
     private void playPause() {
-        if (mediaPlayer.isPlaying()) {
+        if (seekBar.getProgress() == seekBar.getMax()) {
+            playMusic();
+        } else if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         } else {
             mediaPlayer.start();

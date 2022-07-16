@@ -1,10 +1,7 @@
 package com.orbital.audinus;
 
 import android.app.Dialog;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -29,7 +25,7 @@ import java.util.Objects;
 public class SongsFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    static final ArrayList<AudioModel> songList = new ArrayList<>();
+    static ArrayList<AudioModel> songList;
     private LinearLayoutManager layoutManager;
     private SearchView searchView;
     View rootView;
@@ -40,6 +36,7 @@ public class SongsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (rootView == null) {
+            songList = getArguments().getParcelableArrayList("SONGS");
 
             dialog = new Dialog(this.getContext());
             dialog.setContentView(R.layout.playlist_selection);
@@ -100,6 +97,7 @@ public class SongsFragment extends Fragment {
                 public void onClick(View v) {
                     searchView.setQuery("", false);
                     searchView.clearFocus();
+                    searchView.onActionViewCollapsed();
                     recyclerView.setAdapter(new MusicListAdapter(songList, getActivity()));
                 }
             });
@@ -107,7 +105,7 @@ public class SongsFragment extends Fragment {
             layoutManager = new LinearLayoutManager(rootView.getContext());
 
 
-            Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+            /*Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
             String[] projection = {MediaStore.Audio.AudioColumns.TITLE,
                     MediaStore.Audio.AudioColumns.DATA,
                     MediaStore.Audio.AudioColumns.DURATION,
@@ -126,7 +124,7 @@ public class SongsFragment extends Fragment {
 
                 if (new File(songData.getPath()).exists()) {
                     songList.add(songData);
-                }
+                }*/
 
                 if (songList.isEmpty()) {
                     noMusicTextView.setVisibility(View.VISIBLE);
@@ -135,9 +133,9 @@ public class SongsFragment extends Fragment {
                     recyclerView.setAdapter(new MusicListAdapter(songList, getActivity()));
                 }
             }
-            cursor.close();
+            //cursor.close();
 
-        }
+        //}
             return rootView;
     }
 

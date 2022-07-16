@@ -16,5 +16,13 @@
     <string name="remove_from_queue">Remove from queue</string>
     <string name="slider_hint">Tap on album art/music note for more options</string>
     <string name="add_to_playlist">Add to playlist</string>
+    <string name="title">Title</string>
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="composer">Composer</string>
+    <string name="year">Year</string>
+    <string name="disc_number">Disc number</string>
+    <string name="track_number">Track number</string>
+    <string name="comment">Comment</string>
 
 </resources>

@@ -15,7 +15,6 @@
         <item name="android:textColorPrimary">@color/dark_theme_white</item>
         <item name="android:textColorSecondary">@color/dark_theme_white</item>
         <item name="android:textColorTertiary">@color/dark_theme_white</item>
-
     </style>
 
      <style name="Theme.AppCompat.Transparent" parent="Theme.AppCompat.NoActionBar">
@@ -37,6 +36,4 @@
          <item name="android:textColorSecondary">@color/dark_theme_white</item>
          <item name="android:textColorTertiary">@color/dark_theme_white</item>
      </style>
-
-
 </resources>

@@ -2,15 +2,21 @@ package com.orbital.audinus;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,17 +37,19 @@ import java.util.Objects;
 public class PlaylistsFragment extends Fragment {
 
 
-    private RecyclerView recyclerView;
-    static ArrayList<String> nameList = new ArrayList<>();
+    static RecyclerView recyclerView;
+    static ArrayList<String> nameList;
     private LinearLayoutManager layoutManager;
-
     private static final String FILE_NAME = "example.txt";
     EditText mEditText;
-    static HashMap<String, ArrayList<AudioModel>> playlists = new HashMap<>(); //!@#
+    static HashMap<String, ArrayList<AudioModel>> playlists;
     private TextView noPlaylistTextView;
     PlayListAdapter adapter;
     static int position;
     static Dialog dialog;
+    static ImageButton createPlayList;
+    static boolean read;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +70,7 @@ public class PlaylistsFragment extends Fragment {
         cancelButton.setOnClickListener(v -> dialog.dismiss());
 
 
-        TextView createPlayList = rootView.findViewById(R.id.createPlaylist);
+        createPlayList = rootView.findViewById(R.id.createPlaylist);
         createPlayList.setOnClickListener(v -> dialog.show());
 
         recyclerView = rootView.findViewById(R.id.inside_recycler_view);
@@ -73,22 +81,26 @@ public class PlaylistsFragment extends Fragment {
 
         //TextView loadButton = rootView.findViewById(R.id.button_load);
         //loadButton.setOnClickListener(v -> load(this.getView()));
-        ArrayList<String> a = load(this.getView());
-        for (String x : a){
-            ArrayList<AudioModel> songTitles = new ArrayList<>();
-            int index = x.indexOf("!@#");
-            String title = x.substring(0,index);
-            x = x.substring(index + 3);
-            while (x.length() > 0) {
-                index = x.indexOf(";;;");
-                String songName = x.substring(0,index);
-                x = x.substring(index + 3);
-                songTitles.add(SongsFragment.getAudioModel(songName));
-            }
-            playlists.put(title,songTitles);
-            nameList.add(title);
-        }
 
+        ArrayList<String> a = load(this.getView());
+
+        if (read != true){
+            read = true;
+            for (String x : a){
+                ArrayList<AudioModel> songTitles = new ArrayList<>();
+                int index = x.indexOf("!@#");
+                String title = x.substring(0,index);
+                x = x.substring(index + 3);
+                while (x.length() > 0) {
+                    index = x.indexOf(";;;");
+                    String songName = x.substring(0,index);
+                    x = x.substring(index + 3);
+                    songTitles.add(SongsFragment.getAudioModel(songName));
+                }
+                playlists.put(title,songTitles);
+                nameList.add(title);
+            }
+        }
 
 
         if (playlists.isEmpty()) {
@@ -120,9 +132,14 @@ public class PlaylistsFragment extends Fragment {
     public void save(View v) {
         String text = mEditText.getText().toString();
         FileOutputStream fos = null;
-        playlists.put(text, new ArrayList<>());
-        nameList.add(text);
-        adapter.notifyItemInserted(nameList.size());
+
+        if (text.length() == 0 || playlists.containsKey((Object) text)){
+            Toast.makeText(getContext(), "Playlist already exist or is invalid", Toast.LENGTH_SHORT).show();
+        } else {
+            playlists.put(text, new ArrayList<>());
+            nameList.add(text);
+            adapter.notifyItemInserted(nameList.size());
+        }
 
 
         try {
@@ -182,4 +199,5 @@ public class PlaylistsFragment extends Fragment {
         }
         return a;
     }
+
 }

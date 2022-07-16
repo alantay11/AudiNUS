@@ -9,17 +9,21 @@
     android:layout_marginTop="5dp"
     android:layout_marginRight="5dp"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    android:background="?attr/selectableItemBackground"
+    android:focusable="true"
+    android:clickable="true">
 
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/album_art_recycler"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/music_note_48px" />
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/miniAlbumArtTheme" />
 
     <TextView
         android:id="@+id/song_title_recycler"
@@ -30,7 +34,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingHorizontal="5dp"
-        android:paddingVertical="10dp"
+        android:paddingVertical="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/menu_button_recycler"
         app:layout_constraintStart_toEndOf="@id/album_art_recycler"
@@ -42,13 +46,13 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginTop="4dp"
-        android:background="@null"
         android:importantForAccessibility="no"
         android:padding="4dp"
         android:scaleType="centerInside"
+        android:background="?selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/more_vert_48px"
+        android:src="@drawable/more_vert_48px"
         tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
