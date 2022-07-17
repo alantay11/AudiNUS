@@ -1,30 +1,24 @@
 package com.orbital.audinus;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link insideplaylist1#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class insideplaylist1 extends Fragment {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
 
-    private TextView back;
+    private ImageButton back;
     private TextView playlistName;
 
     @Override
@@ -41,7 +35,7 @@ public class insideplaylist1 extends Fragment {
         back = rootView.findViewById(R.id.inside_playlist_back);
         back.setOnClickListener(v -> {
             Fragment fragment = new PlaylistsFragment();
-            FragmentManager fragmentManager = ((FragmentActivity) getActivity()).getSupportFragmentManager();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.inside_playlist, fragment);
             fragmentTransaction.commit();

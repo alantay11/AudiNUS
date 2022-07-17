@@ -51,7 +51,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
         holder.titleTextView.setText(songData);
 
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -63,9 +62,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                  */
-
-
-
                 Fragment fragment = new insideplaylist1();
                 FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -73,7 +69,6 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 fragmentTransaction.commit();
                 PlaylistsFragment.recyclerView.setAlpha(0);
                 PlaylistsFragment.createPlayList.setVisibility(View.INVISIBLE);
-
             }
         });
 

@@ -23,7 +23,6 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,14 +31,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -71,7 +67,6 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     MediaSession mediaSession;
-    FragmentContainerView bar;
     ViewGroup.LayoutParams ogParams;
     private boolean dragging;
 
@@ -98,10 +93,8 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         ogParams =  slidingLayout.getLayoutParams();
 
 
-
         PlaylistsFragment.nameList = new ArrayList<>();
         PlaylistsFragment.playlists = new HashMap<>(); //!@#
-
 
 
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -284,7 +277,6 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
                         playPauseButtonBottom.setImageResource(R.drawable.pause_48px);
-                        //MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
                     } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                         playPauseButtonBottom.setImageResource(R.drawable.play_arrow_48px);
@@ -333,7 +325,6 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
                         playNextSong();
                         seekBar.setProgress(0);
                         progressBarBottom.setProgress(0);
-                        //MyMediaPlayer.setCurrentTime(0);
                     }
                 } else {
                     mediaPlayer.seekTo(seekBar.getProgress());
@@ -431,9 +422,7 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
             try {
                 mediaPlayer.setDataSource(currentSong.getPath());
                 mediaPlayer.prepare();
-                //Log.d("TAG", "this is the problem part before start?");
                 mediaPlayer.start();
-                //Log.d("TAG", "after start?");
                 seekBar.setProgress(0);
                 progressBarBottom.setProgress(seekBar.getProgress());
                 MyMediaPlayer.setPrevSong(MyMediaPlayer.getCurrentSong());
