@@ -116,9 +116,9 @@
                 android:id="@+id/seek_bar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="49dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginEnd="32dp"
                 android:background="?selectableItemBackgroundBorderless"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -250,13 +250,15 @@
                 android:id="@+id/equalizer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="572dp"
-                android:layout_marginEnd="180dp"
+                android:layout_marginStart="112dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="112dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:importantForAccessibility="no"
-                android:src="@drawable/graphic_eq_48px"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/equalizer_48px"
+                app:layout_constraintEnd_toStartOf="@+id/total_time"
+                app:layout_constraintStart_toEndOf="@+id/current_time"
+                app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/album_art_bottom"

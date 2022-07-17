@@ -1,7 +1,6 @@
 package com.orbital.audinus;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,7 +41,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recycler_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recycler_item_playlist, parent, false);
         return new ViewHolder(view);
     }
 
@@ -135,7 +134,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.song_title_recycler);
-            albumArtRImageView = itemView.findViewById(R.id.album_art_recycler);
+            albumArtRImageView = itemView.findViewById(R.id.playlist_icon_recycler);
             menuButton = itemView.findViewById(R.id.menu_button_recycler);
         }
     }

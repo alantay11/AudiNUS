@@ -2,7 +2,6 @@
     <string name="app_name">AudiNUS</string>
     <string name="Title">AudiNUS</string>
     <string name="no_songs_found">Why not add some songs to your library?</string>
-    <string name="songName">Hello blank fragment</string>
     <string name="songs">Songs</string>
     <string name="playlists">Playlists</string>
     <string name="favorites">Favorites</string>
@@ -10,7 +9,6 @@
     <string name="kHz">kHz</string>
     <string name="no_playlists_text">Try creating a playlist?</string>
     <string name="editTags">Edit tags</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="queue">Queue</string>
     <string name="addToQueue">Add to queue</string>
     <string name="remove_from_queue">Remove from queue</string>
@@ -24,5 +22,9 @@
     <string name="disc_number">Disc number</string>
     <string name="track_number">Track number</string>
     <string name="comment">Comment</string>
+    <string name="playlist_name">Playlist name</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="your_queue_is_empty">Your queue is empty</string>
 
 </resources>

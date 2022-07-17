@@ -34,10 +34,12 @@
         android:id="@+id/createPlaylist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
         android:background="?selectableItemBackgroundBorderless"
         android:importantForAccessibility="no"
-        android:src="@drawable/playlist_add_48px" />
+        android:src="@drawable/playlist_add_48px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

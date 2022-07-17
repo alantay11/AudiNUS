@@ -20,10 +20,11 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/miniAlbumArtTheme" />
+        app:shapeAppearanceOverlay="@style/miniAlbumArtTheme"
+        app:srcCompat="@drawable/featured_play_list_48px" />
 
     <TextView
         android:id="@+id/song_title_recycler"
@@ -39,7 +40,7 @@
         app:layout_constraintEnd_toStartOf="@id/menu_button_recycler"
         app:layout_constraintStart_toEndOf="@id/playlist_icon_recycler"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Music" />
+        tools:text="Playlist" />
 
     <ImageButton
         android:id="@+id/menu_button_recycler"

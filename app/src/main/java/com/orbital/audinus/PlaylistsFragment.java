@@ -59,7 +59,7 @@ public class PlaylistsFragment extends Fragment {
 
         dialog = new Dialog(this.getContext());
         dialog.setContentView(R.layout.create_playlist);
-        mEditText = dialog.findViewById(R.id.edit_text);
+        mEditText = dialog.findViewById(R.id.edit_text_input);
         Button saveButton = dialog.findViewById(R.id.button_save);
         saveButton.setOnClickListener(v -> {
             save(getView());
@@ -84,7 +84,7 @@ public class PlaylistsFragment extends Fragment {
 
         ArrayList<String> a = load(this.getView());
 
-        if (read != true){
+        if (!read){
             read = true;
             for (String x : a){
                 ArrayList<AudioModel> songTitles = new ArrayList<>();
@@ -133,7 +133,7 @@ public class PlaylistsFragment extends Fragment {
         String text = mEditText.getText().toString();
         FileOutputStream fos = null;
 
-        if (text.length() == 0 || playlists.containsKey((Object) text)){
+        if (text.length() == 0 || playlists.containsKey(text)){
             Toast.makeText(getContext(), "Playlist already exist or is invalid", Toast.LENGTH_SHORT).show();
         } else {
             playlists.put(text, new ArrayList<>());

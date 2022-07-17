@@ -150,7 +150,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.song_title_recycler);
-            albumArtRImageView = itemView.findViewById(R.id.album_art_recycler);
+            albumArtRImageView = itemView.findViewById(R.id.playlist_icon_recycler);
             menuButton = itemView.findViewById(R.id.menu_button_recycler);
         }
     }
