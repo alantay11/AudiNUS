@@ -6,13 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".MiniPlayerActivity">
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/mini_card"
-        android:layout_width="395dp"
-        android:layout_height="130dp"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="707dp"
-        android:layout_marginBottom="72dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="96dp"
         app:cardBackgroundColor="?attr/colorPrimary"
         app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,41 +30,84 @@
                 android:id="@+id/mini_pause_play"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="100dp"
+                android:layout_marginBottom="4dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:importantForAccessibility="no"
                 android:src="@drawable/pause_48px"
                 app:layout_constraintBottom_toTopOf="@id/mini_seek_bar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/mini_song_title" />
+                app:layout_constraintStart_toEndOf="@+id/mini_album_art"
+                app:layout_constraintTop_toBottomOf="@+id/mini_song_title" />
 
             <SeekBar
                 android:id="@+id/mini_seek_bar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="60dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mini_song_title" />
+                app:layout_constraintTop_toBottomOf="@+id/mini_pause_play" />
 
             <TextView
                 android:id="@+id/mini_song_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
                 android:ellipsize="marquee"
-                android:padding="20dp"
+                android:padding="10dp"
                 android:singleLine="true"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/mini_seek_bar"
-                app:layout_constraintEnd_toStartOf="@+id/mini_pause_play"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mini_album_art"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Song Title" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/mini_album_art"
+                android:layout_width="105dp"
+                android:layout_height="105dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toTopOf="@+id/mini_seek_bar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/miniAlbumArtTheme"
+                app:srcCompat="@drawable/music_note_48px" />
+
+            <TextView
+                android:id="@+id/mini_current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:importantForAccessibility="no"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/mini_seek_bar"
+                app:layout_constraintTop_toBottomOf="@+id/mini_seek_bar"
+                tools:text="0:00" />
+
+            <TextView
+                android:id="@+id/mini_total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:importantForAccessibility="no"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/mini_seek_bar"
+                app:layout_constraintTop_toBottomOf="@+id/mini_seek_bar"
+                tools:text="0:00" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

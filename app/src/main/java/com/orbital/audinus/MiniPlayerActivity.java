@@ -1,36 +1,41 @@
 package com.orbital.audinus;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
-    TextView titleTextView;
+    TextView titleTextView, currentTimeTextView, totalTimeTextView;
     AudioFile songFile;
     Tag tag;
     SeekBar seekBar;
-    ImageView playPauseButton;
+    ImageView playPauseButton, albumArt;
     String filename;
     Uri file;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     private boolean dragging;
+    static ArrayList<AudioModel> songList = new ArrayList<>();
 
 
     @Override
@@ -40,8 +45,11 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
         mediaPlayer.setOnCompletionListener(this);
 
         titleTextView = findViewById(R.id.mini_song_title);
+        currentTimeTextView = findViewById(R.id.mini_current_time);
+        totalTimeTextView = findViewById(R.id.mini_total_time);
         seekBar = findViewById(R.id.mini_seek_bar);
         playPauseButton = findViewById(R.id.mini_pause_play);
+        albumArt = findViewById(R.id.mini_album_art);
 
         titleTextView.setSelected(true);
 
@@ -50,7 +58,7 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
         if (file != null && intent.getAction() != null &&
                 intent.getAction().equals(Intent.ACTION_VIEW)) {
             String scheme = file.getScheme();
-             filename = "";
+            filename = "";
             if ("file".equals(scheme)) {
                 filename = file.getPath();
             } else {
@@ -63,8 +71,43 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String[] projection = {MediaStore.Audio.AudioColumns.TITLE,
+                MediaStore.Audio.AudioColumns.DATA,
+                MediaStore.Audio.AudioColumns.DURATION,
+                MediaStore.Audio.AudioColumns.ALBUM_ID};
+
+
+        Cursor cursor = getContentResolver().query(uri,
+                projection,
+                android.provider.MediaStore.Audio.Media.DATA + " like ? ",
+                new String[] {file.getPath()},
+                null);
+
+        while (cursor.moveToNext()) {
+            long albumID = cursor.getLong(3);
+            String albumArt = "content://media/external/audio/albumart/" + albumID;
+
+            AudioModel songData = new AudioModel(cursor.getString(1), cursor.getString(0), cursor.getString(2), albumArt);
+
+            if (new File(songData.getPath()).exists()) {
+                songList.add(songData);
+            }
+        }
+        cursor.close();
+
+        AudioModel currentSong = songList.get(0);
+
+        Glide.with(this)
+                .load(currentSong.getAlbumArt())
+                .placeholder(R.drawable.music_note_48px)
+                .into(albumArt);
+
         tag = songFile.getTag();
-        titleTextView.setText(tag.getFirst(FieldKey.TITLE));
+        titleTextView.setText(currentSong.getTitle());
+        totalTimeTextView.setText(MainActivity.convertToMMSS(currentSong.getDuration()));
+
         playPauseButton.setOnClickListener(v -> playPause());
 
         playMusic();
@@ -76,11 +119,10 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
                     if (!dragging) {
                         seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     }
-                    //currentTimeTextView.setText(convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
+                    currentTimeTextView.setText(MainActivity.convertToMMSS(mediaPlayer.getCurrentPosition() + ""));
 
                     if (mediaPlayer.isPlaying()) {
                         playPauseButton.setImageResource(R.drawable.pause_48px);
-                        //MyMediaPlayer.setCurrentTime(mediaPlayer.getCurrentPosition());
                     } else {
                         playPauseButton.setImageResource(R.drawable.play_arrow_48px);
                     }
@@ -101,10 +143,10 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                dragging = false;
                 if (seekBar.getProgress() == seekBar.getMax()) {
-                        /*seekBar.setProgress(0);
-                        MyMediaPlayer.setCurrentTime(0);*/
                     mediaPlayer.pause();
+                    currentTimeTextView.setText(MainActivity.convertToMMSS(currentSong.getDuration()));
                 } else {
                     mediaPlayer.seekTo(seekBar.getProgress());
                 }
@@ -139,7 +181,6 @@ public class MiniPlayerActivity extends AppCompatActivity implements MediaPlayer
         mediaPlayer.stop();
         this.finish();
     }
-
 
     private void playPause() {
         if (seekBar.getProgress() == seekBar.getMax()) {

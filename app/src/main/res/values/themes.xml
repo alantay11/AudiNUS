@@ -42,9 +42,14 @@
         <item name="cornerSize">24dp</item>
     </style>
 
-    <style name="miniAlbumArtTheme" parent="">
+    <style name="recyclerAlbumArtTheme" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">6dp</item>
+    </style>
+
+    <style name="miniAlbumArtTheme" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">48dp</item>
     </style>
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
