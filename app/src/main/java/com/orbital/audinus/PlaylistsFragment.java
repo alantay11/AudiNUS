@@ -63,7 +63,10 @@ public class PlaylistsFragment extends Fragment {
         });
 
         Button cancelButton = dialog.findViewById(R.id.button_cancel);
-        cancelButton.setOnClickListener(v -> dialog.dismiss());
+        cancelButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            mEditText.getText().clear();
+        });
 
 
         createPlayList = rootView.findViewById(R.id.createPlaylist);
@@ -97,7 +100,7 @@ public class PlaylistsFragment extends Fragment {
                 nameList.add(title);
             }
         }
-*/
+
 
         if (playlists.isEmpty()) {
             String fav = "Favourites";
@@ -116,6 +119,8 @@ public class PlaylistsFragment extends Fragment {
 
 
         }
+
+ */
         recyclerView.setLayoutManager(layoutManager);
         adapter = new PlayListAdapter(playlists, getActivity(), nameList);
         recyclerView.setAdapter(adapter);
