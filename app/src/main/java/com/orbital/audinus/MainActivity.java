@@ -35,7 +35,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -89,7 +92,8 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
 
         slidingLayout = findViewById(R.id.sliding_layout);
         slidingLayout.setPanelSlideListener(onSlideListener());
-        slidingLayout.setPanelHeight(0);
+        slidingLayout.setPanelHeight(150);
+        slidingLayout.setTouchEnabled(false);
         ogParams =  slidingLayout.getLayoutParams();
 
 
@@ -245,10 +249,21 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
 
     @Override
     public void onBackPressed() {
-        if (slidingLayout.isLaidOut()) {
+
+        if (slidingLayout.isLaidOut()) {// this seems to be always true even if height == 0 previously
             slidingLayout.setPanelHeight(150);
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-        } else {
+            if (insideplaylist1.isShowing && slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED ) {
+                Fragment fragment = new PlaylistsFragment();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.inside_playlist, fragment);
+                fragmentTransaction.commit();
+                insideplaylist1.update();
+            }
+        }
+
+        else {
             super.onBackPressed();
         }
     }

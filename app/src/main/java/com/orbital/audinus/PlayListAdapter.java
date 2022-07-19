@@ -69,6 +69,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 fragmentTransaction.commit();
                 PlaylistsFragment.recyclerView.setAlpha(0);
                 PlaylistsFragment.createPlayList.setVisibility(View.INVISIBLE);
+                insideplaylist1.isShowing = true;
             }
         });
 

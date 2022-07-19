@@ -77,7 +77,7 @@ public class PlaylistsFragment extends Fragment {
 
         //TextView loadButton = rootView.findViewById(R.id.button_load);
         //loadButton.setOnClickListener(v -> load(this.getView()));
-
+/*
         ArrayList<String> a = load(this.getView());
 
         if (!read){
@@ -97,7 +97,7 @@ public class PlaylistsFragment extends Fragment {
                 nameList.add(title);
             }
         }
-
+*/
 
         if (playlists.isEmpty()) {
             String fav = "Favourites";

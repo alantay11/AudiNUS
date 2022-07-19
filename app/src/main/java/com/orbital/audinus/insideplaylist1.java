@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class insideplaylist1 extends Fragment {
 
-    private RecyclerView recyclerView;
+    static RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
 
-    private ImageButton back;
-    private TextView playlistName;
+    static ImageButton back;
+    static TextView playlistName;
+
+    static boolean isShowing = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +46,13 @@ public class insideplaylist1 extends Fragment {
             recyclerView.setVisibility(View.INVISIBLE);
         });
         return rootView;
+    }
+
+    public static void update(){
+        back.setVisibility(View.INVISIBLE);
+        playlistName.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+        isShowing =false;
     }
 
 }

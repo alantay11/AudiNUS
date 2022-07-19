@@ -1,6 +1,7 @@
 package com.orbital.audinus;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -31,11 +37,15 @@ public class SongsFragment extends Fragment {
     View rootView;
     static Dialog dialog;
 
+    private static final String FILE_NAME = "example.txt";
+    static boolean read;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (rootView == null) {
+
             songList = getArguments().getParcelableArrayList("SONGS");
 
             dialog = new Dialog(this.getContext());
@@ -136,10 +146,80 @@ public class SongsFragment extends Fragment {
             //cursor.close();
 
         //}
+
+
+        ArrayList<String> a = load(this.getView());
+
+        if (!read){
+            read = true;
+            for (String x : a){
+                ArrayList<AudioModel> songTitles = new ArrayList<>();
+                int index = x.indexOf("!@#");
+                String title = x.substring(0,index);
+                x = x.substring(index + 3);
+                while (x.length() > 0) {
+                    index = x.indexOf(";;;");
+                    String songName = x.substring(0,index);
+                    x = x.substring(index + 3);
+                    songTitles.add(SongsFragment.getAudioModel(songName));
+                }
+                PlaylistsFragment.playlists.put(title,songTitles);
+                PlaylistsFragment.nameList.add(title);
+            }
+
+            if (PlaylistsFragment.playlists.isEmpty()) {
+                String fav = "Favourites";
+                PlaylistsFragment.playlists.put(fav, new ArrayList<>());
+                PlaylistsFragment.nameList.add(fav);
+                FileOutputStream fos;
+                try {
+                    fos = requireActivity().openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                    fos.write((fav+"!@#").getBytes());
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //noPlaylistTextView.setVisibility(View.VISIBLE);
+
+
+            }
+        }
             return rootView;
     }
 
     static AudioModel getAudioModel(String name) {
         return songList.stream().filter(x -> Objects.equals(x.getTitle(), name)).findFirst().get();
+    }
+
+    public ArrayList<String> load(View v) {
+        FileInputStream fis = null;
+        ArrayList<String> a = new ArrayList<>();
+
+        try {
+            fis = requireActivity().openFileInput(FILE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                a.add(text);
+                sb.append(text).append("\n");
+            }
+            //mEditText.setText(sb.toString());//for debugging, delete to not display anything on the input line
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return a;
     }
 }
