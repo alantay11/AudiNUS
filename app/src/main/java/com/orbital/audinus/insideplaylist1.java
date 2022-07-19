@@ -41,9 +41,7 @@ public class insideplaylist1 extends Fragment {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.inside_playlist, fragment);
             fragmentTransaction.commit();
-            back.setVisibility(View.INVISIBLE);
-            playlistName.setVisibility(View.INVISIBLE);
-            recyclerView.setVisibility(View.INVISIBLE);
+            update();
         });
         return rootView;
     }
