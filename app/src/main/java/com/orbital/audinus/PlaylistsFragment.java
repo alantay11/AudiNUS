@@ -44,7 +44,8 @@ public class PlaylistsFragment extends Fragment {
     static int position;
     static Dialog dialog;
     static ImageButton createPlayList;
-    static boolean read;
+    static Dialog dialogRename;
+    EditText mEditTextRename;
 
 
     @Override
@@ -67,6 +68,24 @@ public class PlaylistsFragment extends Fragment {
             dialog.dismiss();
             mEditText.getText().clear();
         });
+
+        dialogRename = new Dialog(this.getContext());
+        dialogRename.setContentView(R.layout.rename_playlist);
+        mEditTextRename = dialogRename.findViewById(R.id.edit_text_input);
+        Button saveButtonRename = dialogRename.findViewById(R.id.button_save);
+        saveButtonRename.setOnClickListener(v -> {
+            rename(getView());
+            dialogRename.dismiss();
+        });
+
+        Button cancelButtonRename = dialogRename.findViewById(R.id.button_cancel);
+        cancelButtonRename.setOnClickListener(v -> {
+            dialogRename.dismiss();
+            mEditTextRename.getText().clear();
+        });
+
+
+
 
 
         createPlayList = rootView.findViewById(R.id.createPlaylist);
@@ -129,6 +148,56 @@ public class PlaylistsFragment extends Fragment {
         return rootView;
     }
 
+    public void rename(View v){
+        String text = mEditTextRename.getText().toString();
+        FileOutputStream fos = null;
+
+        if (text.length() == 0 || playlists.containsKey(text)) {
+            Toast.makeText(getContext(), "Playlist already exists or is invalid", Toast.LENGTH_SHORT).show();
+        } else {
+            HashMap<String, ArrayList<AudioModel>> newPlaylists = new HashMap<>();
+            for (int i = 0; i < nameList.size(); i++){
+                if (i != PlayListAdapter.oldNameLoc){
+                    newPlaylists.put(nameList.get(i), (ArrayList<AudioModel>) playlists.get(nameList.get(i)));
+                } else {
+                    newPlaylists.put(text, (ArrayList<AudioModel>) playlists.get(nameList.get(i)));
+                }
+            }
+
+            playlists = newPlaylists;
+            nameList.set(PlayListAdapter.oldNameLoc, text);
+            adapter.notifyItemChanged(PlayListAdapter.oldNameLoc);
+            adapter.playlists = nameList;
+            adapter.songList = playlists;
+        }
+
+        try {
+            StringBuilder x = new StringBuilder();
+            for(String y : nameList) {
+                x.append(y).append("!@#");
+                for (AudioModel z : Objects.requireNonNull(playlists.get(y))) {
+                    x.append(z.getTitle()).append(";;;");
+                }
+                x.append("\n");
+                noPlaylistTextView.setVisibility(View.INVISIBLE);
+            }
+
+            fos = requireActivity().openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            fos.write(x.toString().getBytes());
+            mEditTextRename.getText().clear();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
 
     public void save(View v) {
         String text = mEditText.getText().toString();

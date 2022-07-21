@@ -30,6 +30,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
     final Context context;
     ArrayList<String> playlists;
     private static final String FILE_NAME = "example.txt";
+    static int oldNameLoc;
 
 
     public PlayListAdapter(HashMap<String, ArrayList<AudioModel>> songList, FragmentActivity context, ArrayList<String> playlists) {
@@ -81,7 +82,16 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.deletePlaylist) {
+                        if (item.getItemId() == R.id.renamePlaylist){
+                            String playlistName = PlaylistsFragment.nameList.get(holder.getAdapterPosition());
+                            if (playlistName.equals("Favourites")){
+                                Toast.makeText(context, "Favourites cannot be renamed", Toast.LENGTH_SHORT).show();
+                            } else {
+                                oldNameLoc = holder.getAdapterPosition();
+                                PlaylistsFragment.dialogRename.show();
+                            }
+                        }
+                        else if (item.getItemId() == R.id.deletePlaylist) {
                                 String playlistName = PlaylistsFragment.nameList.get(holder.getAdapterPosition());
                                 if (playlistName.equals("Favourites")) {
                                     Toast.makeText(context, "Favourites cannot be deleted", Toast.LENGTH_SHORT).show();

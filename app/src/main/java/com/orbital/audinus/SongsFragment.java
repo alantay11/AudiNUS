@@ -21,7 +21,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /*
  * A simple {@link Fragment} subclass.
@@ -60,7 +62,8 @@ public class SongsFragment extends Fragment {
             layoutManager = new LinearLayoutManager(dialog.getContext());
             RecyclerView recyclerView2 = dialog.findViewById(R.id.inside_recycler_view);
             recyclerView2.setLayoutManager(layoutManager);
-            recyclerView2.setAdapter(new MiniPlayListAdapter(PlaylistsFragment.playlists, getActivity(), PlaylistsFragment.nameList));
+            Supplier<HashMap<String, ArrayList<AudioModel>>> x = () -> PlaylistsFragment.playlists;
+            recyclerView2.setAdapter(new MiniPlayListAdapter(x.get(), getActivity(), PlaylistsFragment.nameList));
 
             rootView = inflater.inflate(R.layout.fragment_songs, container, false);
 
