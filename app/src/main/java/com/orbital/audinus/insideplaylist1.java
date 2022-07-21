@@ -24,8 +24,7 @@ public class insideplaylist1 extends Fragment {
     static boolean isShowing = false;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_insideplaylist1, container, false);
         recyclerView = rootView.findViewById(R.id.inside_recycler_view);
@@ -46,11 +45,10 @@ public class insideplaylist1 extends Fragment {
         return rootView;
     }
 
-    public static void update(){
+    public static void update() {
         back.setVisibility(View.INVISIBLE);
         playlistName.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
-        isShowing =false;
+        isShowing = false;
     }
-
 }

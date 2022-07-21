@@ -62,7 +62,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.ViewHolder> 
                         MediaPlayer mp = MyMediaPlayer.getInstance();
                         if (mp.isPlaying()) {
                             mp.pause();
-                            Toast.makeText(context, "Playback has stopped to allow editing", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Playback has paused to allow editing", Toast.LENGTH_SHORT).show();
                         }
                         Intent intent = new Intent(context, TagEditorActivity.class);
                         intent.putExtra("SONG", songList.get(holder.getAdapterPosition()));

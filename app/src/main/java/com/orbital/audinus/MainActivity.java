@@ -254,7 +254,7 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         if (slidingLayout.isLaidOut()) {// this seems to be always true even if height == 0 previously
             slidingLayout.setPanelHeight(150);
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            if (insideplaylist1.isShowing && slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED ) {
+            if (insideplaylist1.isShowing && slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                 Fragment fragment = new PlaylistsFragment();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

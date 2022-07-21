@@ -91,16 +91,16 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                                     notifyItemRemoved(holder.getAdapterPosition());
                                     FileOutputStream fos;
                                     try {
-                                        String x = "";
+                                        StringBuilder x = new StringBuilder();
                                         for (String y : PlaylistsFragment.nameList) {
-                                            x += y + "!@#";
+                                            x.append(y).append("!@#");
                                             for (AudioModel z : Objects.requireNonNull(PlaylistsFragment.playlists.get(y))) {
-                                                x += z.getTitle() + ";;;";
+                                                x.append(z.getTitle()).append(";;;");
                                             }
-                                            x += "\n";
+                                            x.append("\n");
                                         }
                                         fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                                        fos.write(x.getBytes());
+                                        fos.write(x.toString().getBytes());
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }

@@ -135,7 +135,7 @@ public class PlaylistsFragment extends Fragment {
         FileOutputStream fos = null;
 
         if (text.length() == 0 || playlists.containsKey(text)){
-            Toast.makeText(getContext(), "Playlist already exist or is invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Playlist already exists or is invalid", Toast.LENGTH_SHORT).show();
         } else {
             playlists.put(text, new ArrayList<>());
             nameList.add(text);
@@ -144,18 +144,18 @@ public class PlaylistsFragment extends Fragment {
 
 
         try {
-            String x = "";
+            StringBuilder x = new StringBuilder();
             for(String y : nameList) {
-                x += y + "!@#";
+                x.append(y).append("!@#");
                 for (AudioModel z : Objects.requireNonNull(playlists.get(y))) {
-                    x += z.getTitle() + ";;;";
+                    x.append(z.getTitle()).append(";;;");
                 }
-                x+= "\n";
+                x.append("\n");
                 noPlaylistTextView.setVisibility(View.INVISIBLE);
             }
 
             fos = requireActivity().openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-            fos.write(x.getBytes());
+            fos.write(x.toString().getBytes());
             mEditText.getText().clear();
         } catch (IOException e) {
             e.printStackTrace();

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Queue;
 
 /*
  * A simple {@link Fragment} subclass.
@@ -31,7 +30,6 @@ public class QueueFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 
             rootView = inflater.inflate(R.layout.fragment_queue, container, false);
 

@@ -1,8 +1,6 @@
 package com.orbital.audinus;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -51,17 +49,17 @@ public class InsidePlaylistAdapter extends MusicListAdapter {
                             notifyItemRemoved(holder.getAdapterPosition());
 
                             FileOutputStream fos;
-                            String a = "";
+                            StringBuilder a = new StringBuilder();
                             for (String y : PlaylistsFragment.playlists.keySet()) {
-                                a += y + "!@#";
+                                a.append(y).append("!@#");
                                 for (AudioModel z : Objects.requireNonNull(PlaylistsFragment.playlists.get(y))) {
-                                    a += z.getTitle() + ";;;";
+                                    a.append(z.getTitle()).append(";;;");
                                 }
-                                a += "\n";
+                                a.append("\n");
                             }
                             try {
                                 fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                                fos.write(a.getBytes());
+                                fos.write(a.toString().getBytes());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

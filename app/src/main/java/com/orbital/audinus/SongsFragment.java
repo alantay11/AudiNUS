@@ -46,7 +46,7 @@ public class SongsFragment extends Fragment {
                              Bundle savedInstanceState) {
         if (rootView == null) {
 
-            songList = getArguments().getParcelableArrayList("SONGS");
+            songList = requireArguments().getParcelableArrayList("SONGS");
 
             dialog = new Dialog(this.getContext());
             dialog.setContentView(R.layout.playlist_selection);
