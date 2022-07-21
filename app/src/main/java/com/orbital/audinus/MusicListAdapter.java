@@ -62,7 +62,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
                     if (item.getItemId() == R.id.tagEditor) {
                         MediaPlayer mp = MyMediaPlayer.getInstance();
                         if (mp.isPlaying()) {
-                            mp.stop();
+                            mp.pause();
                             Toast.makeText(context, "Playback has stopped to allow editing", Toast.LENGTH_SHORT).show();
                         }
                         Intent intent = new Intent(context, TagEditorActivity.class);

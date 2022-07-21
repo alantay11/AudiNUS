@@ -187,6 +187,7 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
             Uri uri = Uri.fromParts("package", this.getPackageName(), null);
             intent.setData(uri);
             startActivity(intent);
+            super.onBackPressed();
         }
     }
 
@@ -470,7 +471,7 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         progressBarBottom.setMax(mediaPlayer.getDuration());
     }
 
-    public void playNextSong() { Log.d("TAG", MyMediaPlayer.getCurrentIndex() + " current " + (songList.size() - 1) +" max");
+    public void playNextSong() { //Log.d("TAG", MyMediaPlayer.getCurrentIndex() + " current " + (songList.size() - 1) +" max");
         if (MyMediaPlayer.getCurrentIndex() < songList.size() - 1) {
             MyMediaPlayer.nextSong();
             setResources();
@@ -480,7 +481,7 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         }
     }
 
-    public void prevButton() {Log.d("TAG", MyMediaPlayer.getCurrentIndex() + " current " + (songList.size() - 1) +" max");
+    public void prevButton() { //Log.d("TAG", MyMediaPlayer.getCurrentIndex() + " current " + (songList.size() - 1) +" max");
         if (MyMediaPlayer.getCurrentIndex() != 0) {
             if (mediaPlayer.getCurrentPosition() >= 5000) {
                 mediaPlayer.seekTo(0);
