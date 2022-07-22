@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".MainActivity">
 
     <com.google.android.material.tabs.TabLayout
@@ -30,15 +31,15 @@
             android:id="@+id/playlists"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/queue_music_48px"
+            android:icon="@drawable/featured_play_list_48px"
             android:text="@string/playlists" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/favorite_48px"
-            android:text="@string/favorites" />
+            android:icon="@drawable/queue_music_48px"
+            android:text="@string/queue" />
     </com.google.android.material.tabs.TabLayout>
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -76,6 +77,7 @@
             android:layout_height="match_parent"
             android:background="?colorPrimary"
             android:configChanges="orientation|keyboardHidden"
+            android:animateLayoutChanges="true"
             tools:context=".MusicPlayerActivity"
             >
 
