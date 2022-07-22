@@ -52,7 +52,7 @@
         app:umanoPanelHeight="68dp"
         app:umanoParalaxOffset="100dp"
         app:umanoShadowHeight="4dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="65dp"
         >
         <!-- MAIN CONTENT -->
         <androidx.constraintlayout.widget.ConstraintLayout

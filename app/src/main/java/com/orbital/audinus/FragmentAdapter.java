@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class FragmentAdapter extends FragmentStateAdapter {
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
-    private final ArrayList<String> fragmentTitle = new ArrayList<>();
+    //private final ArrayList<String> fragmentTitle = new ArrayList<>();
 
     public FragmentAdapter(FragmentActivity fm) {
         super(fm);
@@ -26,12 +26,12 @@ public class FragmentAdapter extends FragmentStateAdapter {
         return fragmentArrayList.size();
     }
 
-    public void addFragment(Fragment fragment, String title){
+    public void addFragment(Fragment fragment) {//, String title){
         fragmentArrayList.add(fragment);
-        fragmentTitle.add(title);
+        //fragmentTitle.add(title);
     }
 
-    public String getTitle(int pos) {
+    /*public String getTitle(int pos) {
         return this.fragmentTitle.get(pos);
-    }
+    }*/
 }

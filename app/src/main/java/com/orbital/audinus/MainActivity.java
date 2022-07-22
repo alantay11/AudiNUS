@@ -31,6 +31,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -130,12 +132,29 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
         frag.setArguments(bundle);
 
             FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
-            fragmentAdapter.addFragment(frag, "songs");
-            fragmentAdapter.addFragment(new PlaylistsFragment(), "playlists");
-            fragmentAdapter.addFragment(new QueueFragment(), "queue");
+            fragmentAdapter.addFragment(frag);//, "songs");
+            fragmentAdapter.addFragment(new PlaylistsFragment());//, "playlists");
+            fragmentAdapter.addFragment(new QueueFragment());//, "queue");
             viewPager.setAdapter(fragmentAdapter);
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> tab.setText(fragmentAdapter.getTitle(position))
+        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                switch (position) {
+                    case 0:
+                        tab.setText("Songs");
+                        tab.setIcon(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.library_music_48px));
+                        break;
+                    case 1:
+                        tab.setText("Playlists");
+                        tab.setIcon(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.featured_play_list_48px));
+                        break;
+                    case 2:
+                        tab.setText("Queue");
+                        tab.setIcon(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.queue_music_48px));
+                        break;
+                }
+            }
+        }
         ).attach();
 
 
