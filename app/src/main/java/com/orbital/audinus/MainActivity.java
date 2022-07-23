@@ -187,7 +187,7 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
             Uri uri = Uri.fromParts("package", this.getPackageName(), null);
             intent.setData(uri);
             startActivity(intent);
-            super.onBackPressed();
+            finish();
         }
     }
 
