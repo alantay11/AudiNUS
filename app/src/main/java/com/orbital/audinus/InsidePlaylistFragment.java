@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class insideplaylist1 extends Fragment {
+public class InsidePlaylistFragment extends Fragment {
 
     static RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -26,7 +26,7 @@ public class insideplaylist1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_insideplaylist1, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_insideplaylist, container, false);
         recyclerView = rootView.findViewById(R.id.inside_recycler_view);
         layoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(layoutManager);

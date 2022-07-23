@@ -63,14 +63,14 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                  */
-                Fragment fragment = new insideplaylist1();
+                Fragment fragment = new InsidePlaylistFragment();
                 FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.playlist, fragment);
                 fragmentTransaction.commit();
                 PlaylistsFragment.recyclerView.setAlpha(0);
                 PlaylistsFragment.createPlayList.setVisibility(View.INVISIBLE);
-                insideplaylist1.isShowing = true;
+                InsidePlaylistFragment.isShowing = true;
             }
         });
 
