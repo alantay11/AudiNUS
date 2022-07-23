@@ -47,7 +47,7 @@ public class InsidePlaylistAdapter extends MusicListAdapter {
                             songList.remove(song);
                             PlaylistsFragment.playlists.put(name, songList);
                             notifyItemRemoved(holder.getAdapterPosition());
-
+                            SongsFragment.miniPlayListAdapter.notifyItemRemoved(holder.getAdapterPosition());
                             FileOutputStream fos;
                             StringBuilder a = new StringBuilder();
                             for (String y : PlaylistsFragment.playlists.keySet()) {
