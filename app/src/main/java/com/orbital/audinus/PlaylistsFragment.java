@@ -169,6 +169,7 @@ public class PlaylistsFragment extends Fragment {
             adapter.notifyItemChanged(PlayListAdapter.oldNameLoc);
             adapter.songList = playlists;
             SongsFragment.miniPlayListAdapter.songList = playlists;
+            SongsFragment.miniPlayListAdapter.notifyItemChanged(PlayListAdapter.oldNameLoc);
         }
 
         try {
