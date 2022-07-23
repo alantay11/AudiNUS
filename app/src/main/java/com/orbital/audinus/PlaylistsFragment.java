@@ -167,8 +167,9 @@ public class PlaylistsFragment extends Fragment {
             playlists = newPlaylists;
             nameList.set(PlayListAdapter.oldNameLoc, text);
             adapter.notifyItemChanged(PlayListAdapter.oldNameLoc);
-            adapter.playlists = nameList;
             adapter.songList = playlists;
+            SongsFragment.miniPlayListAdapter.songList = playlists;
+            SongsFragment.miniPlayListAdapter.notifyItemChanged(PlayListAdapter.oldNameLoc);
         }
 
         try {

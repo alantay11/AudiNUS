@@ -38,6 +38,7 @@ public class SongsFragment extends Fragment {
     private SearchView searchView;
     View rootView;
     static Dialog dialog;
+    static MiniPlayListAdapter miniPlayListAdapter;
 
     private static final String FILE_NAME = "example.txt";
     static boolean read;
@@ -63,7 +64,9 @@ public class SongsFragment extends Fragment {
             RecyclerView recyclerView2 = dialog.findViewById(R.id.inside_recycler_view);
             recyclerView2.setLayoutManager(layoutManager);
             Supplier<HashMap<String, ArrayList<AudioModel>>> x = () -> PlaylistsFragment.playlists;
-            recyclerView2.setAdapter(new MiniPlayListAdapter(x.get(), getActivity(), PlaylistsFragment.nameList));
+            Supplier<ArrayList<String>> y = () -> PlaylistsFragment.nameList;
+            miniPlayListAdapter = new MiniPlayListAdapter(x.get(), getActivity(), y.get());
+            recyclerView2.setAdapter(miniPlayListAdapter);
 
             rootView = inflater.inflate(R.layout.fragment_songs, container, false);
 
