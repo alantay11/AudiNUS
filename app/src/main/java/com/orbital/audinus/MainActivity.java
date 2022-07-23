@@ -106,10 +106,10 @@ public class MainActivity extends FragmentActivity implements MediaPlayer.OnComp
                 MediaStore.Audio.AudioColumns.DATA,
                 MediaStore.Audio.AudioColumns.DURATION,
                 MediaStore.Audio.AudioColumns.ALBUM_ID};
-
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
         Cursor cursor = getContentResolver().query(uri,
-                projection, null, null, null);
+                projection, selection, null, null);
 
 
         while (cursor.moveToNext()) {
