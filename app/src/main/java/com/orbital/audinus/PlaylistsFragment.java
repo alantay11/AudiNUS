@@ -210,6 +210,8 @@ public class PlaylistsFragment extends Fragment {
             playlists.put(text, new ArrayList<>());
             nameList.add(text);
             adapter.notifyItemInserted(nameList.size());
+            SongsFragment.miniPlayListAdapter.songList = playlists;
+            SongsFragment.miniPlayListAdapter.notifyItemInserted(playlists.size());
         }
 
 

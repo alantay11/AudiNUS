@@ -99,6 +99,9 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.ViewHo
                                     PlaylistsFragment.playlists.remove(playlistName);
                                     PlaylistsFragment.nameList.remove(playlistName);
                                     notifyItemRemoved(holder.getAdapterPosition());
+                                    SongsFragment.miniPlayListAdapter.playlists.remove(playlistName);
+                                    SongsFragment.miniPlayListAdapter.songList.remove(playlistName);
+                                    SongsFragment.miniPlayListAdapter.notifyItemRemoved(holder.getAdapterPosition());
                                     FileOutputStream fos;
                                     try {
                                         StringBuilder x = new StringBuilder();
